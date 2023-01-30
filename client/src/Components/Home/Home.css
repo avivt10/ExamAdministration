@@ -1,0 +1,105 @@
+.home-container {
+    width: 100%;
+    display: flex;
+}
+
+.login-container {
+    width: 50%;
+    background-color: gainsboro;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.style-image {
+    width: 59vw;
+    height: 929px;
+}
+
+.card-container {
+    background-color: #3f51b5;
+    width: 100%;
+    height: 70%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.input-style {
+    margin-top: 15px;
+    position: relative;
+    width: 280px;
+}
+
+label{
+    position: absolute;
+    left:10px;
+    top:14px;
+    transition: all 0.2s;
+    padding: 0 2px;
+    z-index: 1;
+    color:#b3b3b3;
+}
+
+.text-input{
+    padding: 0.8rem;
+    /* width: 100%;
+    height: 20px; */
+    border:2px solid #382f26;
+    background: #272530;
+    border-radius: 5px;
+    font-size: 18px;
+    outline: none;
+    transition: all .3s;
+    color: #fff;
+}
+
+label::before{
+    content: "";
+    height: 5px;
+    background-color: #272530;
+    position:absolute;
+    left:0;
+    top:10px;
+    width: 100%;
+    z-index: -1;
+}
+
+.text-input:focus{
+    border:2px solid white;
+}
+
+.text-input:focus + label , .filled, .text-input:valid ~ label{
+    top:-10px;
+    color: white;
+    font-size: 14px;
+}
+.text-input::placeholder{
+    font-size: 16px;
+    opacity: 0;
+    transition: all .3s;
+}
+
+.text-input:focus::placeholder{
+    opacity: 1;
+    animation-delay: 0.2s;
+}
+
+.inputs-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn-home{
+    border: 1px solid white;
+    background: bottom;
+    color: white;
+    border-color: white;
+    width: 20%;
+    margin-top: 10px;
+    margin-left:auto;
+    margin-right: auto;
+}
