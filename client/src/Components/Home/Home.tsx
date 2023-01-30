@@ -1,12 +1,29 @@
 import React, { useState } from "react";
 import "./Home.css";
+import { signIn } from './../../Services/user.service';
 const Home = () => { 
   const [userName,setUserName] = useState("");
   const [password,setPassword] = useState("");
 
+  const LoginUser = async()=> {
+
+  
+  try{
+    const res = await signIn(userName,password)
+    if(res)
+    {
+      alert(res.message)
+    }
+  }
+  catch(error)
+  {
+    alert(error)
+  }
+}
+
   const checkValues = () => {
      const validAll = userName && password;
-     validAll ? alert("good login") : alert("login failed! try agin..")
+     validAll ? LoginUser() : alert("login failed! try agin..")
   }
 
   return (
