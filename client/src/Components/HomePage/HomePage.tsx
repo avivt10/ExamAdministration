@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import "./HomePage.css";
 import { signIn } from '../../Services/user.service';
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from './../../Shared/context/auth-context';
 
 
 const HomePage = () => { 
   const [userName,setUserName] = useState("");
   const [password,setPassword] = useState("");
+  const {setUserId} = useAuthContext()
 
   const navigate = useNavigate();
   const LoginUser = async()=> {
@@ -17,7 +19,17 @@ const HomePage = () => {
     if(res)
     {
       alert(res.message)
-      navigate("/afterLogin")
+      setUserId(res.id)
+      if(res.id === "63d7db50a8cf714f5af5a8c1")
+      {
+        
+        navigate("lecturerPage")
+      }
+      else
+      {
+        navigate("/studentPage")
+      }
+
     }
   }
   catch(error)

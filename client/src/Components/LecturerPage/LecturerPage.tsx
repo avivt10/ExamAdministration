@@ -1,9 +1,13 @@
 import React from 'react'
+import NavBar from '../../Shared/Components/NavBar/NavBar';
 
-const Lecturer = () => {
+const LecturerPage = () => {
   return (
-    <div>Lecturer</div>
+    <div>
+      <NavBar/>
+      <h1>Lecturer</h1>
+    </div>
   )
 }
 
-export default Lecturer
+export default LecturerPage;
