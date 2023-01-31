@@ -1,11 +1,27 @@
 import React from 'react';
 import './App.css';
-import Home from './Components/Home/Home';
+import HomePage from './Components/HomePage/HomePage';
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+} from "react-router-dom";
+
 
 function App() {
+  let routes = (
+    <BrowserRouter>
+            <Routes> 
+        <Route path="/" element={<HomePage/>}/>
+        {/* <Route path="/afterLogin" element={<After/>}/> */}
+        </Routes>
+    </BrowserRouter>
+
+  )
   return (
     <div>
-      <Home/>
+    
+      <main> {routes} </main>
     </div>
   );
 }

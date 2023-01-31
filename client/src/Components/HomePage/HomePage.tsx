@@ -1,10 +1,14 @@
 import React, { useState } from "react";
-import "./Home.css";
-import { signIn } from './../../Services/user.service';
-const Home = () => { 
+import "./HomePage.css";
+import { signIn } from '../../Services/user.service';
+import { useNavigate } from "react-router-dom";
+
+
+const HomePage = () => { 
   const [userName,setUserName] = useState("");
   const [password,setPassword] = useState("");
 
+  const navigate = useNavigate();
   const LoginUser = async()=> {
 
   
@@ -13,6 +17,7 @@ const Home = () => {
     if(res)
     {
       alert(res.message)
+      navigate("/afterLogin")
     }
   }
   catch(error)
@@ -70,7 +75,7 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;
 
 //   <div className="container-home">
 {
