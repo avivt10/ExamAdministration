@@ -1,0 +1,24 @@
+.add-test-container{
+  margin-top: 60px;
+  width: auto;
+  height: auto;
+  direction: rtl;
+}
+
+h4{
+  margin-right: 20px;
+}
+.input-add-test{
+    padding: 8px;
+    height: 14px;
+    margin-right: 25px;
+    margin-top: 17px;
+    width:100px
+}
+.input-radio{
+  margin-right: 15px;
+}
+
+p{
+  margin-top: 20px;
+}

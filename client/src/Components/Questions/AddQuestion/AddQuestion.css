@@ -1,0 +1,28 @@
+.box-question-container{
+    width: 80%;
+    display: flex;
+    margin:auto;
+    flex-direction: column;
+    margin-top: 40px;
+}
+
+p{
+    font-size: large;
+    font-weight: bold;
+}
+
+.input-questions{
+    width: 100%;
+    padding: 20px;
+}
+
+input[type="radio"] {
+    margin-left: 10px;
+    margin-right: 5px;
+    cursor: pointer;
+  }
+
+  .submit-add-question{
+    margin-top: 50px;
+    width: 10%;
+  }

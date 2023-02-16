@@ -8,6 +8,7 @@ const express = require("express")
  router.post('/signIn',userController.signIn)
 
 
+
 router.use(checkAuth)
 
 module.exports = router

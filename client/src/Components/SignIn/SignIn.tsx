@@ -1,33 +1,36 @@
 import React, { useState } from "react";
-import "./HomePage.css";
+import "./SignIn.css";
 import { signIn } from '../../Services/user.service';
 import { useNavigate } from "react-router-dom";
-import { useAuthContext } from './../../Shared/context/auth-context';
+import { useAuthContext } from '../../Shared/context/auth-context';
 
-
-const HomePage = () => { 
-  const [userName,setUserName] = useState("");
+const SignIn = () => { 
+  const [_userName,_setUserName] = useState("");
   const [password,setPassword] = useState("");
-  const {setUserId} = useAuthContext()
+  const {setUserName,setUserId,setIsLogin} = useAuthContext()
+  
 
   const navigate = useNavigate();
   const LoginUser = async()=> {
 
   
   try{
-    const res = await signIn(userName,password)
+    const res = await signIn(_userName,password)
     if(res)
     {
-      alert(res.message)
+      setUserName(res.userName)
+      setIsLogin(true)
+      window.localStorage.setItem("userData",JSON.stringify({ token : res.token,
+        firstName : res.firstName,id:res.id,isLogin:true}))
       setUserId(res.id)
+      alert(res.message)
       if(res.id === "63d7db50a8cf714f5af5a8c1")
       {
-        
         navigate("lecturerPage")
       }
       else
       {
-        navigate("/studentPage")
+        navigate("studentPage")
       }
 
     }
@@ -39,7 +42,7 @@ const HomePage = () => {
 }
 
   const checkValues = () => {
-     const validAll = userName && password;
+     const validAll = _userName && password;
      validAll ? LoginUser() : alert("login failed! try agin..")
   }
 
@@ -63,7 +66,7 @@ const HomePage = () => {
                 required
                 autoComplete="off"
                 placeholder="enter your user name"
-                onChange={(e) => setUserName(e.target.value)}
+                onChange={(e) => _setUserName(e.target.value)}
               />
               <label> user-name </label>
             </div>
@@ -87,28 +90,5 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default SignIn;
 
-//   <div className="container-home">
-{
-  /* <img
-className="style-image"
-src="https://images.unsplash.com/photo-1539632346654-dd4c3cffad8c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-alt="1"
-/>
-<div className="container-login">
-<div className="container-card">
-  <p style={{ textAlign: "center" }}> login form </p>
-
-<div className="inputs-style">
-<input type="text" />
-  <span> user-name </span>
-</div>
-<div className="inputs-style">
-  <input type="password" />
-  <span> password </span>
-</div>
-</div>
-</div>
-</div> */
-}
