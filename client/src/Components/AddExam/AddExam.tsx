@@ -1,7 +1,5 @@
 import React,{useState} from "react";
 import NavBar from "../../Shared/Components/NavBar/NavBar";
-import { useExamContext } from "../../Shared/context/exam-context";
-import { ExamsType, ExamType } from "../../Shared/types/ExamType";
 import "./AddExam.css"
 import { addExam } from '../../Services/exam.service';
 

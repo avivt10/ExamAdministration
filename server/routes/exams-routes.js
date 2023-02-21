@@ -10,7 +10,8 @@ const express = require("express")
  // questions
 
  router.post('/createQuestion',examsController.createQuestion)
-
+ router.get('/getQuestions',examsController.getQuestions)
+router.delete('/deleteQuestion',examsController.deleteQuestion)
 
 
 router.use(checkAuth)

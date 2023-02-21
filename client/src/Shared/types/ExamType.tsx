@@ -1,3 +1,5 @@
+import { QuestionsType } from "./QuestionType";
+
 export type ExamType = {
     examName:string,
      _id:string,
@@ -6,7 +8,7 @@ export type ExamType = {
     beginningTime:string,
     totalTime:string,
     randomQuestions:boolean,
-     questions:Object,
+     questions:QuestionsType,
 }
 
 export type ExamsType = ExamType[];

@@ -1,0 +1,41 @@
+.box-container{
+    display: flex;
+    flex-direction: column;
+    background-color: #d5f2ff;
+    align-items: center;
+    margin:auto;
+    margin-top: 20px;
+    border-radius: 25px;
+    width: 50%;
+}
+
+.question-container{
+    width: 100%;
+}
+
+.question-style{
+    font-weight:900;
+    margin-left: 15px;
+    word-wrap: break-word;
+}
+
+.option-style{
+    font-weight: 900;
+    color: black;
+}
+
+.button-delete-question{
+    margin-bottom: 15px;
+    margin-left: 15px;
+    background-color: red;
+    border-color: red;
+    color:white;
+    height: 30px;
+    width: 85px;
+}
+
+.img-style-display-question{
+    width: 90%;
+    object-fit: fill;
+    margin-left: 26px;
+}

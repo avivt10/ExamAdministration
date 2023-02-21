@@ -100,7 +100,53 @@ const createQuestion = async(req,res,next) => {
 
 }
 
+const getQuestions = async (req,res,next)=> {
+    const currentId = req.query;
+   const id =  Object.values(currentId)
+   id.toString();
+   let existExam;
+
+   try{
+    existExam = await Exam.findById(id);
+   }
+   catch(err)
+   {
+    console.log(err)
+   }
+   if(existExam)
+   {
+    res.status(200).json({
+        data : existExam.questions,
+    })
+   }
+}
+
+const deleteQuestion = async (req,res,next)=> {
+    const idQuestion = req.query._id;
+    console.log("question by delete", idQuestion)
+    const idForExam = req.query.idForExam;
+    let existExam;
+    try{
+       existExam = await Exam.findById(idForExam);
+    }
+    catch(err)
+    {
+        console.log(err)
+    }
+    if(existExam)
+    {
+       const filteredQuestions = existExam.questions.filter((item) => item._id.toString() !== idQuestion)
+        existExam.questions = filteredQuestions;
+        await existExam.save();
+        res.status(200).json({
+            message:"question deleted successfully"
+        })
+    }
+}
+
 exports.deleteExam = deleteExam;
 exports.addExam = addExam;
 exports.getExams = getExams;
 exports.createQuestion = createQuestion;
+exports.getQuestions = getQuestions;
+exports.deleteQuestion = deleteQuestion;

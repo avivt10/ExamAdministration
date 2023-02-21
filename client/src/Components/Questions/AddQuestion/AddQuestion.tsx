@@ -2,71 +2,227 @@ import React, { useEffect, useState } from "react";
 import { createQuestion } from "../../../Services/exam.service";
 import NavBar from "../../../Shared/Components/NavBar/NavBar";
 import { useExamContext } from "../../../Shared/context/exam-context";
-import "./AddQuestion.css"
+import "./AddQuestion.css";
 
 const AddQuestion = () => {
-  const { setExam, setIdForExam, idForExam } = useExamContext();
-  const [question,setQuestion] = useState("");
-  const [option1,setOption1] = useState("");
-  const [option2,setOption2] = useState("");
-  const [option3,setOption3] = useState("");
-  const [option4,setOption4] = useState("");
-  const [indexOfRightAnswer,setIndexOfRightAnswer] = useState("");
+  const { setIdForExam, idForExam } = useExamContext();
+  const [question, setQuestion] = useState("");
+  const [option1, setOption1] = useState("");
+  const [option2, setOption2] = useState("");
+  const [option3, setOption3] = useState("");
+  const [option4, setOption4] = useState("");
+  const [indexOfRightAnswer, setIndexOfRightAnswer] = useState("");
+  const [displayQuestion, setDisplayQuestion] = useState("");
 
-  const storageId = localStorage.getItem("currentExam")
+  const storageId = localStorage.getItem("currentExam");
   setIdForExam(storageId);
-  const newQuestion = async()=> {
+  const newQuestion = async () => {
     const data = {
       question: question,
       option1: option1,
       option2: option2,
       option3: option3,
       option4: option4,
-      indexOfRightAnswer:indexOfRightAnswer,
-      idForExam:idForExam,
+      indexOfRightAnswer: indexOfRightAnswer,
+      idForExam: idForExam,
+    };
+    const res = await createQuestion(data);
+    if (res) {
+      alert(res);
     }
-    const res = await createQuestion(data)
-    if(res)
-    {
-      alert(res)
-    }
-  }
+  };
 
-
-  const checkQuestion = async()=> {
-    const isValidQuestion = question && option1 && option2 && option3 && option4 && indexOfRightAnswer;
-    isValidQuestion ? newQuestion() : alert("missing parameters")
-  }
-  return <div>
-    <NavBar/>
-    <div className="box-question-container">
-      <p> Question Text </p>
-      <input className="input-questions" type="text" onChange={(e:any)=> setQuestion(e.target.value)} />
-      <p> option 1 </p>
-      <input className="input-questions" type="text" onChange={(e:any)=> setOption1(e.target.value)}/>
-      <p> option 2 </p>
-      <input className="input-questions" type="text" onChange={(e:any)=> setOption2(e.target.value)}/>
-      <p> option 3 </p>
-       <input className="input-questions" type="text" onChange={(e:any)=> setOption3(e.target.value)}/>
-      <p> option 4 </p>
-      <input className="input-questions" type="text" onChange={(e:any)=> setOption4(e.target.value)}/>
-
-
+  const checkQuestion = async () => {
+    const isValidQuestion =
+      question &&
+      option1 &&
+      option2 &&
+      option3 &&
+      option4 &&
+      indexOfRightAnswer;
+    isValidQuestion ? newQuestion() : alert("missing parameters");
+  };
+  if (displayQuestion === "") {
+    return (
       <div>
-      <p> answers </p>
-      <input type="radio" value="1" onClick={()=> setIndexOfRightAnswer("1")} name="select" /> 1  
-      <input type="radio" value="2" onClick={()=> setIndexOfRightAnswer("2")} name="select" /> 2
-      <input type="radio" value="3" onClick={()=> setIndexOfRightAnswer("3")} name="select" /> 3
-      <input type="radio" value="4" onClick={()=> setIndexOfRightAnswer("4")} name="select" /> 4
+        <NavBar />
+        <input
+          type="radio"
+          value="Text"
+          onClick={() => setDisplayQuestion("Text")}
+          name="select"
+        />{" "}
+        Text
+        <input
+          type="radio"
+          value="Image"
+          onClick={() => setDisplayQuestion("Image")}
+          name="select"
+        />{" "}
+        Image
       </div>
-  
-      <button className="submit-add-question" onClick={checkQuestion}>
-        submit
-      </button>
+    );
+  }
+  return (
+    <div>
+      <NavBar />
+      <input
+        type="radio"
+        value="Text"
+        onClick={() => setDisplayQuestion("Text")}
+        name="select"
+      />{" "}
+      Text
+      <input
+        type="radio"
+        value="Image"
+        onClick={() => setDisplayQuestion("Image")}
+        name="select"
+      />{" "}
+      Image
+      <div className="box-question-container">
+        {displayQuestion === "Text" ? (
+          <div>
+            <p> Question Text </p>
+            <input
+              className="input-questions"
+              type="text"
+              onChange={(e: any) => setQuestion(e.target.value)}
+            />
+            <p> option 1 </p>
+            <input
+              className="input-questions"
+              type="text"
+              onChange={(e: any) => setOption1(e.target.value)}
+            />
+            <p> option 2 </p>
+            <input
+              className="input-questions"
+              type="text"
+              onChange={(e: any) => setOption2(e.target.value)}
+            />
+            <p> option 3 </p>
+            <input
+              className="input-questions"
+              type="text"
+              onChange={(e: any) => setOption3(e.target.value)}
+            />
+            <p> option 4 </p>
+            <input
+              className="input-questions"
+              type="text"
+              onChange={(e: any) => setOption4(e.target.value)}
+            />
 
+            <div>
+              <p> answers </p>
+              <input
+                type="radio"
+                value="1"
+                onClick={() => setIndexOfRightAnswer("1")}
+                name="select"
+              />{" "}
+              1
+              <input
+                type="radio"
+                value="2"
+                onClick={() => setIndexOfRightAnswer("2")}
+                name="select"
+              />{" "}
+              2
+              <input
+                type="radio"
+                value="3"
+                onClick={() => setIndexOfRightAnswer("3")}
+                name="select"
+              />{" "}
+              3
+              <input
+                type="radio"
+                value="4"
+                onClick={() => setIndexOfRightAnswer("4")}
+                name="select"
+              />{" "}
+              4
+            </div>
 
+            <button className="submit-add-question" onClick={checkQuestion}>
+              submit
+            </button>
+          </div>
+        ) : (
+          <div>
+            <p> Add Image </p>
+            <input
+              className="input-questions"
+              type="text"
+              onChange={(e: any) => setQuestion(e.target.value)}
+            />
+            <p> option 1 </p>
+            <input
+              className="input-questions"
+              type="text"
+              onChange={(e: any) => setOption1(e.target.value)}
+            />
+            <p> option 2 </p>
+            <input
+              className="input-questions"
+              type="text"
+              onChange={(e: any) => setOption2(e.target.value)}
+            />
+            <p> option 3 </p>
+            <input
+              className="input-questions"
+              type="text"
+              onChange={(e: any) => setOption3(e.target.value)}
+            />
+            <p> option 4 </p>
+            <input
+              className="input-questions"
+              type="text"
+              onChange={(e: any) => setOption4(e.target.value)}
+            />
+
+            <div>
+              <p> answers </p>
+              <input
+                type="radio"
+                value="1"
+                onClick={() => setIndexOfRightAnswer("1")}
+                name="select"
+              />{" "}
+              1
+              <input
+                type="radio"
+                value="2"
+                onClick={() => setIndexOfRightAnswer("2")}
+                name="select"
+              />{" "}
+              2
+              <input
+                type="radio"
+                value="3"
+                onClick={() => setIndexOfRightAnswer("3")}
+                name="select"
+              />{" "}
+              3
+              <input
+                type="radio"
+                value="4"
+                onClick={() => setIndexOfRightAnswer("4")}
+                name="select"
+              />{" "}
+              4
+            </div>
+
+            <button className="submit-add-question" onClick={checkQuestion}>
+              submit
+            </button>
+          </div>
+        )}
+      </div>
     </div>
-  </div>;
+  );
 };
 
 export default AddQuestion;

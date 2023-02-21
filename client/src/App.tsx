@@ -21,6 +21,7 @@ function App() {
   const [userName, setUserName] = useState<string>("");
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const [userId, setUserId] = useState<string>("");
+  const [questions,setQuestions] = useState([]);
 
   useEffect(() => {
     const getIdFromStorage = localStorage.getItem("currentExam")
@@ -76,7 +77,7 @@ function App() {
           setUserId,
         }}
       >
-        <ExamContext.Provider value={{exam,setExam,idForExam,setIdForExam}}>
+        <ExamContext.Provider value={{exam,setExam,idForExam,setIdForExam,questions,setQuestions}}>
         <main> {routes} </main>
         </ExamContext.Provider>
       </AuthContext.Provider>

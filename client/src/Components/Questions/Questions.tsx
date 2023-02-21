@@ -1,35 +1,64 @@
 import React from 'react'
 import NavBar from '../../Shared/Components/NavBar/NavBar'
-import { useExamContext } from '../../Shared/context/exam-context';
-import "./Questions.css"
+import { useState, useEffect } from 'react';
+import { getQuestions } from '../../Services/exam.service';
+import { QuestionsType } from '../../Shared/types/QuestionType';
 import DisplayQuestion from './DisplayQuestion/DisplayQuestion';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useExamContext } from '../../Shared/context/exam-context';
 
-const Question = () => {
-  const {idForExam,exam} = useExamContext();
-  const [arrQuestions,setArrQuestions] = useState([]);
-  const [array,setArray] = useState([]);
+const Questions = () => {
+  const idForExam = localStorage.getItem("currentExam")
+  const {questions,setQuestions} = useExamContext();
+  const [filteredQuestions,setFilteredQuestions] = useState<QuestionsType>([])
+  useEffect(() => {
+    setFilteredQuestions(questions)
+  }, [questions])
+  
 
+  useEffect(()=> {
+    const getQuestionFromServer = async()=> {
+      try{
+        const res = await getQuestions(idForExam);
+        if(res)
+        {
+            setQuestions(res.data)
+        }
+      }
+      catch(e)
+      {
+        console.log(e)
+      }
+    }
+    getQuestionFromServer();
+  },[])
 
-
-  console.log(exam)
+  if(questions.length === 0)
+  {
+    return(
+      <div>
+          <NavBar/>
+          <div>
+            <h1> questions null </h1>
+          </div>
+      </div>
+    )
+  }
   return (
     <div>
       <NavBar/>
-
-      <div className="box-container">
-        {
-          exam.map((item) => (
-            <div>
-              <> {item._id}</>
-            </div>
-          ))
-        }
-      </div>
+      <div>
+      {filteredQuestions.map((question) => {
+        return(
+          <div>
+        <DisplayQuestion question={question}/>
+          </div>
+        )
+      }
+      )}
+    </div>
 
     </div>
   )
 }
 
-export default Question
+export default Questions
