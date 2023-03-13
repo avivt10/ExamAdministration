@@ -11,8 +11,9 @@ const express = require("express")
 
  router.post('/createQuestion',examsController.createQuestion)
  router.get('/getQuestions',examsController.getQuestions)
-router.delete('/deleteQuestion',examsController.deleteQuestion)
-
+ router.delete('/deleteQuestion',examsController.deleteQuestion)
+ router.post('/sendAnswers',examsController.sendAnswers)
+ router.get('/findStudentInArray',examsController.findStudentInArray)
 
 router.use(checkAuth)
 

@@ -1,65 +1,105 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ExamType } from '../../Shared/types/ExamType'
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { deleteExam, getExams } from '../../Services/exam.service';
+import { deleteExam, findStudentInArray, getExams } from '../../Services/exam.service';
 import { useExamContext } from './../../Shared/context/exam-context';
 import { useNavigate } from 'react-router-dom';
+import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 
 export type DisplayExamProps = {
     exam : ExamType,
+    idExistInArray : boolean,
 }
 
-const DisplayExam = ({exam}:DisplayExamProps) => {
-    const {setExam,setIdForExam} = useExamContext();
+const DisplayExam = ({exam,idExistInArray}:DisplayExamProps) => {
+    const [isStartExam,setIsStartExam] = useState(false)
+    const storageData = JSON.parse(localStorage.getItem("userData") || "{}");
+    
+    useEffect(() => {
+       const studentTookAnExam = async()=> {
+        try{
+            const res = await findStudentInArray(storageData.id,exam._id)
+            if(res.message === "exist user id")
+            {
+                setIsStartExam(true)
+               
+            }
+        }
+        catch(error)
+        {
+            console.log(error)
+        }
+       }
+       studentTookAnExam()
+    }, [])
+    
+    const {setExams,setIdForExam} = useExamContext();
+    const userData = JSON.parse(localStorage.getItem("userData") || "{}");
     const navigate = useNavigate();
-
-
     const sendingExamForDelete = async(id : string)=> {
         const res = await deleteExam(id);
             if(res)
             {
                 const newExams = await getExams();
-                setExam(newExams);
+                setExams(newExams);
                 alert(res)
             }
     }
-
-  return (
-   <tr>
-    <td>
-        {exam.examName}
-    </td>
-    <td>
-        {exam.date}
-    </td>
-    <td>
-        {exam.lecturerName}
-    </td>
-    <td>
-        <button onClick={()=> {
-            setIdForExam(exam._id)
-            localStorage.setItem("currentExam",exam._id)
-            navigate("/questions")
-        }}>
-        <VisibilityIcon/>
-        </button>
-    </td>
-    <td>
-        <button onClick={()=> {
-            setIdForExam(exam._id)
-            localStorage.setItem("currentExam",exam._id)
-            navigate("/addQuestion")
-        }}>
-            Add
-        </button>
-    </td>
-    <td>
-        <button onClick={()=> sendingExamForDelete(exam._id)}>
-            Delete
-        </button>
-    </td>
-   </tr>
-  )
+    if(userData.role === "lecturer")
+    {
+        return (
+            <tr>
+             <td>
+                 {exam.examName}
+             </td>
+             <td>
+                 {exam.date}
+             </td>
+             <td>
+                 {exam.lecturerName}
+             </td>
+             <td>
+                 <button onClick={()=> {
+                     setIdForExam(exam._id)
+                     localStorage.setItem("currentExam",exam._id)
+                     navigate("/questions")
+                 }}>
+                 <VisibilityIcon/>
+                 </button>
+             </td>
+             <td>
+                 <button onClick={()=> {
+                     setIdForExam(exam._id)
+                     localStorage.setItem("currentExam",exam._id)
+                     navigate("/addQuestion")
+                 }}>
+                     Add
+                 </button>
+             </td>
+             <td>
+                 <button onClick={()=> sendingExamForDelete(exam._id)}>
+                     Delete
+                 </button>
+             </td>
+            </tr>
+           )
+    }
+ return(
+        <tr>
+            <td> {exam.examName} </td>
+            <td> {exam.date} </td>
+            <td> {exam.lecturerName} </td>
+            <td>            
+                  
+                {
+                    isStartExam ? <h1> Done </h1> :
+                    <button onClick={()=> navigate("/startExam")}>
+                    <PlayCircleOutlineIcon/>
+                    </button>
+                }
+            </td>
+        </tr>
+ )
 }
 
 export default DisplayExam;

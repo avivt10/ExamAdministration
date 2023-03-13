@@ -8,7 +8,6 @@ export type DisplayQuestionProps = {
 
 const DisplayQuestion = ({question} : DisplayQuestionProps) => {
   const {setQuestions} = useExamContext();
-  const typeQuestion = question.question.slice(0,4) === "http" ? "Image" : "Text";
   const idForExam = localStorage.getItem("currentExam")
     const sendQuestionForDelete = async(_id:string)=> {
       try{
@@ -25,7 +24,7 @@ const DisplayQuestion = ({question} : DisplayQuestionProps) => {
     return (
     <div className="box-container">
       <div className="question-container">
-          <h3 className="question-style">
+          <div className="question-style">
             {
           question.question.slice(0,4) === "http" ?
           <div>
@@ -37,7 +36,7 @@ const DisplayQuestion = ({question} : DisplayQuestionProps) => {
   
 
             }
-            </h3>
+            </div>
           <ul>
              <li className="option-style"> 1) {question.option1}</li>
              <li className="option-style"> 2) {question.option2}</li>

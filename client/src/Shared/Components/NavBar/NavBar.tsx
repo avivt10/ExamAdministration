@@ -3,6 +3,7 @@ import { useAuthContext } from "./../../context/auth-context";
 import "./NavBar.css";
 import SearchIcon from "@mui/icons-material/Search";
 import { Link } from "react-router-dom";
+import { SearchBar } from "../SearchBar/SearchBar";
 
 const NavBar = () => {
   const { userId } = useAuthContext();
@@ -28,7 +29,7 @@ const NavBar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/home">
+              <Link to="/lecturerHome">
                 home
               </Link>
             </li>
@@ -36,7 +37,7 @@ const NavBar = () => {
           </ul>
           <div className="search-container">
           <SearchIcon className="search-icon" />
-          <input className="search-input" type="text" placeholder="Search for exams..." />
+          <SearchBar PlaceHolder="Search for exams..." />
         </div>
         </nav>
        
@@ -57,10 +58,14 @@ const NavBar = () => {
               LogOut
             </Link>
           </li>
+          <li>
+              <Link to="/studentHome">
+                home
+              </Link>
+            </li>
         </ul>
         <div className="search-container">
-          <SearchIcon className="search-icon" />
-          <input className="search-input" type="text" placeholder="Search for exams..." />
+          <SearchBar PlaceHolder="Search for exams..." />
         </div>
         
       </nav>

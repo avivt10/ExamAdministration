@@ -7,6 +7,7 @@ const examSchema = new Schema(
     lecturerName:{ type:String },
     beginningTime: { type: String},
     totalTime: { type: String },
+    questionsRandom : {type : String},
     questions:[
         new Schema({
           question:String,
@@ -14,9 +15,24 @@ const examSchema = new Schema(
           option2:String,
           option3:String,
           option4:String,
-          indexOfRightAnswer:String
+          indexOfCorrectAnswer:String,
+          correctAnswer:String,
         })
     ],
+    examinees:[
+      new Schema({
+        userId:String,
+        userName:String,
+        grade:String,
+        listOfErrors:[
+          new Schema({
+            question:String,
+            wrongAnswer:String,
+            correctAnswer:String
+          })  
+        ]
+      })
+    ]
   },
   {
     timestamps: true,

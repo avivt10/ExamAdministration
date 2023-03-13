@@ -4,7 +4,6 @@ import "./AddExam.css"
 import { addExam } from '../../Services/exam.service';
 
 const AddTest = () => {
-  // const {exam,setExam} = useExamContext();  
   const [examName,setExamName] = useState();
   const [examDate,setExamDate] = useState();
   const [lecturerName,setLecturerName] = useState();

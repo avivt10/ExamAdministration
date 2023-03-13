@@ -15,23 +15,34 @@ export const getExams = () : Promise<ExamsType> => {
         return res.data})
 }
 
-export const getQuestions = (id:any) : Promise<any> => {
-    return axios.get(`${config.apiUrl}/api/exams/getQuestions`,{params:{id:id}}).then((res) => {
-        return res.data})
-}
-
-export const deleteQuestion = (idForExam:any,_id:string) : Promise<any> => {
-    return axios.delete(`${config.apiUrl}/api/exams/deleteQuestion`,{params:{idForExam:idForExam,_id:_id}}).then((res) => {
-        return res.data})
-}
-
-
-
 export const deleteExam = (id:string) : Promise<ExamsType> => {
     return axios.delete(`${config.apiUrl}/api/exams/deleteExam`,{data:{id:id}}).then((res) => {
         return res.data.message}).catch((e)=> {
             alert("delete failed!")
         })
+}
+
+
+export const getQuestions = (id:any) : Promise<any> => {
+    return axios.get(`${config.apiUrl}/api/exams/getQuestions`,{params:{id:id}}).then((res) => {
+        return res.data})
+}
+
+export const sendAnswers = (answers:any,idForExam:any,userName:string,userId:string) : Promise<any> => {
+    return axios.post(`${config.apiUrl}/api/exams/sendAnswers`,{answers,idForExam,userName,userId}).then((res)=> {
+        return res.data;
+    })
+}
+
+export const findStudentInArray = (idForStudent:string,idForExam:string):Promise<any> => {
+    return axios.get(`${config.apiUrl}/api/exams/findStudentInArray`,{params:{idForStudent:idForStudent,idForExam:idForExam}}).then((res)=> {
+        return res.data;
+    })
+}
+
+export const deleteQuestion = (idForExam:any,_id:string) : Promise<any> => {
+    return axios.delete(`${config.apiUrl}/api/exams/deleteQuestion`,{params:{idForExam:idForExam,_id:_id}}).then((res) => {
+        return res.data})
 }
 
 export const createQuestion = (data:any): Promise<ExamsType> => {
@@ -41,3 +52,5 @@ export const createQuestion = (data:any): Promise<ExamsType> => {
             alert(e)
         })
 }
+
+

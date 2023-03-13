@@ -5,9 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from '../../Shared/context/auth-context';
 
 const SignIn = () => { 
-  const [_userName,_setUserName] = useState("");
+  const [_userFullName,set_UserFullName] = useState("");
   const [password,setPassword] = useState("");
-  const {setUserName,setUserId,setIsLogin} = useAuthContext()
+  const {setUserFullName,setUserId,setIsLogin} = useAuthContext()
   
 
   const navigate = useNavigate();
@@ -15,22 +15,22 @@ const SignIn = () => {
 
   
   try{
-    const res = await signIn(_userName,password)
+    const res = await signIn(_userFullName,password)
     if(res)
     {
-      setUserName(res.userName)
+      setUserFullName(res.fullName)
       setIsLogin(true)
       window.localStorage.setItem("userData",JSON.stringify({ token : res.token,
-        firstName : res.firstName,id:res.id,isLogin:true}))
+        fullName : res.fullName,id:res.id,isLogin:true,role:res.role}))
       setUserId(res.id)
       alert(res.message)
       if(res.id === "63d7db50a8cf714f5af5a8c1")
       {
-        navigate("lecturerPage")
+        navigate("lecturerHome")
       }
       else
       {
-        navigate("studentPage")
+        navigate("studentHome")
       }
 
     }
@@ -42,7 +42,7 @@ const SignIn = () => {
 }
 
   const checkValues = () => {
-     const validAll = _userName && password;
+     const validAll = _userFullName && password;
      validAll ? LoginUser() : alert("login failed! try agin..")
   }
 
@@ -66,7 +66,7 @@ const SignIn = () => {
                 required
                 autoComplete="off"
                 placeholder="enter your user name"
-                onChange={(e) => _setUserName(e.target.value)}
+                onChange={(e) => set_UserFullName(e.target.value)}
               />
               <label> user-name </label>
             </div>

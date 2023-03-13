@@ -127,7 +127,7 @@ const signIn = async (req, res, next) => {
       id : existUser._id,
       token: token,
       role:existUser.role,
-      firstName: existUser.firstName,
+      fullName: existUser.firstName + " " + existUser.lastName,
       message: "login successful",
     });
     

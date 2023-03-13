@@ -11,7 +11,8 @@ const AddQuestion = () => {
   const [option2, setOption2] = useState("");
   const [option3, setOption3] = useState("");
   const [option4, setOption4] = useState("");
-  const [indexOfRightAnswer, setIndexOfRightAnswer] = useState("");
+  const [indexOfCorrectAnswer, setIndexOfCorrectAnswer] = useState("");
+  const [correctAnswer,setCorrectAnswer] = useState(""); 
   const [displayQuestion, setDisplayQuestion] = useState("");
 
   const storageId = localStorage.getItem("currentExam");
@@ -23,7 +24,8 @@ const AddQuestion = () => {
       option2: option2,
       option3: option3,
       option4: option4,
-      indexOfRightAnswer: indexOfRightAnswer,
+      indexOfCorrectAnswer: indexOfCorrectAnswer,
+      correctAnswer:correctAnswer,
       idForExam: idForExam,
     };
     const res = await createQuestion(data);
@@ -39,7 +41,7 @@ const AddQuestion = () => {
       option2 &&
       option3 &&
       option4 &&
-      indexOfRightAnswer;
+      indexOfCorrectAnswer;
     isValidQuestion ? newQuestion() : alert("missing parameters");
   };
   if (displayQuestion === "") {
@@ -119,28 +121,48 @@ const AddQuestion = () => {
               <input
                 type="radio"
                 value="1"
-                onClick={() => setIndexOfRightAnswer("1")}
+                onClick={() =>{
+                  setIndexOfCorrectAnswer("1");
+                  setCorrectAnswer(option1);
+                }
+                }
+                  
                 name="select"
               />{" "}
               1
               <input
                 type="radio"
                 value="2"
-                onClick={() => setIndexOfRightAnswer("2")}
+                onClick={() =>
+                  {
+                    setIndexOfCorrectAnswer("2");
+                    setCorrectAnswer(option2);
+                  }
+                }
                 name="select"
               />{" "}
               2
               <input
                 type="radio"
                 value="3"
-                onClick={() => setIndexOfRightAnswer("3")}
+                onClick={() =>
+                  {
+                    setIndexOfCorrectAnswer("3");
+                    setCorrectAnswer(option3);
+                  }
+                }
                 name="select"
               />{" "}
               3
               <input
                 type="radio"
                 value="4"
-                onClick={() => setIndexOfRightAnswer("4")}
+                onClick={() =>
+                  {
+                    setIndexOfCorrectAnswer("4");
+                    setCorrectAnswer(option4);
+                  }
+                }
                 name="select"
               />{" "}
               4
@@ -188,28 +210,28 @@ const AddQuestion = () => {
               <input
                 type="radio"
                 value="1"
-                onClick={() => setIndexOfRightAnswer("1")}
+                onClick={() => setIndexOfCorrectAnswer("1")}
                 name="select"
               />{" "}
               1
               <input
                 type="radio"
                 value="2"
-                onClick={() => setIndexOfRightAnswer("2")}
+                onClick={() => setIndexOfCorrectAnswer("2")}
                 name="select"
               />{" "}
               2
               <input
                 type="radio"
                 value="3"
-                onClick={() => setIndexOfRightAnswer("3")}
+                onClick={() => setIndexOfCorrectAnswer("3")}
                 name="select"
               />{" "}
               3
               <input
                 type="radio"
                 value="4"
-                onClick={() => setIndexOfRightAnswer("4")}
+                onClick={() => setIndexOfCorrectAnswer("4")}
                 name="select"
               />{" "}
               4

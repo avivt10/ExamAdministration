@@ -33,11 +33,12 @@ margin: 0px;
     padding: 8px;
 }
 
-.search-input{
-    padding:9px;
-    border: 1px solid black;
-    border-radius: 15px;
-    width: 150px;
+.btn-search {
+    padding: 5px;
+    border: none;
+    border-radius: 9px;
+    background: #2196f3;
+    color: white;
 }
 
 .search-icon{

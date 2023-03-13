@@ -3,8 +3,8 @@ import { createContext,useContext } from "react";
 export type AuthContextType = {
     token:string,
     setToken:Function,
-    userName:string,
-    setUserName:Function,
+    userFullName:string,
+    setUserFullName:Function,
     isLogin:boolean,
     setIsLogin:Function,
     userId:string,
@@ -16,8 +16,8 @@ export const AuthContext = createContext<AuthContextType>({
     setIsLogin: ()=> null,
     token: "",
     setToken: ()=> null,
-    userName: "",
-    setUserName: ()=> null,
+    userFullName: "",
+    setUserFullName: ()=> null,
     userId:"",
     setUserId:()=> null,
 })
