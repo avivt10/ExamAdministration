@@ -48,6 +48,7 @@ const DisplayExam = ({exam,idExistInArray}:DisplayExamProps) => {
     if(userData.role === "lecturer")
     {
         return (
+            <thead>
             <tr>
              <td>
                  {exam.examName}
@@ -82,23 +83,27 @@ const DisplayExam = ({exam,idExistInArray}:DisplayExamProps) => {
                  </button>
              </td>
             </tr>
+            </thead>
            )
     }
  return(
-        <tr>
+    <thead>
+ <tr>
             <td> {exam.examName} </td>
             <td> {exam.date} </td>
             <td> {exam.lecturerName} </td>
             <td>            
                   
                 {
-                    isStartExam ? <h1> Done </h1> :
+                    !isStartExam ? <h1> Done </h1> :
                     <button onClick={()=> navigate("/startExam")}>
                     <PlayCircleOutlineIcon/>
                     </button>
                 }
             </td>
         </tr>
+    </thead>
+       
  )
 }
 

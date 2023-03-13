@@ -3,11 +3,13 @@ import "./SignIn.css";
 import { signIn } from '../../Services/user.service';
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from '../../Shared/context/auth-context';
+import { BallTriangle } from 'react-loader-spinner'
 
 const SignIn = () => { 
   const [_userFullName,set_UserFullName] = useState("");
   const [password,setPassword] = useState("");
   const {setUserFullName,setUserId,setIsLogin} = useAuthContext()
+  const [loading,setLoading] = useState(false);
   
 
   const navigate = useNavigate();
@@ -24,6 +26,7 @@ const SignIn = () => {
         fullName : res.fullName,id:res.id,isLogin:true,role:res.role}))
       setUserId(res.id)
       alert(res.message)
+      setLoading(false)
       if(res.id === "63d7db50a8cf714f5af5a8c1")
       {
         navigate("lecturerHome")
@@ -43,9 +46,11 @@ const SignIn = () => {
 
   const checkValues = () => {
      const validAll = _userFullName && password;
-     validAll ? LoginUser() : alert("login failed! try agin..")
+     validAll ? LoginUser() : alert("missing parameters")
+     setLoading(false)
   }
 
+  console.log(loading)
   return (
     <div className="home-container">
       <img
@@ -81,9 +86,15 @@ const SignIn = () => {
               />
               <label> password </label>
             </div>
-            <button className="btn-home" onClick={checkValues}>login</button>
+            <button className="btn-home" onClick={()=> {
+              setTimeout(() => {
+                setLoading(true);
+                checkValues()
+              }, 2000);
+            }}>login</button>
           </div>
-
+            {
+            loading ? <BallTriangle/> : null}
         </div>
       </div>
     </div>

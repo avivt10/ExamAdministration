@@ -57,7 +57,6 @@ const StartExam = () => {
  
 
   const sendAnswersToServer = async()=>{
-    console.log("answers",answers)
     try{
         const res = await sendAnswers(answers,idForExam,userData.fullName,userData.id)
         setAnswers([]);
@@ -100,8 +99,9 @@ const StartExam = () => {
             </div>
       {allQuestions.map((question, indexQuestion) => {
         return (
-          <div>
+          <div key={indexQuestion}>
             <DisplayStartExam
+              key={question}
               question={question}
               answers={answers}
               setAnswers={setAnswers}

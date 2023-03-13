@@ -4,9 +4,10 @@ import { QuestionType } from '../../../Shared/types/QuestionType'
 import "./DisplayQuestion.css"
 export type DisplayQuestionProps = {
   question:QuestionType,
+  index:number,
 }
 
-const DisplayQuestion = ({question} : DisplayQuestionProps) => {
+const DisplayQuestion = ({question,index} : DisplayQuestionProps) => {
   const {setQuestions} = useExamContext();
   const idForExam = localStorage.getItem("currentExam")
     const sendQuestionForDelete = async(_id:string)=> {
@@ -32,7 +33,7 @@ const DisplayQuestion = ({question} : DisplayQuestionProps) => {
           </div>
          
               :
-              <h3> {question.question}</h3>
+              <h3> {index} {question.question}</h3>
   
 
             }

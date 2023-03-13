@@ -15,6 +15,7 @@ import LecturerHome from "./Components/LecturerHome/LecturerHome";
 import StudentHome from './Components/StudentHome/StudentHome';
 import StartExam from "./Components/StartExam/StartExam";
 import { SearchContext } from "./Shared/context/search-context";
+import { BallTriangle } from 'react-loader-spinner'
 
 function App() {
   const [exams,setExams] = useState<ExamsType>([]);
@@ -28,6 +29,21 @@ function App() {
   const [performedExams,setPerformedExams] = useState([]);
   const [numberOfSolvedQuestions,setNumberOfSolvedQuestions] = useState(0);
   const [itemSearch, setItemSearch] = useState<string>("");
+
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     return(
+  //       <div>
+  //         <div style={{margin:"auto",width:"100px", marginTop:"200px"}}>
+  //         <BallTriangle height="300px" color="black"/>
+  //         </div>
+  //       </div>
+  //     )
+  //   }, 5000);
+  // }, [])
+  
+
   useEffect(() => {
     const getIdFromStorage = localStorage.getItem("currentExam")
     setIdForExam(getIdFromStorage || "")
@@ -52,6 +68,9 @@ function App() {
     getAllExams();
   }, []);
 
+  
+
+  
   let routes = (
     <BrowserRouter>
       <Routes>

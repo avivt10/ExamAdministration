@@ -6,6 +6,7 @@ import { useExamContext } from '../../Shared/context/exam-context';
 import "./LecturerHome.css"
 import { useSearchContext } from '../../Shared/context/search-context';
 import { ExamsType } from '../../Shared/types/ExamType';
+import { BallTriangle } from 'react-loader-spinner'
 
 
 const LecturerHome = () => {
@@ -16,9 +17,12 @@ const LecturerHome = () => {
   const {itemSearch} = useSearchContext();
   const [filteredExams,setFilteredExams] = useState<ExamsType>(exams);
 
-    useEffect(() => {
+  
+  useEffect(() => {
+    setTimeout(() => {
       setFilteredExams(exams)
-    }, [exams])
+    }, 2000);
+  }, [exams])
     
     useEffect(() => {
       if(itemSearch !== "")
@@ -34,13 +38,26 @@ const LecturerHome = () => {
  }, [])
  
   useEffect(()=> {
-    const getAllExams = async ()=> {
-      const allExams = await getExams();
-      setExams(allExams);
-    }
-    getAllExams();
+      const getAllExams = async ()=> {
+        const allExams = await getExams();
+        setExams(allExams);
+      }
+      getAllExams();
   },[])
 
+  
+  
+  if(filteredExams.length === 0)
+  {
+   return(
+     <div>
+       <NavBar/>
+       <div style={{margin:"auto",width:"100px", marginTop:"200px"}}>
+       <BallTriangle height="300px" color="black"/>
+       </div>
+     </div>
+   )
+  }
 
   
   return (
@@ -61,7 +78,7 @@ const LecturerHome = () => {
               </thead>
               {
                 filteredExams.map((exam) => (
-                  <DisplayExam exam={exam} idExistInArray={idExistInArray} />
+                  <DisplayExam exam={exam} idExistInArray={idExistInArray} key={exam._id} />
                 ) )
               }
             </table>

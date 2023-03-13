@@ -42,35 +42,35 @@ const AddTest = () => {
     <div>
       <NavBar />
       <h1 style={{textAlign:"center"}}>
-      מילוי פרטי מבחן 
+      Exam details
       </h1>
       <div className="add-test-container">
         <div style={{display:"flex"}}>
-        <h4> שם המבחן </h4>
-        <input className="input-add-test" onChange={(e : any)=> setExamName(e.target.value)} placeholder="הכנס תשובה..." />
+        <h4> name Exam</h4>
+        <input className="input-add-test" onChange={(e : any)=> setExamName(e.target.value)} placeholder="Enter an answer" />
         </div>
         <div style={{display:"flex"}}>
-        <h4> תאריך הבחינה </h4>
-        <input type="date" onChange={(e : any)=> setExamDate(e.target.value)} className="input-add-test" placeholder="הכנס תשובה..." />
+        <h4> Examination date </h4>
+        <input type="date" className="input-add-test" onChange={(e : any)=> setExamDate(e.target.value)}  placeholder="Enter an answer" />
         </div>
         <div style={{display:"flex"}}>
-        <h4> שם המרצה </h4>
-        <input className="input-add-test" onChange={(e : any) => setLecturerName(e.target.value)} placeholder="הכנס תשובה..." />
+        <h4> name of the lecturer </h4>
+        <input className="input-add-test" onChange={(e : any) => setLecturerName(e.target.value)} placeholder="Enter an answer" />
         </div>
         <div style={{display:"flex"}}>
         <h4> שעת בחינה </h4>
-        <input type="time" onChange={(e : any) => setBeginningTime(e.target.value)} className="input-add-test" placeholder="הכנס תשובה..." />
+        <input type="time" onChange={(e : any) => setBeginningTime(e.target.value)} className="input-add-test" placeholder="Enter an answer" />
         </div>
         <div style={{display:"flex"}}>
-        <h4> זמן כולל </h4>
-        <input className="input-add-test" onChange={(e : any)=> setTotalTime(e.target.value)} placeholder="הכנס תשובה..." />
+        <h4> Total time </h4>
+        <input className="input-add-test" onChange={(e : any)=> setTotalTime(e.target.value)} placeholder="Enter an answer" />
         </div>
         <div style={{display:"flex"}}>
-        <h4> סידור רנדומאלי </h4>
+        <h4> Random arrangement </h4>
         <input className="input-add-test" type="text" onChange={(e : any)=> setQuestionsRandom(e.target.value)}/>
         </div>
-       
-        <button onClick={checkInputValid}> אישור והוספת בחינה </button>
+        <button className="btn-add-exam" onClick={checkInputValid}> Confirmation and adding an exam </button>
+
 
       </div>
     

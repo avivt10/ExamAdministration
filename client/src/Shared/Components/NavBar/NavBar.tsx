@@ -1,13 +1,10 @@
-import React from "react";
-import { useAuthContext } from "./../../context/auth-context";
 import "./NavBar.css";
-import SearchIcon from "@mui/icons-material/Search";
 import { Link } from "react-router-dom";
 import { SearchBar } from "../SearchBar/SearchBar";
 
 const NavBar = () => {
-  const { userId } = useAuthContext();
-  if (userId === "63d7db50a8cf714f5af5a8c1") {
+  const storageData = JSON.parse(localStorage.getItem("userData") || "{}");
+  if (storageData.id === "63d7db50a8cf714f5af5a8c1") {
     return (
       <div>
         <nav className="nav-bar-container">
@@ -16,7 +13,9 @@ const NavBar = () => {
               <Link
                 to="/"
                 onClick={() => {
-                  window.localStorage.removeItem("userData");
+                  setTimeout(() => {
+                    window.localStorage.removeItem("userData");
+                  }, 10000);
                 }}
               >
                 LogOut
@@ -36,7 +35,6 @@ const NavBar = () => {
             </div>
           </ul>
           <div className="search-container">
-          <SearchIcon className="search-icon" />
           <SearchBar PlaceHolder="Search for exams..." />
         </div>
         </nav>
@@ -52,7 +50,9 @@ const NavBar = () => {
             <Link
               to="/"
               onClick={() => {
-                window.localStorage.removeItem("userData");
+                setTimeout(() => {
+                  window.localStorage.removeItem("userData");
+                }, 3000);
               }}
             >
               LogOut

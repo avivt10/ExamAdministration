@@ -4,6 +4,8 @@ import { useExamContext } from '../../Shared/context/exam-context';
 import { useSearchContext } from '../../Shared/context/search-context';
 import { ExamsType } from '../../Shared/types/ExamType';
 import DisplayExam from '../DisplayExam/DisplayExam';
+import { BallTriangle } from 'react-loader-spinner'
+
 
 const StudentHome = () => {
     const {exams} = useExamContext();
@@ -14,7 +16,9 @@ const StudentHome = () => {
     const [filteredExams,setFilteredExams] = useState<ExamsType>(exams);
 
     useEffect(() => {
-      setFilteredExams(exams)
+      setTimeout(() => {
+        setFilteredExams(exams)
+      }, 2000);
     }, [exams])
     
     useEffect(() => {
@@ -31,9 +35,19 @@ const StudentHome = () => {
    }, [])
 
  
-   
-   if(filteredExams.length > 0)
+  
+   if(filteredExams.length === 0)
    {
+    return(
+      <div>
+        <NavBar/>
+        <div style={{margin:"auto",width:"100px", marginTop:"200px"}}>
+        <BallTriangle height="300px" color="black"/>
+        </div>
+      </div>
+    )
+   }
+
     return (
       <div>
           <NavBar/>
@@ -49,21 +63,13 @@ const StudentHome = () => {
                 </thead>
                 {
                   filteredExams.map((exam)=> (
-                    <DisplayExam exam={exam} idExistInArray={idExistInArray} />
+                    <DisplayExam exam={exam} idExistInArray={idExistInArray} key={exam.examName} />
                   ))
                 }
           </table>
           </div>
           </div>
     )
-   }
-   return(
-    <div>
-      <NavBar/>
-      <h1> no found exams </h1>
-    </div>
-   )
-  
 }
 
 export default StudentHome

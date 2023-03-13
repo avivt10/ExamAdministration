@@ -15,8 +15,8 @@ const AddQuestion = () => {
   const [correctAnswer,setCorrectAnswer] = useState(""); 
   const [displayQuestion, setDisplayQuestion] = useState("");
 
-  const storageId = localStorage.getItem("currentExam");
-  setIdForExam(storageId);
+  // const storageId = localStorage.getItem("currentExam");
+  // setIdForExam(storageId);
   const newQuestion = async () => {
     const data = {
       question: question,

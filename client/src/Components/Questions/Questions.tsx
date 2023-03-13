@@ -1,4 +1,3 @@
-import React from 'react'
 import NavBar from '../../Shared/Components/NavBar/NavBar'
 import { useState, useEffect } from 'react';
 import { getQuestions } from '../../Services/exam.service';
@@ -47,10 +46,10 @@ const Questions = () => {
     <div>
       <NavBar/>
       <div>
-      {filteredQuestions.map((question) => {
+      {filteredQuestions.map((question,index) => {
         return(
-          <div>
-        <DisplayQuestion question={question}/>
+          <div key={index}>
+        <DisplayQuestion key={question._id} question={question} index={index + 1} />
           </div>
         )
       }
