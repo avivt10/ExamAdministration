@@ -4,3 +4,11 @@
     margin-top: 20px;
     margin-bottom: 20px;
 }
+
+.information-of-exam{
+    margin-left:10px;
+    border: 1px solid;
+    width: 20%;
+    position: fixed;
+    top: 780px;
+}

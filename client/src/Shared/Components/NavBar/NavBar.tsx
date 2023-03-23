@@ -11,11 +11,9 @@ const NavBar = () => {
           <ul className="nav-menu-lecturer">
             <li>
               <Link
-                to="/"
+                to="/signIn"
                 onClick={() => {
-                  setTimeout(() => {
                     window.localStorage.removeItem("userData");
-                  }, 10000);
                 }}
               >
                 LogOut
@@ -23,7 +21,7 @@ const NavBar = () => {
             </li>
             <div style={{display:"flex",marginLeft:"629px"}}>
             <li>
-              <Link to="/addTest">
+              <Link to="/addExam">
                 Add Exam
               </Link>
             </li>
@@ -48,7 +46,7 @@ const NavBar = () => {
         <ul className="nav-menu-student">     
           <li>
             <Link
-              to="/"
+              to="/signIn"
               onClick={() => {
                 setTimeout(() => {
                   window.localStorage.removeItem("userData");

@@ -30,7 +30,7 @@ const FinishExam = ({onClose,numberOfSolvedQuestions,numberQuestions} : FinishEx
         <h2 style={{textAlign:"center"}}> the exam is over!</h2>
         <p style={{color:"red",textAlign:"center"}}>You answered {numberOfSolvedQuestions} out of {numberQuestions}</p>
         <button style={{marginLeft:"250px",marginTop:"60px",width:"50%"}} onClick={()=> {
-            navigate("/studentHome")
+            navigate("/home/student")
             sendAnswersToServer()
         }}
         >

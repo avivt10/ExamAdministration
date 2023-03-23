@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./SignIn.css";
 import { signIn } from '../../Services/user.service';
 import { useNavigate } from "react-router-dom";
@@ -10,12 +10,19 @@ const SignIn = () => {
   const [password,setPassword] = useState("");
   const {setUserFullName,setUserId,setIsLogin} = useAuthContext()
   const [loading,setLoading] = useState(false);
-  
+  const {token,userId} = useAuthContext()  
 
   const navigate = useNavigate();
-  const LoginUser = async()=> {
 
+  useEffect(() => {
+    if(token && userId === "63d7db50a8cf714f5af5a8c1")
+    {
+      navigate("/lecturerHome")
+    }
+  }, [])
   
+  
+  const LoginUser = async()=> {
   try{
     const res = await signIn(_userFullName,password)
     if(res)
@@ -29,11 +36,11 @@ const SignIn = () => {
       setLoading(false)
       if(res.id === "63d7db50a8cf714f5af5a8c1")
       {
-        navigate("lecturerHome")
+        navigate("/lecturerHome")
       }
       else
       {
-        navigate("studentHome")
+        navigate("/studentHome")
       }
 
     }
@@ -50,7 +57,6 @@ const SignIn = () => {
      setLoading(false)
   }
 
-  console.log(loading)
   return (
     <div className="home-container">
       <img

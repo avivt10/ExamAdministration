@@ -31,7 +31,6 @@ const addExam = async (req,res,next) => {
         questions,
         examinees,
     })
-    console.log(createdExam.questionsRandom)
     try{
      await createdExam.save();
      return res.status(200).json({

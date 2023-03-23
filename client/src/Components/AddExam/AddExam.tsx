@@ -3,7 +3,7 @@ import NavBar from "../../Shared/Components/NavBar/NavBar";
 import "./AddExam.css"
 import { addExam } from '../../Services/exam.service';
 
-const AddTest = () => {
+const AddExam = () => {
   const [examName,setExamName] = useState();
   const [examDate,setExamDate] = useState();
   const [lecturerName,setLecturerName] = useState();
@@ -78,4 +78,4 @@ const AddTest = () => {
   );
 };
 
-export default AddTest;
+export default AddExam;

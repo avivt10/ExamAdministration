@@ -33,7 +33,10 @@ const DisplayQuestion = ({question,index} : DisplayQuestionProps) => {
           </div>
          
               :
-              <h3> {index} {question.question}</h3>
+              <div>
+                <h4> {index})</h4>
+                <h3>  {question.question}</h3>
+              </div>
   
 
             }

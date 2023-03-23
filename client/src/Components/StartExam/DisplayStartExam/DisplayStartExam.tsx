@@ -1,17 +1,22 @@
 import { AnswersType } from "../../../Shared/types/AnswerType";
 import { QuestionType } from "../../../Shared/types/QuestionType";
-import { useEffect, useState } from 'react';
 import { useExamContext } from './../../../Shared/context/exam-context';
+import { useEffect, useState } from 'react';
 
 export type DisplayStartExamProps = {
   question: QuestionType;
   answers:AnswersType,
   setAnswers:Function,
   indexQuestion:number,
+  numOfSolvedQuestionsState:number,
+  setNumSolvedQuestionsState:Function,
 }
-const DisplayStartExam = ({question,answers,indexQuestion }: DisplayStartExamProps) => {
+const DisplayStartExam = ({question,answers,indexQuestion,numOfSolvedQuestionsState,setNumSolvedQuestionsState }: DisplayStartExamProps) => {
   const {numberOfSolvedQuestions,setNumberOfSolvedQuestions} = useExamContext();
+  console.log(answers)
 
+  
+  
   const selectedAnswer = (indexQuestion:number,indexAnswer:number,selectedAnswerInString:string)=> {
     const obj = {
       indexQuestion: indexQuestion,
@@ -33,26 +38,24 @@ const DisplayStartExam = ({question,answers,indexQuestion }: DisplayStartExamPro
         if(counter === 0)
         {
           answers.push(obj)
-          setNumberOfSolvedQuestions(numberOfSolvedQuestions + 1)
-
+          setNumSolvedQuestionsState(numOfSolvedQuestionsState + 1)
+          console.log(numOfSolvedQuestionsState)
         }
       }
       else
       {
         answers.push(obj)
-        setNumberOfSolvedQuestions(numberOfSolvedQuestions + 1)
+        setNumSolvedQuestionsState(numOfSolvedQuestionsState + 1)
       }
       }  
 
-
-   
   return (
     <div className="box-container"> 
       <div className="question-container">
-        <>       {indexQuestion} </>
         <div className="question-style">
           {question.question.slice(0, 4) === "http" ? (
             <div>
+                 {indexQuestion}
               <img
                 src={question.question}
                 alt="2"
@@ -60,7 +63,7 @@ const DisplayStartExam = ({question,answers,indexQuestion }: DisplayStartExamPro
               />
             </div>
           ) : (
-            <h3> {question.question}</h3>
+            <h3> {indexQuestion}) {question.question}</h3>
           )}
         </div>
         <ul>
