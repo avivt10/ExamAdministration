@@ -1,7 +1,5 @@
 import { AnswersType } from "../../../Shared/types/AnswerType";
 import { QuestionType } from "../../../Shared/types/QuestionType";
-import { useExamContext } from './../../../Shared/context/exam-context';
-import { useEffect, useState } from 'react';
 
 export type DisplayStartExamProps = {
   question: QuestionType;
@@ -12,11 +10,6 @@ export type DisplayStartExamProps = {
   setNumSolvedQuestionsState:Function,
 }
 const DisplayStartExam = ({question,answers,indexQuestion,numOfSolvedQuestionsState,setNumSolvedQuestionsState }: DisplayStartExamProps) => {
-  const {numberOfSolvedQuestions,setNumberOfSolvedQuestions} = useExamContext();
-  console.log(answers)
-
-  
-  
   const selectedAnswer = (indexQuestion:number,indexAnswer:number,selectedAnswerInString:string)=> {
     const obj = {
       indexQuestion: indexQuestion,
@@ -39,7 +32,6 @@ const DisplayStartExam = ({question,answers,indexQuestion,numOfSolvedQuestionsSt
         {
           answers.push(obj)
           setNumSolvedQuestionsState(numOfSolvedQuestionsState + 1)
-          console.log(numOfSolvedQuestionsState)
         }
       }
       else

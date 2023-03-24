@@ -16,17 +16,72 @@ export type DisplayExamProps = {
 };
 
 const DisplayExam = ({ exam, idExistInArray }: DisplayExamProps) => {
+  const arrayOfTexts = ["The exam has not yet started","The exam is over"]
   const [isStartExam, setIsStartExam] = useState(false);
   const storageData = JSON.parse(localStorage.getItem("userData") || "{}");
-  const dateOfExam = exam.date + " - " + exam.beginningTime 
   const date = new Date();
-  let day = date.getDate();
-  let month = date.getMonth() + 1;
-  let year = date.getFullYear();
-
   const { setExams, setIdForExam } = useExamContext();
   const userData = JSON.parse(localStorage.getItem("userData") || "{}");
   const navigate = useNavigate();
+  const [matchingInTimes,setMatchingInTimes] = useState(false);
+
+  const totalTimeOfExam = {
+    hours : parseInt(exam.totalTime.slice(0,2)),
+    minutes : parseInt(exam.totalTime.slice(3,5))
+  }
+  
+  const exam_date = {
+    day : parseInt(exam.date.slice(0,2)),
+    month : parseInt(exam.date.slice(3,5)),
+    year : parseInt(exam.date.slice(6,10)),
+    hours : parseInt(exam.beginningTime.slice(0,2)),
+    minutes : parseInt(exam.beginningTime.slice(3,5)),
+  }
+
+  const current_date = {
+    day : date.getDate(),
+    month : date.getMonth() + 1,
+    year : date.getFullYear(),
+    hours : date.getHours(),
+    minutes : date.getMinutes(),
+  }
+ 
+  useEffect(() => {
+    const checkTimes = () => {
+      let isEqual = true;
+      if (current_date.day === exam_date.day && current_date.month === exam_date.month && current_date.year === exam_date.year)
+      {
+        let endTimeHours = exam_date.hours +  totalTimeOfExam.hours;
+        let endTimeMinutes = exam_date.minutes + totalTimeOfExam.minutes
+            if(endTimeMinutes > 59)
+            {
+              endTimeHours++;
+              endTimeMinutes = endTimeMinutes - 60;
+            }
+          if(current_date.hours < exam_date.hours || current_date.hours > endTimeHours)
+          {
+              isEqual = false; 
+          }
+          else if (current_date.hours >= exam_date.hours && current_date.hours <= endTimeHours)
+          {
+            if(current_date.hours === endTimeHours)
+            {
+              isEqual = current_date.minutes < endTimeMinutes;
+            }
+          }
+      }
+      else
+      {
+        isEqual = false;
+        setMatchingInTimes(isEqual)  
+      }
+      setMatchingInTimes(isEqual)  
+      return isEqual;
+    }
+
+    checkTimes();
+  }, [])
+
 
   useEffect(() => {
     const studentTookAnExam = async () => {
@@ -57,7 +112,7 @@ const DisplayExam = ({ exam, idExistInArray }: DisplayExamProps) => {
       <thead>
         <tr>
           <td>{exam.examName}</td>
-          <td>{exam.date}</td>
+          <td>{exam.date} {exam.beginningTime}</td>
           <td>{exam.lecturerName}</td>
           <td>
             <button
@@ -94,11 +149,11 @@ const DisplayExam = ({ exam, idExistInArray }: DisplayExamProps) => {
     <thead>
       <tr>
         <td> {exam.examName} </td>
-        <td> {exam.date} </td>
+        <td> {exam.date} {exam.beginningTime} </td>
         <td> {exam.lecturerName} </td>
         <td>
-          {!isStartExam ? (
-            <h1> Done </h1>
+          {!matchingInTimes ? (
+            <p> exam end </p>
           ) : (
             <button onClick={() =>{
                 navigate("/startExam")
