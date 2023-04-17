@@ -61,7 +61,7 @@ const SignIn = () => {
     <div className="home-container">
       <img
         className="style-image"
-        src="https://images.unsplash.com/photo-1539632346654-dd4c3cffad8c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+        src="https://cdn.pixabay.com/photo/2016/11/19/14/00/code-1839406_960_720.jpg"
         alt="1"
       />
       <div className="login-container">

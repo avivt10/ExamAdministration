@@ -1,6 +1,6 @@
 import axios from "axios";
 import config from "../config.json"
-import { ExamsType } from "../Shared/types/ExamType";
+import { ExamType, ExamsType } from "../Shared/types/ExamType";
 
 export const addExam = (data:any) : Promise<any> => {
     return axios.post(`${config.apiUrl}/api/exams/addExams`,data).then((res) => {
@@ -10,6 +10,10 @@ export const addExam = (data:any) : Promise<any> => {
 
 }
 
+export const getExam = (id:any) : Promise<ExamType> => {
+    return axios.get(`${config.apiUrl}/api/exams/getExam`,{params:{id:id}}).then((res) => {
+        return res.data})
+}
 export const getExams = () : Promise<ExamsType> => {
     return axios.get(`${config.apiUrl}/api/exams/getExams`).then((res) => {
         return res.data})

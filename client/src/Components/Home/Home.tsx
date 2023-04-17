@@ -15,7 +15,6 @@ const Home = () => {
   const listOfPerformedExams = JSON.parse(localStorage.getItem("listOfPerformedExams") || "[]");
   const { itemSearch } = useSearchContext();
   const [filteredExams, setFilteredExams] = useState<ExamsType>(exams);
-  console.log(answers)
   useEffect(() => {
     setAnswers([])
     setTimeout(() => {

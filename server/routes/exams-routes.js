@@ -5,6 +5,7 @@ const express = require("express")
 
  router.post('/addExams',examsController.addExam)
  router.get('/getExams',examsController.getExams)
+ router.get('/getExam',examsController.getExam)
  router.delete('/deleteExam',examsController.deleteExam)
 
  // questions

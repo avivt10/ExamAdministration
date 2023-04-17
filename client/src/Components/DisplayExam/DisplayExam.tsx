@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ExamType } from "../../Shared/types/ExamType";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import {
@@ -16,15 +16,16 @@ export type DisplayExamProps = {
 };
 
 const DisplayExam = ({ exam, idExistInArray }: DisplayExamProps) => {
-  const arrayOfTexts = ["The exam has not yet started","The exam is over"]
-  const [isStartExam, setIsStartExam] = useState(false);
+  const [text,setText] = useState<string>("")
   const storageData = JSON.parse(localStorage.getItem("userData") || "{}");
   const date = new Date();
   const { setExams, setIdForExam } = useExamContext();
   const userData = JSON.parse(localStorage.getItem("userData") || "{}");
   const navigate = useNavigate();
   const [matchingInTimes,setMatchingInTimes] = useState(false);
-
+  const grade = useRef();
+  const takeAnExam = useRef(false);
+  const colorEffect = useRef("");
   const totalTimeOfExam = {
     hours : parseInt(exam.totalTime.slice(0,2)),
     minutes : parseInt(exam.totalTime.slice(3,5))
@@ -45,7 +46,88 @@ const DisplayExam = ({ exam, idExistInArray }: DisplayExamProps) => {
     hours : date.getHours(),
     minutes : date.getMinutes(),
   }
+  
+  const studentTookAnExam = async () => {
+    try {
+      const res = await findStudentInArray(storageData.id, exam._id);
+      if (res.message === "exist user id") {
+        grade.current = res.grade;
+        if(res.grade < 55)
+        {
+          colorEffect.current = "red"
+        }
+        else
+        {
+          colorEffect.current = "green"
+        }
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+  const dateCurrentIsBigger = ()=> {
+  if(current_date.year > exam_date.year)
+      {
+        return true;
+      }
+  
+      if (current_date.month === exam_date.month)
+      {
+        if(current_date.day > exam_date.day)
+        {
+          return true;
+        }
+
+      }
+      if(current_date.month > exam_date.month)
+      {
+        return true;
+      }
+      
+      if(current_date.hours > exam_date.hours)
+     {
+      return true;
+     }
+     if(current_date.hours === exam_date.hours)
+     {
+        if(current_date.minutes > exam_date.minutes && !matchingInTimes)
+        {
+          return true;
+        }
+     }
+      return false;
+  }
+
+  const showText = async()=> {
+      const res = await studentTookAnExam();
+      const isBigger = dateCurrentIsBigger();
+      if (res)
+      {
+         takeAnExam.current = true;
+      }
+      if (!isBigger)
+      {
+        setText("The exam has not started")
+      }
+      else if(isBigger)
+      {
+          setText("You did not take the exam")
+      }
+
+      else(
+        console.log("error")
+      )
  
+    }
+
+
+
   useEffect(() => {
     const checkTimes = () => {
       let isEqual = true;
@@ -62,6 +144,10 @@ const DisplayExam = ({ exam, idExistInArray }: DisplayExamProps) => {
           {
               isEqual = false; 
           }
+          if (current_date.hours === exam_date.hours && current_date.minutes < exam_date.minutes)
+          {
+            isEqual = false;
+          }
           else if (current_date.hours >= exam_date.hours && current_date.hours <= endTimeHours)
           {
             if(current_date.hours === endTimeHours)
@@ -69,36 +155,22 @@ const DisplayExam = ({ exam, idExistInArray }: DisplayExamProps) => {
               isEqual = current_date.minutes < endTimeMinutes;
             }
           }
+      
       }
       else
       {
         isEqual = false;
         setMatchingInTimes(isEqual)  
       }
+      
+    
       setMatchingInTimes(isEqual)  
-      return isEqual;
     }
-
     checkTimes();
+    showText();
   }, [])
-
-
-  useEffect(() => {
-    const studentTookAnExam = async () => {
-      try {
-        const res = await findStudentInArray(storageData.id, exam._id);
-        if (res.message === "exist user id") {
-          setIsStartExam(true);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    studentTookAnExam();
-  }, []);
-
-
-
+  
+  
   const sendingExamForDelete = async (id: string) => {
     const res = await deleteExam(id);
     if (res) {
@@ -107,6 +179,10 @@ const DisplayExam = ({ exam, idExistInArray }: DisplayExamProps) => {
       alert(res);
     }
   };
+
+
+
+  console.log(colorEffect)
   if (userData.role === "lecturer") {
     return (
       <thead>
@@ -152,17 +228,28 @@ const DisplayExam = ({ exam, idExistInArray }: DisplayExamProps) => {
         <td> {exam.date} {exam.beginningTime} </td>
         <td> {exam.lecturerName} </td>
         <td>
-          {!matchingInTimes ? (
-            <p> exam end </p>
-          ) : (
-            <button onClick={() =>{
+            {
+              matchingInTimes && !takeAnExam.current ? <button onClick={() =>{
                 navigate("/startExam")
                 localStorage.setItem("currentExam",exam._id)
             }
             } >
               <PlayCircleOutlineIcon />
-            </button>
-          )}
+            </button> : null
+            }
+            {
+              !takeAnExam.current && !matchingInTimes ? <h1> {text}</h1> : null
+            }
+             {
+              colorEffect.current === "green" && takeAnExam.current ? 
+                <h1 style={{color:"green"}}> {grade.current}</h1>: null            
+             }
+              {
+              colorEffect.current === "red" && takeAnExam.current ? 
+                <h1 style={{color:"red"}}> {grade.current}</h1>: null            
+            }
+           
+
         </td>
       </tr>
     </thead>

@@ -1,3 +1,4 @@
+import { useExamContext } from "../../../Shared/context/exam-context";
 import { AnswersType } from "../../../Shared/types/AnswerType";
 import { QuestionType } from "../../../Shared/types/QuestionType";
 
@@ -6,10 +7,11 @@ export type DisplayStartExamProps = {
   answers:AnswersType,
   setAnswers:Function,
   indexQuestion:number,
-  numOfSolvedQuestionsState:number,
-  setNumSolvedQuestionsState:Function,
+  // numOfSolvedQuestionsState:number,
+  // setNumSolvedQuestionsState:Function,
 }
-const DisplayStartExam = ({question,answers,indexQuestion,numOfSolvedQuestionsState,setNumSolvedQuestionsState }: DisplayStartExamProps) => {
+const DisplayStartExam = ({question,answers,indexQuestion }: DisplayStartExamProps) => {
+  const {numberOfSolvedQuestions,setNumberOfSolvedQuestions } = useExamContext();
   const selectedAnswer = (indexQuestion:number,indexAnswer:number,selectedAnswerInString:string)=> {
     const obj = {
       indexQuestion: indexQuestion,
@@ -31,13 +33,13 @@ const DisplayStartExam = ({question,answers,indexQuestion,numOfSolvedQuestionsSt
         if(counter === 0)
         {
           answers.push(obj)
-          setNumSolvedQuestionsState(numOfSolvedQuestionsState + 1)
+          setNumberOfSolvedQuestions(numberOfSolvedQuestions + 1)
         }
       }
       else
       {
         answers.push(obj)
-        setNumSolvedQuestionsState(numOfSolvedQuestionsState + 1)
+        setNumberOfSolvedQuestions(numberOfSolvedQuestions + 1)
       }
       }  
 
@@ -60,19 +62,19 @@ const DisplayStartExam = ({question,answers,indexQuestion,numOfSolvedQuestionsSt
         </div>
         <ul>
           <div style={{ display: "flex" }}>
-          <input type="radio" onClick={()=> selectedAnswer(indexQuestion,1,question.option1)} name={question.question}/>
+          <input type="radio" onClick={()=> selectedAnswer(indexQuestion,1,question.option1)} name={question._id}/>
             <li className="option-style"> {question.option1}</li>
           </div>
           <div style={{ display: "flex" }}>
-          <input type="radio" onClick={()=> selectedAnswer(indexQuestion,2,question.option2)} name={question.question}/>
+          <input type="radio" onClick={()=> selectedAnswer(indexQuestion,2,question.option2)} name={question._id}/>
           <li className="option-style"> {question.option2}</li>
           </div>
           <div style={{ display: "flex" }}>
-          <input type="radio" onClick={()=> selectedAnswer(indexQuestion,3,question.option3)} name={question.question}/>
+          <input type="radio" onClick={()=> selectedAnswer(indexQuestion,3,question.option3)} name={question._id}/>
           <li className="option-style"> {question.option3}</li>
           </div>
           <div style={{ display: "flex" }}>
-          <input type="radio" onClick={()=> selectedAnswer(indexQuestion,4,question.option4)} name={question.question}/>
+          <input type="radio" onClick={()=> selectedAnswer(indexQuestion,4,question.option4)} name={question._id}/>
           <li className="option-style"> {question.option4}</li>
           </div>
         </ul>

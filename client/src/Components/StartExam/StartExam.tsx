@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { getQuestions, sendAnswers } from "./../../Services/exam.service";
+import React, { useEffect, useRef, useState } from "react";
+import { getExam, getQuestions, sendAnswers } from "./../../Services/exam.service";
 import DisplayStartExam from "./DisplayStartExam/DisplayStartExam";
 import "./StartExam.css";
 import { useExamContext } from "./../../Shared/context/exam-context";
@@ -8,38 +8,55 @@ import ExamDialog from "./ExamDialog/ExamDialog";
 
 const StartExam = () => {
   const userData = JSON.parse(localStorage.getItem("userData") || "{}");
-  const [isShowExamDialog, setIsShowExamDialog] = useState(false);
-  const [numOfSolvedQuestionsState,setNumSolvedQuestionsState] = useState(0)
+  const [isShowExamDialog, setIsShowExamDialog] = useState(true);
   const { answers, setAnswers, numberOfSolvedQuestions,setNumberOfSolvedQuestions } = useExamContext();
   const [allQuestions, setAllQuestions] = useState([]);
   const idForExam = localStorage.getItem("currentExam");
-  const [hours, setHours] = useState(0);
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(300);
+  const [seconds, setSeconds] = useState(5);
+  const totalTime = useRef({hours:0,minutes:0});
+  const showDialog = useRef(true);
   const navigate = useNavigate();
-  
+  useEffect(() => {
+     const getExamFromServer = async()=> {
+      try{
+        const res = await getExam(idForExam);
+        if(res)
+        {
+          const obj = {
+            hours:parseInt(res.totalTime.slice(3,5)) === 0 ? parseInt(res.totalTime.slice(0,2)) - 1 :  parseInt(res.totalTime.slice(0,2)),
+            minutes:parseInt(res.totalTime.slice(3,5)) === 0 ? 59 : parseInt(res.totalTime.slice(3,5)) - 1,
+          }
+          totalTime.current = obj;
+        }
+      }
+      catch(err)
+      {
+        console.log(err)
+      }
+     }
+     getExamFromServer();
+  },[])
+
   useEffect(() => {
     const getAllQuestionsFromServer = async () => {
       const getAllQuestion = await getQuestions(idForExam);
       setAllQuestions(getAllQuestion.data);
     };
-    setNumSolvedQuestionsState(0)
+    setNumberOfSolvedQuestions(0)
     getAllQuestionsFromServer();
   }, []);
 
   useEffect(() => {
-    if (hours === 0 && minutes === 0 && seconds === 0) {
-      return setIsShowExamDialog(true);
-    }
-    if (seconds === 0 && minutes === 0) {
+      if(totalTime.current.hours === 0 && totalTime.current.minutes === 0 && seconds === 0)
+      {
+        return(
+          setIsShowExamDialog(true)
+        );
+      }
+      if (seconds === 0) {
       setTimeout(() => {
-        setHours(hours - 1);
-        setMinutes(59);
-        setSeconds(59);
-      }, 1000);
-    } else if (seconds === 0) {
-      setTimeout(() => {
-        setMinutes(minutes - 1);
+        let obj = { hours : totalTime.current.minutes === 0 ? totalTime.current.hours - 1 : totalTime.current.hours , minutes :  seconds === 0 ? totalTime.current.minutes - 1 : totalTime.current.minutes}
+        totalTime.current = obj;
         setSeconds(59);
       }, 1000);
     } else {
@@ -47,6 +64,7 @@ const StartExam = () => {
         setSeconds(seconds - 1);
       }, 1000);
     }
+     
   }, [seconds]);
 
   const sendAnswersToServer = async () => {
@@ -57,16 +75,21 @@ const StartExam = () => {
         userData.fullName,
         userData.id
       );
+      if(res)
+      {
+        alert("exam sent successfully")
+        navigate("/home/student")
+      }
+      showDialog.current = true;
       setAnswers([]);
-      alert(res.message);
     } catch (error) {
       console.log(error);
     }
   };
 
   const checkAnswers = () => {
-    const isValidAnswer = allQuestions.length === answers.length;
-    if (isValidAnswer) {
+    const isValidAnswers = allQuestions.length === answers.length;
+    if (isValidAnswers) {
       const sortedAnswers = answers.sort(
         (a, b) => a.indexQuestion - b.indexQuestion
       );
@@ -81,19 +104,20 @@ const StartExam = () => {
       navigate("/studentHome");
     }
   };
-
+  console.log(seconds)
   return (
     <div>
       <div>
-        <ExamDialog
-          onClose={() => {
-            setIsShowExamDialog(false);
-          }}
+        {
+          seconds === 0 ?
+          <ExamDialog
           open={isShowExamDialog}
           numberOfSolvedQuestions={numberOfSolvedQuestions}
           numberQuestions={allQuestions.length}
         />
-      
+          : null
+        }
+       
       </div>
       <div>
         <h5 style={{ fontSize: "20px" }}>
@@ -110,8 +134,6 @@ const StartExam = () => {
               answers={answers}
               setAnswers={setAnswers}
               indexQuestion={indexQuestion + 1}
-              numOfSolvedQuestionsState={numOfSolvedQuestionsState}
-              setNumSolvedQuestionsState={setNumSolvedQuestionsState}
             />
           </div>
         );
@@ -119,15 +141,17 @@ const StartExam = () => {
       <div className="information-of-exam">
       <h1 style={{ color: "red", textAlign: "center",fontSize:"20px"}}>
           {" "}
-          Time to finish 0{hours}:{minutes < 10 ? `0${minutes}` : minutes}:
+          Time to finish 0{totalTime.current.hours}:
+          
+          {totalTime.current.minutes < 10 ? `0` + totalTime.current.minutes : totalTime.current.minutes}:
           {seconds < 10 ? `0${seconds}` : seconds}
         </h1>
         <p style={{ textAlign: "center",fontSize:"15px" }}>
-          number Of Solved Questions : {numOfSolvedQuestionsState}
+          number Of Solved Questions : {numberOfSolvedQuestions}
         </p>
         <p style={{ textAlign: "center",fontSize:"15px"  }}>
           Number Unsolved questions :
-          {allQuestions.length - numOfSolvedQuestionsState}
+          {allQuestions.length - numberOfSolvedQuestions}
         </p>
       </div>
       <button className="btn-finish-exam" onClick={checkAnswers}>

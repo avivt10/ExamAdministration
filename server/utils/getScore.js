@@ -1,5 +1,10 @@
 const getScore = (questions,answers,listOfErrors)=> {
+    let res = 100 / questions.length;
     let correctAnswers = 0;
+    if(questions.length === 0)
+    {
+        return 0;
+    }
     if (answers.length === 0)
     {
         for (let i = 0; i < questions.length; i++) {
@@ -39,7 +44,7 @@ const getScore = (questions,answers,listOfErrors)=> {
             }
                 
     }
-    return correctAnswers * 10
+    return correctAnswers * res
 }
 }
 module.exports = getScore;

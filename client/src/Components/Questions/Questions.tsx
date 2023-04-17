@@ -8,12 +8,12 @@ import { useExamContext } from '../../Shared/context/exam-context';
 const Questions = () => {
   const idForExam = localStorage.getItem("currentExam")
   const {questions,setQuestions} = useExamContext();
+  const [randomQuestions,setRandomQuestions] = useState("No")
   const [filteredQuestions,setFilteredQuestions] = useState<QuestionsType>([])
   useEffect(() => {
     setFilteredQuestions(questions)
   }, [questions])
   
-
   useEffect(()=> {
     const getQuestionFromServer = async()=> {
       try{
@@ -21,6 +21,7 @@ const Questions = () => {
         if(res)
         {
             setQuestions(res.data)
+            setRandomQuestions(res.isRandom)
         }
       }
       catch(e)
@@ -37,7 +38,7 @@ const Questions = () => {
       <div>
           <NavBar/>
           <div>
-            <h1> questions null </h1>
+            <h1> questions empty </h1>
           </div>
       </div>
     )

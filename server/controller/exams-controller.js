@@ -45,6 +45,19 @@ const addExam = async (req,res,next) => {
     }
 }
 
+const getExam = async (req,res,next) => {
+    const {id} = req.query;
+    try{
+      const currentExam = await Exam.findById(id)
+      res.status(200).json(currentExam)
+    }
+    catch(err)
+    {
+        res.status(400).json({
+            message:"getting exam failed"
+        })
+    }
+}
 const getExams = async (req,res,next) => {
     try{
         const getAllExams = await Exam.find({});
@@ -118,6 +131,7 @@ const getQuestions = async (req,res,next)=> {
    {
     res.status(200).json({
         data : existExam.questions,
+        isRandom : existExam.questionsRandom,
     })
    }
 }
@@ -195,14 +209,15 @@ const findStudentInArray = async(req,res,next)=> {
                 if(existExam.examinees[i].userId === idForStudent)
                 {
                    return res.json({
-                        message:"exist user id"
+                        message:"exist user id",
+                        grade: existExam.examinees[i].grade,
                     })
                 }
             }
-            return res.json({
-                message:"not exist user id"
-            })
         }
+        return res.json({
+            message:"not exist user id"
+        })
        
     }
 }
@@ -211,6 +226,7 @@ const findStudentInArray = async(req,res,next)=> {
 exports.deleteExam = deleteExam;
 exports.addExam = addExam;
 exports.getExams = getExams;
+exports.getExam = getExam;
 exports.createQuestion = createQuestion;
 exports.getQuestions = getQuestions;
 exports.deleteQuestion = deleteQuestion;
