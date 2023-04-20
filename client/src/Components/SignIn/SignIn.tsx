@@ -7,26 +7,26 @@ import { BallTriangle } from 'react-loader-spinner'
 
 const SignIn = () => { 
   const [_userFullName,set_UserFullName] = useState("");
+  const storageData = JSON.parse(localStorage.getItem("userData") || "{}");
   const [password,setPassword] = useState("");
   const {setUserFullName,setUserId,setIsLogin} = useAuthContext()
   const [loading,setLoading] = useState(false);
-  const {token,userId} = useAuthContext()  
-
+  const {token} = useAuthContext()  
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(token && userId === "63d7db50a8cf714f5af5a8c1")
+    if(token && storageData.role === "lecturer")
     {
       navigate("/lecturerHome")
-    }
+    }   
   }, [])
-  
   
   const LoginUser = async()=> {
   try{
     const res = await signIn(_userFullName,password)
     if(res)
     {
+      alert(res)
       setUserFullName(res.fullName)
       setIsLogin(true)
       window.localStorage.setItem("userData",JSON.stringify({ token : res.token,
@@ -34,7 +34,7 @@ const SignIn = () => {
       setUserId(res.id)
       alert(res.message)
       setLoading(false)
-      if(res.id === "63d7db50a8cf714f5af5a8c1")
+      if(res.role === "lecturer")
       {
         navigate("/lecturerHome")
       }

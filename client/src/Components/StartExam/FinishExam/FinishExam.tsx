@@ -7,8 +7,9 @@ import { useExamContext } from './../../../Shared/context/exam-context';
 export type FinishExamProps = {
     numberOfSolvedQuestions:number,
     numberQuestions:number,
+    allQuestions:any
   };
-const FinishExam = ({numberOfSolvedQuestions,numberQuestions} : FinishExamProps) => {
+const FinishExam = ({numberOfSolvedQuestions,numberQuestions,allQuestions} : FinishExamProps) => {
     const {answers,setAnswers} = useExamContext()
     const idForExam = localStorage.getItem("currentExam");
     const userData = JSON.parse(localStorage.getItem("userData")|| "{}")
@@ -16,7 +17,7 @@ const FinishExam = ({numberOfSolvedQuestions,numberQuestions} : FinishExamProps)
   const navigate = useNavigate();
     const sendAnswersToServer = async()=>{
       try{
-          const res = await sendAnswers(answers,idForExam,userData.fullName,userData.id)
+          const res = await sendAnswers(answers,idForExam,userData.fullName,userData.id,allQuestions)
           if(res)
           {
             setAnswers([]);

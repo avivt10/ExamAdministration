@@ -7,6 +7,7 @@ const express = require("express")
  router.get('/getExams',examsController.getExams)
  router.get('/getExam',examsController.getExam)
  router.delete('/deleteExam',examsController.deleteExam)
+ router.get('/getTheExamineePage',examsController.getTheExamineePage)
 
  // questions
 

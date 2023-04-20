@@ -9,12 +9,13 @@ import DisplayExam from "../DisplayExam/DisplayExam";
 import "./Home.css"
 
 const Home = () => {
-  const { exams, setExams,answers,setAnswers } = useExamContext();
+  const { exams, setExams,setAnswers } = useExamContext();
   const [idExistInArray, setIdExistInArray] = useState(false);
   const userData = JSON.parse(localStorage.getItem("userData") || "{}");
   const listOfPerformedExams = JSON.parse(localStorage.getItem("listOfPerformedExams") || "[]");
   const { itemSearch } = useSearchContext();
   const [filteredExams, setFilteredExams] = useState<ExamsType>(exams);
+
   useEffect(() => {
     setAnswers([])
     setTimeout(() => {
@@ -40,7 +41,6 @@ const Home = () => {
         setIdExistInArray(isExist)
 },[])
 
-
     if(filteredExams.length === 0)
     {
      return(
@@ -52,7 +52,7 @@ const Home = () => {
        </div>
      )
     }
-  if (userData.token && userData.id === "63d7db50a8cf714f5af5a8c1") {
+  if (userData.token && userData.role === "lecturer") {
     return (
 <div>
       <NavBar/>
@@ -99,7 +99,7 @@ const Home = () => {
               </thead>
               {
                 filteredExams.map((exam)=> (
-                  <DisplayExam exam={exam} idExistInArray={idExistInArray} key={exam.examName} />
+                  <DisplayExam exam={exam} idExistInArray={idExistInArray} key={exam._id} />
                 ))
               }
         </table>

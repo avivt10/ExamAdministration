@@ -12,10 +12,11 @@ const StartExam = () => {
   const { answers, setAnswers, numberOfSolvedQuestions,setNumberOfSolvedQuestions } = useExamContext();
   const [allQuestions, setAllQuestions] = useState([]);
   const idForExam = localStorage.getItem("currentExam");
-  const [seconds, setSeconds] = useState(5);
+  const [seconds, setSeconds] = useState(59);
   const totalTime = useRef({hours:0,minutes:0});
   const showDialog = useRef(true);
   const navigate = useNavigate();
+
   useEffect(() => {
      const getExamFromServer = async()=> {
       try{
@@ -39,13 +40,14 @@ const StartExam = () => {
 
   useEffect(() => {
     const getAllQuestionsFromServer = async () => {
-      const getAllQuestion = await getQuestions(idForExam);
-      setAllQuestions(getAllQuestion.data);
+      const getAllQuestions = await getQuestions(idForExam);
+      setAllQuestions(getAllQuestions.data);
     };
     setNumberOfSolvedQuestions(0)
     getAllQuestionsFromServer();
   }, []);
 
+  
   useEffect(() => {
       if(totalTime.current.hours === 0 && totalTime.current.minutes === 0 && seconds === 0)
       {
@@ -55,7 +57,7 @@ const StartExam = () => {
       }
       if (seconds === 0) {
       setTimeout(() => {
-        let obj = { hours : totalTime.current.minutes === 0 ? totalTime.current.hours - 1 : totalTime.current.hours , minutes :  seconds === 0 ? totalTime.current.minutes - 1 : totalTime.current.minutes}
+        let obj = { hours : totalTime.current.minutes === 0 ? totalTime.current.hours - 1 : totalTime.current.hours , minutes :  seconds === 0 && totalTime.current.minutes === 0 ? 59 : totalTime.current.minutes - 1}
         totalTime.current = obj;
         setSeconds(59);
       }, 1000);
@@ -67,13 +69,15 @@ const StartExam = () => {
      
   }, [seconds]);
 
+
   const sendAnswersToServer = async () => {
     try {
       const res = await sendAnswers(
         answers,
         idForExam,
         userData.fullName,
-        userData.id
+        userData.id,
+        allQuestions,
       );
       if(res)
       {
@@ -104,16 +108,20 @@ const StartExam = () => {
       navigate("/studentHome");
     }
   };
-  console.log(seconds)
+
+
+  
+
   return (
     <div>
       <div>
         {
-          seconds === 0 ?
+          totalTime.current.hours === 0 && totalTime.current.minutes === 0 && seconds === 0 ?
           <ExamDialog
           open={isShowExamDialog}
           numberOfSolvedQuestions={numberOfSolvedQuestions}
           numberQuestions={allQuestions.length}
+          allQuestions={allQuestions}
         />
           : null
         }

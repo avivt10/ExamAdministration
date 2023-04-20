@@ -5,7 +5,7 @@ const User = require("../models/user");
 require("dotenv").config();
 
 const signUp = async (req, res, next) => {
-    const { firstName, lastName,role, userName, password } = req.body;
+    const { firstName, lastName,role,listOfExams, userName, password } = req.body;
     let existUser;
     try {
         existUser = await User.findOne({ userName: userName });
@@ -29,10 +29,12 @@ const signUp = async (req, res, next) => {
         const error = new HttpError("Could not create user", 500);
         return next(error);
       }
+
       const createdUser = new User({
         firstName,
         lastName,
         role,
+        listOfExams,
         userName,
         password: hashedPassword,
       });
@@ -72,7 +74,7 @@ const signUp = async (req, res, next) => {
       });
 }
 
-exports.signUp = signUp;
+
 
 
 const signIn = async (req, res, next) => {
@@ -90,7 +92,6 @@ const signIn = async (req, res, next) => {
   }
   try {
     if (existUser) {
-      console.log(existUser);
       isEqual = await bcrypt.compare(password, existUser.password);
       if (isEqual) {
          token = await jwt.sign(
@@ -132,4 +133,27 @@ const signIn = async (req, res, next) => {
     });
     
 };
+
+const getFullExam = async (req, res, next) =>
+{
+  const {idForStudent,idForExam} = req.query;
+  let existUser;
+  let existExam;
+  try{
+    existUser = await User.findById(idForStudent)
+    for (let i = 0; i < existUser.listOfExams.length; i++) {
+      if(existUser.listOfExams[i].idForExam === idForExam)
+      {
+        return res.status(200).json(existUser.listOfExams[i])
+      }
+    }
+  }
+  catch(err)
+  {
+    console.log(err)
+  }
+}
+
+exports.signUp = signUp;
 exports.signIn = signIn;
+exports.getFullExam = getFullExam;

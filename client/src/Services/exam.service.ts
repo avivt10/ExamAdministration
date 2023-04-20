@@ -32,8 +32,12 @@ export const getQuestions = (id:any) : Promise<any> => {
         return res.data})
 }
 
-export const sendAnswers = (answers:any,idForExam:any,userName:string,userId:string) : Promise<any> => {
-    return axios.post(`${config.apiUrl}/api/exams/sendAnswers`,{answers,idForExam,userName,userId}).then((res)=> {
+export const getTheExamineePage = (idForExam:any,idForStudent:any) : Promise<any> => {
+    return axios.get(`${config.apiUrl}/api/exams/getTheExamineePage`,{params:{idForExam:idForExam,idForStudent:idForStudent}}).then((res) =>{
+        return res.data})
+}
+export const sendAnswers = (answers:any,idForExam:any,userName:string,userId:string,allQuestions:any) : Promise<any> => {
+    return axios.post(`${config.apiUrl}/api/exams/sendAnswers`,{answers,idForExam,userName,userId,allQuestions}).then((res)=> {
         return res.data;
     })
 }

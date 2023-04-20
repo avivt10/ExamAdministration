@@ -6,9 +6,10 @@ export type ExamDialogProps = {
   open: boolean;
   numberOfSolvedQuestions:number,
   numberQuestions:number,
+  allQuestions:any,
 }
 
-const ExamDialog = ({open,numberOfSolvedQuestions,numberQuestions}:ExamDialogProps) => {
+const ExamDialog = ({open,numberOfSolvedQuestions,numberQuestions,allQuestions}:ExamDialogProps) => {
 
   
   if (!open)
@@ -17,7 +18,7 @@ const ExamDialog = ({open,numberOfSolvedQuestions,numberQuestions}:ExamDialogPro
   }
   return (
     <div className="modal">
-      <FinishExam numberOfSolvedQuestions={numberOfSolvedQuestions} numberQuestions={numberQuestions}/>
+      <FinishExam numberOfSolvedQuestions={numberOfSolvedQuestions} numberQuestions={numberQuestions} allQuestions={allQuestions}/>
     </div>
   )
 }

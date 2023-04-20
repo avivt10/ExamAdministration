@@ -11,6 +11,7 @@ const getScore = (questions,answers,listOfErrors)=> {
             let error = {question:questions[i].question , wrongAnswer:"No answer selected", correctAnswer:questions[i].correctAnswer}
             listOfErrors.push(error);
         }
+        return 0;
     }
     else
     {

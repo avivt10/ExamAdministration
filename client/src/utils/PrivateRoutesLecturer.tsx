@@ -7,7 +7,7 @@ const PrivateRoutesLecturer = () => {
     const userData = JSON.parse(localStorage.getItem("userData") || "{}");
     
 return(
-    userData.id === "63d7db50a8cf714f5af5a8c1" && userData.isLogin ? <Outlet/> : <Navigate to="/"/>
+    userData.role === "lecturer" && userData.isLogin ? <Outlet/> : <Navigate to="/"/>
 )
 }
 

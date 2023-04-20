@@ -4,7 +4,7 @@ import { SearchBar } from "../SearchBar/SearchBar";
 
 const NavBar = () => {
   const storageData = JSON.parse(localStorage.getItem("userData") || "{}");
-  if (storageData.id === "63d7db50a8cf714f5af5a8c1") {
+  if (storageData.role === "lecturer") {
     return (
       <div>
         <nav className="nav-bar-container">

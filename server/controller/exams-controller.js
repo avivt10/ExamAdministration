@@ -1,8 +1,18 @@
 const Exam = require("../models/exam");
+const User = require("../models/user");
 const HttpError = require("../models/http-error");
-const getScore = require("../utils/getScore.js")
-const addExam = async (req,res,next) => {
-    const {examName,date,lecturerName,beginningTime,totalTime,questionsRandom,questions} = req.body;
+const generateArray = require("../utils/generateArray");
+const getScore = require("../utils/getScore.js");
+const getSheetExam = require("../utils/getSheetExam");
+
+const addExam = async (req,res,next) => {   
+    let strDate = "";
+    let {examName,date,lecturerName,beginningTime,totalTime,questionsRandom,questions} = req.body;
+    strDate += date.slice(8)
+    strDate += date.slice(7,8)
+    strDate += date.slice(5,8)
+    strDate += date.slice(0,4)
+    date = strDate;
     const examinees = [];
     let existExam;
    try{
@@ -118,7 +128,7 @@ const createQuestion = async(req,res,next) => {
 const getQuestions = async (req,res,next)=> {
     const currentId = req.query;
    const id =  Object.values(currentId)
-   id.toString();
+   id.toString()
    let existExam;
    try{
     existExam = await Exam.findById(id);
@@ -129,10 +139,22 @@ const getQuestions = async (req,res,next)=> {
    }
    if(existExam)
    {
-    res.status(200).json({
-        data : existExam.questions,
-        isRandom : existExam.questionsRandom,
-    })
+    if(existExam.questionsRandom)
+    {
+        const arrRandom = generateArray(existExam.questions);
+        res.status(200).json({
+            data : arrRandom,
+            isRandom : existExam.questionsRandom,
+        })
+    }
+    else
+    {
+        res.status(200).json({
+            data : existExam.questions,
+            isRandom : existExam.questionsRandom,
+        })
+    }
+ 
    }
 }
 
@@ -159,12 +181,15 @@ const deleteQuestion = async (req,res,next)=> {
 }
 
 const sendAnswers = async(req,res,next)=> {
-    const {answers,idForExam,userName,userId} = req.body;
+    const {answers,idForExam,userName,userId,allQuestions} = req.body;
     let listOfErrors =[]
     let existExam;
+    let existUser;
     let grade;
+    let newExam;
     try{
         existExam = await Exam.findById(idForExam)
+        existUser = await User.findById(userId)
     }
     catch(err)
     {
@@ -172,23 +197,92 @@ const sendAnswers = async(req,res,next)=> {
         const error = new HttpError("No exam found", 500)
         return next(error);
     }
-   if(existExam)
-   {
-    try{
-        grade = getScore(existExam.questions,answers,listOfErrors)
-        const newExaminee = {userId,userName,idForExam,grade,listOfErrors}
-        existExam.examinees.push(newExaminee);
-        await existExam.save();
-    }
-    catch(err)
+
+    if(existUser)
     {
-        console.log(err)
+        newExam = {
+            idForExam : idForExam,
+            examName : existExam.examName,
+            date : existExam.date,
+            lecturerName : existExam.lecturerName,
+            questions : null,
+            grade : null,
+        };
+        let arrQuestions = [];
+        for (let i = 0; i < allQuestions.length; i++) {          
+           let obj = {
+                question : allQuestions[i].question,
+                option1 : allQuestions[i].option1,
+                option2 : allQuestions[i].option2,
+                option3 : allQuestions[i].option3,
+                option4 : allQuestions[i].option4,
+                indexOfCorrectAnswer : allQuestions[i].indexOfCorrectAnswer,
+                correctAnswer : allQuestions[i].correctAnswer,
+                indexQuestion : answers[i]?.indexQuestion ? answers[i].indexQuestion : i,
+                indexOfSelectedAnswer : answers[i]?.indexAnswer ? answers[i].indexAnswer : "no selected answer",
+                selectedAnswerString : answers[i]?.selectedAnswerInString ? answers[i].selectedAnswerInString : "no selected answer",
+            }
+            arrQuestions.push(obj)
+        }
+        grade = getScore(allQuestions,answers,listOfErrors)
+        newExam.grade = grade;
+        newExam.questions = arrQuestions; 
+        existUser.listOfExams.push(newExam)
+        await existUser.save();
+    }
+    if(existExam)
+    {
+    if(existExam.questionsRandom)
+    { 
+        try{
+            grade = getScore(allQuestions,answers,listOfErrors)
+            const newExaminee = {userId,userName,idForExam,grade,listOfErrors}
+            existExam.examinees.push(newExaminee);
+            await existExam.save();
+        }
+        catch(err)
+        {
+            console.log(err)
+        }
+    }
+    else
+    {
+        try{
+            grade = getScore(existExam.questions,answers,listOfErrors)
+            const newExaminee = {userId,userName,idForExam,grade,listOfErrors}
+            existExam.examinees.push(newExaminee);
+            await existExam.save();
+        }
+        catch(err)
+        {
+            console.log(err)
+        }
     }
     res.status(200).json({
         message:listOfErrors,
         grade:grade
     })
    }
+}
+
+const getTheExamineePage = async(req,res,next) => {
+    const {idForExam,idForStudent} = req.query;
+    let existExam;
+    let tookExam = [];
+    try{
+        existExam = await Exam.findById(idForExam)
+    }
+    catch(err)
+    {
+        console.log(err)
+    }
+    if(existExam)
+    {
+        tookExam = getSheetExam(existExam.examinees,idForStudent)
+        return res.status(200).json({
+            arrayOfErrors : tookExam
+        })
+    }
 }
 
 const findStudentInArray = async(req,res,next)=> {
@@ -232,3 +326,4 @@ exports.getQuestions = getQuestions;
 exports.deleteQuestion = deleteQuestion;
 exports.sendAnswers = sendAnswers;
 exports.findStudentInArray = findStudentInArray;
+exports.getTheExamineePage = getTheExamineePage;

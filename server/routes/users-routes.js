@@ -7,6 +7,10 @@ const express = require("express")
 
  router.post('/signIn',userController.signIn)
 
+ router.get('/getFullExam',userController.getFullExam)
+
+
+
 
 
 router.use(checkAuth)

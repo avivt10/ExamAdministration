@@ -14,6 +14,7 @@ import PrivateRoutesStudents from './utils/PrivateRoutesStudents';
 import StartExam from "./Components/StartExam/StartExam";
 import { SearchContext } from "./Shared/context/search-context";
 import Home from "./Components/Home/Home";
+import SeeExam from './Components/SeeExam/SeeExam';
 
 function App() {
   const [exams,setExams] = useState<ExamsType>([]);
@@ -65,6 +66,7 @@ function App() {
           <Route element={<PrivateRoutesStudents/>}>
              <Route path="/studentHome" element={<Home />} />
              <Route path="/startExam" element={<StartExam/>}/>
+             <Route path="/seeExam" element={<SeeExam/>}/> 
              <Route path="*" element={<Navigate to="/"/>}/>
 
          </Route>
@@ -73,7 +75,7 @@ function App() {
     );
   }
 
-  else if(storageData.token && storageData.id === "63d7db50a8cf714f5af5a8c1")
+  else if(storageData.token && storageData.role === "lecturer")
   {
     routes = (
       <BrowserRouter>
@@ -102,7 +104,8 @@ function App() {
            <Route path="/" element={<Home />} />
            <Route path="/studentHome" element={<Home />} />
            <Route path="/signIn" element={<SignIn/>}/>
-           <Route path="/startExam" element={<StartExam/>}/>
+           <Route path="/startExam" element={<StartExam/>}/> 
+           <Route path="/seeExam" element={<SeeExam/>}/> 
            <Route path="*" element={<Navigate to="/"/>}/>
        </Route>
         </Routes>

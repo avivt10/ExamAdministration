@@ -1,15 +1,15 @@
-import React,{useState} from "react";
+import React,{ useState} from "react";
 import NavBar from "../../Shared/Components/NavBar/NavBar";
 import "./AddExam.css"
 import { addExam } from '../../Services/exam.service';
 
 const AddExam = () => {
   const [examName,setExamName] = useState();
-  const [examDate,setExamDate] = useState();
+  let [examDate,setExamDate] = useState("")
   const [lecturerName,setLecturerName] = useState();
   const[beginningTime,setBeginningTime] = useState();
   const[totalTime,setTotalTime] = useState();
-  const[questionsRandom,setQuestionsRandom] = useState();
+  const[questionsRandom,setQuestionsRandom] = useState(false);
   const addExamToServer = async() => {
     const data = {
       examName:examName,
@@ -38,6 +38,7 @@ const AddExam = () => {
     isValid ? addExamToServer() : alert("missing parameters")
   }
 
+
   return (
     <div>
       <NavBar />
@@ -63,11 +64,15 @@ const AddExam = () => {
         </div>
         <div style={{display:"flex"}}>
         <h4> Total time </h4>
-        <input className="input-add-test" onChange={(e : any)=> setTotalTime(e.target.value)} placeholder="Enter an answer" />
+        <input type="time" className="input-add-test" onChange={(e : any)=> setTotalTime(e.target.value)} placeholder="Enter an answer" />
         </div>
         <div style={{display:"flex"}}>
         <h4> Random arrangement </h4>
-        <input className="input-add-test" type="text" onChange={(e : any)=> setQuestionsRandom(e.target.value)}/>
+        <input type="radio" onClick={()=> setQuestionsRandom(true)} name="isRandom"/>
+        <li style={{marginTop:"13px",fontWeight:"bold"}}> true </li>
+        <input type="radio" onClick={()=> setQuestionsRandom(false)} name="isRandom"/>
+        <li style={{marginTop:"13px",fontWeight:"bold"}}> false </li>
+        {/* <input className="input-add-test" type="text" onChange={(e : any)=> setQuestionsRandom(e.target.value)}/> */}
         </div>
         <button className="btn-add-exam" onClick={checkInputValid}> Confirmation and adding an exam </button>
 

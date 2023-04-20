@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { createQuestion } from "../../../Services/exam.service";
 import NavBar from "../../../Shared/Components/NavBar/NavBar";
 import { useExamContext } from "../../../Shared/context/exam-context";
 import "./AddQuestion.css";
 
 const AddQuestion = () => {
-  const { setIdForExam, idForExam } = useExamContext();
+  const { idForExam } = useExamContext();
   const [question, setQuestion] = useState("");
   const [option1, setOption1] = useState("");
   const [option2, setOption2] = useState("");
@@ -15,8 +15,6 @@ const AddQuestion = () => {
   const [correctAnswer,setCorrectAnswer] = useState(""); 
   const [displayQuestion, setDisplayQuestion] = useState("");
 
-  // const storageId = localStorage.getItem("currentExam");
-  // setIdForExam(storageId);
   const newQuestion = async () => {
     const data = {
       question: question,

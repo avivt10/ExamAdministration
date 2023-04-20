@@ -7,7 +7,7 @@ const examSchema = new Schema(
     lecturerName:{ type:String },
     beginningTime: { type: String},
     totalTime: { type: String },
-    questionsRandom : {type : String},
+    questionsRandom : {type : Boolean},
     questions:[
         new Schema({
           question:String,

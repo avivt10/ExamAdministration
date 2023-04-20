@@ -42,7 +42,6 @@ const DisplayStartExam = ({question,answers,indexQuestion }: DisplayStartExamPro
         setNumberOfSolvedQuestions(numberOfSolvedQuestions + 1)
       }
       }  
-
   return (
     <div className="box-container"> 
       <div className="question-container">
