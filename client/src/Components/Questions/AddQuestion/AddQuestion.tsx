@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createQuestion } from "../../../Services/exam.service";
+import { createQuestion } from "../../../Services/user.service";
 import NavBar from "../../../Shared/Components/NavBar/NavBar";
 import { useExamContext } from "../../../Shared/context/exam-context";
 import "./AddQuestion.css";
@@ -14,6 +14,7 @@ const AddQuestion = () => {
   const [indexOfCorrectAnswer, setIndexOfCorrectAnswer] = useState("");
   const [correctAnswer,setCorrectAnswer] = useState(""); 
   const [displayQuestion, setDisplayQuestion] = useState("");
+  const userData = JSON.parse(localStorage.getItem("userData") || "{}");
 
   const newQuestion = async () => {
     const data = {
@@ -25,6 +26,7 @@ const AddQuestion = () => {
       indexOfCorrectAnswer: indexOfCorrectAnswer,
       correctAnswer:correctAnswer,
       idForExam: idForExam,
+      idForUser:userData.id,
     };
     const res = await createQuestion(data);
     if (res) {
@@ -70,14 +72,14 @@ const AddQuestion = () => {
         type="radio"
         value="Text"
         onClick={() => setDisplayQuestion("Text")}
-        name="select"
+        name="select-type-question"
       />{" "}
       Text
       <input
         type="radio"
         value="Image"
         onClick={() => setDisplayQuestion("Image")}
-        name="select"
+        name="select-type-question"
       />{" "}
       Image
       <div className="box-question-container">
@@ -125,7 +127,7 @@ const AddQuestion = () => {
                 }
                 }
                   
-                name="select"
+                name="select-answer"
               />{" "}
               1
               <input
@@ -137,7 +139,7 @@ const AddQuestion = () => {
                     setCorrectAnswer(option2);
                   }
                 }
-                name="select"
+                name="select-answer"
               />{" "}
               2
               <input
@@ -149,7 +151,7 @@ const AddQuestion = () => {
                     setCorrectAnswer(option3);
                   }
                 }
-                name="select"
+                name="select-answer"
               />{" "}
               3
               <input
@@ -161,7 +163,7 @@ const AddQuestion = () => {
                     setCorrectAnswer(option4);
                   }
                 }
-                name="select"
+                name="select-answer"
               />{" "}
               4
             </div>
@@ -209,28 +211,28 @@ const AddQuestion = () => {
                 type="radio"
                 value="1"
                 onClick={() => setIndexOfCorrectAnswer("1")}
-                name="select"
+                name="select-answer"
               />{" "}
               1
               <input
                 type="radio"
                 value="2"
                 onClick={() => setIndexOfCorrectAnswer("2")}
-                name="select"
+                name="select-answer"
               />{" "}
               2
               <input
                 type="radio"
                 value="3"
                 onClick={() => setIndexOfCorrectAnswer("3")}
-                name="select"
+                name="select-answer"
               />{" "}
               3
               <input
                 type="radio"
                 value="4"
                 onClick={() => setIndexOfCorrectAnswer("4")}
-                name="select"
+                name="select-answer"
               />{" "}
               4
             </div>

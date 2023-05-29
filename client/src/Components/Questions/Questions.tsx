@@ -1,6 +1,6 @@
 import NavBar from '../../Shared/Components/NavBar/NavBar'
 import { useState, useEffect } from 'react';
-import { getQuestions } from '../../Services/exam.service';
+import { getQuestions } from '../../Services/user.service';
 import { QuestionsType } from '../../Shared/types/QuestionType';
 import DisplayQuestion from './DisplayQuestion/DisplayQuestion';
 import { useExamContext } from '../../Shared/context/exam-context';
@@ -9,6 +9,9 @@ const Questions = () => {
   const idForExam = localStorage.getItem("currentExam")
   const {questions,setQuestions} = useExamContext();
   const [filteredQuestions,setFilteredQuestions] = useState<QuestionsType>([])
+  const storageData = JSON.parse(localStorage.getItem("userData") || "{}");
+
+
   useEffect(() => {
     setFilteredQuestions(questions)
   }, [questions])
@@ -16,7 +19,7 @@ const Questions = () => {
   useEffect(()=> {
     const getQuestionFromServer = async()=> {
       try{
-        const res = await getQuestions(idForExam);
+        const res = await getQuestions(idForExam,storageData.id);
         if(res)
         {
             setQuestions(res.data)

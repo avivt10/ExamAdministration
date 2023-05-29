@@ -13,6 +13,22 @@ const SignIn = () => {
   const [loading,setLoading] = useState(false);
   const {token} = useAuthContext()  
   const navigate = useNavigate();
+  console.log("here")
+
+  
+  useEffect(() => {
+    const handlePopstate = () => {
+      window.history.pushState(null, "", window.location.href);
+    };
+
+    window.history.pushState(null, "", window.location.href);
+    window.onpopstate = handlePopstate;
+
+    return () => {
+      window.onpopstate = null;
+    };
+  }, []);
+
 
   useEffect(() => {
     if(token && storageData.role === "lecturer")
@@ -26,7 +42,6 @@ const SignIn = () => {
     const res = await signIn(_userFullName,password)
     if(res)
     {
-      alert(res)
       setUserFullName(res.fullName)
       setIsLogin(true)
       window.localStorage.setItem("userData",JSON.stringify({ token : res.token,
@@ -100,7 +115,8 @@ const SignIn = () => {
             }}>login</button>
           </div>
             {
-            loading ? <BallTriangle/> : null}
+            loading ? <BallTriangle/> : null
+            }
         </div>
       </div>
     </div>

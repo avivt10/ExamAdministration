@@ -1,25 +1,25 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ExamType } from "../../Shared/types/ExamType";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import {
-  deleteExam,
-  findStudentInArray,
-  getExams,
-} from "../../Services/exam.service";
+import { deleteExam, getExams, studentTookTest } from "./../../Services/user.service";
 import { useExamContext } from "./../../Shared/context/exam-context";
 import { useNavigate } from "react-router-dom";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 
 export type DisplayExamProps = {
   exam: ExamType;
-  idExistInArray: boolean;
 };
 
-const DisplayExam = ({exam, idExistInArray}: DisplayExamProps) => {
+const DisplayExam = ({exam}: DisplayExamProps) => {
+  let timer = {
+    hours : parseInt(exam.totalTime.slice(1,3)),
+    minutes : parseInt(exam.totalTime.slice(4,6)) >= 1 ? parseInt(exam.totalTime.slice(4,6)) - 1 : 0,
+    seconds : 59,
+  }
   const [text, setText] = useState<string>("");
   const storageData = JSON.parse(localStorage.getItem("userData") || "{}");
   const date = new Date();
-  const { setExams, setIdForExam } = useExamContext();
+  const { setExams } = useExamContext();
   const userData = JSON.parse(localStorage.getItem("userData") || "{}");
   const navigate = useNavigate();
   const [matchingInTimes, setMatchingInTimes] = useState(false);
@@ -47,9 +47,12 @@ const DisplayExam = ({exam, idExistInArray}: DisplayExamProps) => {
   };
 
   const studentTookAnExam = async () => {
-    try {
-      const res = await findStudentInArray(storageData.id, exam._id);
-      if (res.message === "exist user id") {
+       const res = await studentTookTest(storageData.id, exam._id);
+      if(res.message === "false")
+      {
+        return false;
+      }
+      if (res.message === "true") {
         grade.current = res.grade;
         if (res.grade < 55) {
           colorGrade.current = "red";
@@ -57,40 +60,45 @@ const DisplayExam = ({exam, idExistInArray}: DisplayExamProps) => {
           colorGrade.current = "green";
         }
         return true;
-      } else {
-        return false;
-      }
-    } catch (error) {
-      console.log(error);
-    }
+      } 
   };
+
 
   const dateCurrentIsBigger = () => {
     if (current_date.year > exam_date.year) {
       return true;
     }
-
-    if (current_date.month === exam_date.month) {
-      if (current_date.day > exam_date.day) {
+    if (current_date.year === exam_date.year) {
+      if(current_date.month > exam_date.month)
+      {
         return true;
       }
-    }
-    if (current_date.month > exam_date.month) {
-      return true;
-    }
-
-    if (current_date.hours > exam_date.hours) {
-      return true;
-    }
-    if (current_date.hours === exam_date.hours) {
-      if (current_date.minutes > exam_date.minutes && !matchingInTimes) {
-        return true;
+      if(current_date.month === exam_date.month)
+      {
+        if(current_date.day > exam_date.day)
+        {
+          return true;
+        }
+        if (current_date.day === exam_date.day)
+        {
+          if(current_date.hours > exam_date.hours)
+          {
+            return true;
+          }
+          if(current_date.hours === exam_date.hours)
+          {
+            if(current_date.minutes > exam_date.minutes)
+            {
+              return true;
+            }
+          }
+        }
       }
     }
     return false;
   };
 
-  const showText = async () => {
+const showText = async () => {
     const res = await studentTookAnExam();
     const isBigger = dateCurrentIsBigger();
     if (res) {
@@ -104,57 +112,61 @@ const DisplayExam = ({exam, idExistInArray}: DisplayExamProps) => {
   };
 
   useEffect(() => {
-    const checkTimes = () => {
-      let isEqual = true;
-      if (
-        current_date.day === exam_date.day &&
-        current_date.month === exam_date.month &&
-        current_date.year === exam_date.year
-      ) {
-        let endTimeHours = exam_date.hours + totalTimeOfExam.hours;
-        let endTimeMinutes = exam_date.minutes + totalTimeOfExam.minutes;
-        if (endTimeMinutes > 59) {
-          endTimeHours++;
-          endTimeMinutes = endTimeMinutes - 60;
-        }
+    if(storageData.role === "student")
+    {
+      const checkTimes = () => {
+        let isEqual = true;
         if (
-          current_date.hours < exam_date.hours ||
-          current_date.hours > endTimeHours
+          current_date.day === exam_date.day &&
+          current_date.month === exam_date.month &&
+          current_date.year === exam_date.year
         ) {
-          isEqual = false;
-        }
-        if (
-          current_date.hours === exam_date.hours &&
-          current_date.minutes < exam_date.minutes
-        ) {
-          isEqual = false;
-        } else if (
-          current_date.hours >= exam_date.hours &&
-          current_date.hours <= endTimeHours
-        ) {
-          if (current_date.hours === endTimeHours) {
-            isEqual = current_date.minutes < endTimeMinutes;
+          let endTimeHours = exam_date.hours + totalTimeOfExam.hours;
+          let endTimeMinutes = exam_date.minutes + totalTimeOfExam.minutes;
+          if (endTimeMinutes > 59) {
+            endTimeHours++;
+            endTimeMinutes = endTimeMinutes - 60;
           }
+          if (
+            current_date.hours < exam_date.hours ||
+            current_date.hours > endTimeHours
+          ) {
+            isEqual = false;
+          }
+          if (
+            current_date.hours === exam_date.hours &&
+            current_date.minutes < exam_date.minutes
+          ) {
+            isEqual = false;
+          } else if (
+            current_date.hours >= exam_date.hours &&
+            current_date.hours <= endTimeHours
+          ) {
+            if (current_date.hours === endTimeHours) {
+              isEqual = current_date.minutes < endTimeMinutes;
+            }
+          }
+        } else {
+          isEqual = false;
+          setMatchingInTimes(isEqual);
         }
-      } else {
-        isEqual = false;
         setMatchingInTimes(isEqual);
-      }
-
-      setMatchingInTimes(isEqual);
-    };
-    checkTimes();
-    showText();
+      };
+      checkTimes();
+      showText();
+    }
+    
   }, []);
-
-  const sendingExamForDelete = async (id: string) => {
-    const res = await deleteExam(id);
+    const sendingExamForDelete = async (idForExam: string) => {
+    const res = await deleteExam(idForExam,userData.id);
     if (res) {
-      const newExams = await getExams();
+      const newExams = await getExams(storageData.id,storageData.role);
       setExams(newExams);
       alert(res);
     }
   };
+
+  
 
   if (userData.role === "lecturer") {
     return (
@@ -168,9 +180,9 @@ const DisplayExam = ({exam, idExistInArray}: DisplayExamProps) => {
           <td>
             <button
               onClick={() => {
-                setIdForExam(exam._id);
+                // setIdForExam(exam._id);
                 localStorage.setItem("currentExam", exam._id);
-                navigate("/questions");
+                navigate("/questions",{replace:true});
               }}
             >
               <VisibilityIcon />
@@ -179,7 +191,7 @@ const DisplayExam = ({exam, idExistInArray}: DisplayExamProps) => {
           <td>
             <button
               onClick={() => {
-                setIdForExam(exam._id);
+                // setIdForExam(exam._id);
                 localStorage.setItem("currentExam", exam._id);
                 navigate("/addQuestion");
               }}
@@ -211,7 +223,9 @@ const DisplayExam = ({exam, idExistInArray}: DisplayExamProps) => {
               onClick={() => {
                 navigate("/startExam");
                 localStorage.setItem("currentExam", exam._id);
-              }}
+                window.localStorage.setItem("timer",JSON.stringify({hours:totalTimeOfExam.hours,minutes:totalTimeOfExam.minutes,seconds:0})
+                )}
+              }
             >
               <PlayCircleOutlineIcon />
             </button>

@@ -6,7 +6,7 @@ import AddExam from "./Components/AddExam/AddExam";
 import { ExamsType } from "./Shared/types/ExamType";
 import SignIn from './Components/SignIn/SignIn'
 import { ExamContext } from "./Shared/context/exam-context";
-import { getExams } from "./Services/exam.service";
+import { getExams } from "./Services/user.service";
 import Questions from "./Components/Questions/Questions";
 import AddQuestion from './Components/Questions/AddQuestion/AddQuestion';
 import PrivateRoutesLecturer from "./utils/PrivateRoutesLecturer";
@@ -15,6 +15,7 @@ import StartExam from "./Components/StartExam/StartExam";
 import { SearchContext } from "./Shared/context/search-context";
 import Home from "./Components/Home/Home";
 import SeeExam from './Components/SeeExam/SeeExam';
+import PrivateRoutesStartExam from "./utils/PrivateRoutesStartExam";
 
 function App() {
   const [exams,setExams] = useState<ExamsType>([]);
@@ -40,14 +41,14 @@ function App() {
       setIsLogin(true);
     }
     const getAllExams = async ()=> {
-      const allExams = await getExams();
+      const allExams = await getExams(storageData.id,storageData.role);
       setExams(allExams);
     }
     getAllExams();
 
   }, []);
 
-  
+
   let routes;
 
   if (!storageData.token)
@@ -65,10 +66,11 @@ function App() {
           </Route>
           <Route element={<PrivateRoutesStudents/>}>
              <Route path="/studentHome" element={<Home />} />
-             <Route path="/startExam" element={<StartExam/>}/>
+          <Route element={<PrivateRoutesStartExam/>}>
+          <Route path="/startExam" element={<StartExam/>}/>
+          </Route>
              <Route path="/seeExam" element={<SeeExam/>}/> 
              <Route path="*" element={<Navigate to="/"/>}/>
-
          </Route>
         </Routes>
       </BrowserRouter>
@@ -101,10 +103,12 @@ function App() {
       <BrowserRouter>
         <Routes>
         <Route element={<PrivateRoutesStudents/>}>
+        <Route element={<PrivateRoutesStartExam/>}>
            <Route path="/" element={<Home />} />
            <Route path="/studentHome" element={<Home />} />
+           </Route>
            <Route path="/signIn" element={<SignIn/>}/>
-           <Route path="/startExam" element={<StartExam/>}/> 
+          <Route path="/startExam" element={<StartExam/>}/>
            <Route path="/seeExam" element={<SeeExam/>}/> 
            <Route path="*" element={<Navigate to="/"/>}/>
        </Route>

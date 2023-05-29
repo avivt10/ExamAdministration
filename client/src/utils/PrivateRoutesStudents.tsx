@@ -1,14 +1,13 @@
-import React from 'react'
-
-import {Navigate,Outlet} from "react-router-dom"; 
-
+import { Navigate, Outlet } from "react-router-dom";
 
 const PrivateRoutesStudents = () => {
-    const userData = JSON.parse(localStorage.getItem("userData") || "{}");
-    
-return(
-     userData.isLogin && userData.role === "student" ? <Outlet/> : <Navigate to="/"/>
-)
-}
+  const userData = JSON.parse(localStorage.getItem("userData") || "{}");
 
-export default PrivateRoutesStudents
+  return userData.isLogin && userData.role === "student" && userData.token ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/" />
+  );
+};
+
+export default PrivateRoutesStudents;

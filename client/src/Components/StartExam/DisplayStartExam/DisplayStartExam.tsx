@@ -7,8 +7,6 @@ export type DisplayStartExamProps = {
   answers:AnswersType,
   setAnswers:Function,
   indexQuestion:number,
-  // numOfSolvedQuestionsState:number,
-  // setNumSolvedQuestionsState:Function,
 }
 const DisplayStartExam = ({question,answers,indexQuestion }: DisplayStartExamProps) => {
   const {numberOfSolvedQuestions,setNumberOfSolvedQuestions } = useExamContext();

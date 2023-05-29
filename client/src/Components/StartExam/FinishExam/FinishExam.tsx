@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import "./FinishExam.css"
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import { useNavigate } from 'react-router-dom';
-import { sendAnswers } from '../../../Services/exam.service';
+import { sendAnswers } from '../../../Services/user.service';
 import { useExamContext } from './../../../Shared/context/exam-context';
 export type FinishExamProps = {
     numberOfSolvedQuestions:number,
@@ -17,9 +17,10 @@ const FinishExam = ({numberOfSolvedQuestions,numberQuestions,allQuestions} : Fin
   const navigate = useNavigate();
     const sendAnswersToServer = async()=>{
       try{
-          const res = await sendAnswers(answers,idForExam,userData.fullName,userData.id,allQuestions)
+          const res = await sendAnswers(answers,idForExam,userData.id,userData.fullName,allQuestions)
           if(res)
           {
+            localStorage.setItem("examMode","false");
             setAnswers([]);
             alert("exam sent successfully")
             navigate("/home/student")
@@ -33,7 +34,7 @@ const FinishExam = ({numberOfSolvedQuestions,numberQuestions,allQuestions} : Fin
         <SentimentVeryDissatisfiedIcon className="icon"/>
         <h2 style={{textAlign:"center"}}> the exam is over!</h2>
         <p style={{color:"red",textAlign:"center"}}>You answered {numberOfSolvedQuestions} out of {numberQuestions}</p>
-        <button style={{marginLeft:"250px",marginTop:"60px",width:"50%"}} onClick={()=> {
+        <button style={{marginTop:"60px",width:"20%"}} onClick={()=> {
             sendAnswersToServer()
         }}
         >
