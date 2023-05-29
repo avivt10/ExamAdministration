@@ -7,10 +7,12 @@ const userSchema = new Schema(
     role:{ type:String },
     listOfExams:[
       new Schema({
-        idForExam: { type: String},
         examName: { type: String },
         date: { type: String },
         lecturerName:{ type:String },
+        beginningTime: { type: String},
+        totalTime: { type: String },
+        questionsRandom : {type : Boolean},
         questions:[
           new Schema({
             question:String,
@@ -25,7 +27,9 @@ const userSchema = new Schema(
             selectedAnswerString:String,
           })
       ],
-      grade:{ type:String},
+      grade:{
+         type:String,
+        },
       })
     ],
     userName: { type: String, required: true, unique: true },

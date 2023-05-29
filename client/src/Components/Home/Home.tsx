@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BallTriangle } from "react-loader-spinner";
-import { getExams } from "../../Services/exam.service";
+import { getExams } from "./../../Services/user.service";
 import NavBar from "../../Shared/Components/NavBar/NavBar";
 import { useExamContext } from "../../Shared/context/exam-context";
 import { useSearchContext } from "../../Shared/context/search-context";
@@ -22,7 +22,7 @@ const Home = () => {
       setFilteredExams(exams)
     }, 2000);
   }, [exams])
-
+  
   useEffect(() => {
     if(itemSearch !== "")
     {
@@ -33,7 +33,7 @@ const Home = () => {
 
   useEffect(()=> {
     const getAllExams = async ()=> {
-      const allExams = await getExams();
+      const allExams = await getExams(userData.id,userData.role);
       setExams(allExams);
     }
     getAllExams();
@@ -52,7 +52,7 @@ const Home = () => {
        </div>
      )
     }
-  if (userData.token && userData.role === "lecturer") {
+    if (userData.token && userData.role === "lecturer" && filteredExams.length > 0) {
     return (
 <div>
       <NavBar/>
@@ -71,45 +71,46 @@ const Home = () => {
               </thead>
               {
                 filteredExams.map((exam) => (
-                  <DisplayExam exam={exam} idExistInArray={idExistInArray} key={exam._id} />
+                  <DisplayExam exam={exam} key={exam._id} />
                 ) )
               }
             </table>
 
           </div>
-        
-
     </div>
     )
 }
- if(userData.token )
- {
-    return(
-        <div>
-        <NavBar/>
-        <div style={{marginTop:"50px"}}>
-        <table>
-              <thead>
-              <tr>
-               <th> Exam Name</th>
-               <th> Date</th>
-               <th> Lecturer Name</th>
-               <th> Start Exam</th>
-              </tr>
-              </thead>
-              {
-                filteredExams.map((exam)=> (
-                  <DisplayExam exam={exam} idExistInArray={idExistInArray} key={exam._id} />
-                ))
-              }
-        </table>
-        </div>
-        </div>
-    )
- }
+if(userData.token && userData.role === "student" && filteredExams.length > 0)
+{
+   return(
+       <div>
+       <NavBar/>
+       <div style={{marginTop:"50px"}}>
+       <table>
+             <thead>
+             <tr>
+              <th> Exam Name</th>
+              <th> Date</th>
+              <th> Lecturer Name</th>
+              <th> Start Exam</th>
+             </tr>
+             </thead>
+             {
+               filteredExams.map((exam)=> (
+                 <DisplayExam exam={exam} key={exam._id} />
+               ))
+             }
+       </table>
+       </div>
+       </div>
+   )
+}
  return( 
-  null
-  )
-};
+<div>
+<NavBar/>
+Exams list is empty
+</div>
+ )
+ }
 
 export default Home;

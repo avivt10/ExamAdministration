@@ -1,4 +1,5 @@
-import { deleteQuestion, getQuestions } from '../../../Services/exam.service'
+import { getQuestions } from '../../../Services/user.service'
+import { deleteQuestion } from '../../../Services/user.service'
 import { useExamContext } from '../../../Shared/context/exam-context'
 import { QuestionType } from '../../../Shared/types/QuestionType'
 import "./DisplayQuestion.css"
@@ -11,11 +12,16 @@ const DisplayQuestion = ({question,index} : DisplayQuestionProps) => {
   const {setQuestions} = useExamContext();
   const idForExam = localStorage.getItem("currentExam")
   const storageData = JSON.parse(localStorage.getItem("userData") || "{}")
-    const sendQuestionForDelete = async(_id:string)=> {
+
+    const sendQuestionForDelete = async(idQuestion:string)=> {
       try{
-          await deleteQuestion(idForExam,_id);
-          const newQuestions = await getQuestions(idForExam);
+         const res = await deleteQuestion(idForExam,idQuestion,storageData.id);
+         if(res)
+         {
+          const newQuestions = await getQuestions(idForExam,storageData.id);
           setQuestions(newQuestions.data)
+          alert(res.message)
+         }
         }
       catch(err)
       {

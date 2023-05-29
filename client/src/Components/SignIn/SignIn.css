@@ -45,8 +45,6 @@ label{
 
 .text-input{
     padding: 0.8rem;
-    /* width: 100%;
-    height: 20px; */
     border:2px solid #382f26;
     background: #272530;
     border-radius: 5px;
@@ -92,6 +90,7 @@ label::before{
     flex-direction: column;
     align-items: center;
 }
+
 
 .btn-home{
     border: 1px solid white;

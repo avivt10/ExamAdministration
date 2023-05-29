@@ -20,6 +20,7 @@
 }
 
 .option-style{
+    width: 60%;
     font-weight: 900;
     color: black;
 }
@@ -40,25 +41,3 @@
     margin-left: 26px;
 }
 
-.correct-answers-text{
-
-}
-
-.wrong-answers-text{
-
-}
-.correct-answers-box{
-    width: 30px;
-    height: 25px;
-    margin-left: 23px;
-    margin-top: 22px;
-    background-color: green;
-}
-
-.wrong-answers-box{
-    width: 30px;
-    height: 25px;
-    margin-left: 27px;
-    margin-top: 22px;
-    background-color: red;
-}
