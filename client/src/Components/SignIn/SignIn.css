@@ -102,3 +102,8 @@ label::before{
     margin-left:auto;
     margin-right: auto;
 }
+
+.btn-home:hover{
+    background-color: aliceblue;
+
+}

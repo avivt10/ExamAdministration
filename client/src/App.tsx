@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { AuthContext } from "./Shared/context/auth-context";
 import AddExam from "./Components/AddExam/AddExam";
 import { ExamsType } from "./Shared/types/ExamType";
 import SignIn from './Components/SignIn/SignIn'
@@ -16,39 +15,16 @@ import { SearchContext } from "./Shared/context/search-context";
 import Home from "./Components/Home/Home";
 import SeeExam from './Components/SeeExam/SeeExam';
 import PrivateRoutesStartExam from "./utils/PrivateRoutesStartExam";
+import PrivateRoutesUserConnected from "./utils/PrivateRoutesUserConnected";
 
 function App() {
   const [exams,setExams] = useState<ExamsType>([]);
-  const [idForExam,setIdForExam] = useState<string>("");
-  const [token, setToken] = useState<string>("");
-  const [userFullName, setUserFullName] = useState<string>("");
-  const [isLogin, setIsLogin] = useState<boolean>(false);
-  const [userId, setUserId] = useState<string>("");
   const [questions,setQuestions] = useState([]);
   const [answers,setAnswers] = useState([]);
-  const [performedExams,setPerformedExams] = useState([]);
   const [numberOfSolvedQuestions,setNumberOfSolvedQuestions] = useState(0);
   const [itemSearch, setItemSearch] = useState<string>("");
+  const [isLoading,setIsLoading] = useState(false);
   const storageData = JSON.parse(localStorage.getItem("userData") || "{}");
-
-  useEffect(() => {
-    const getIdFromStorage = localStorage.getItem("currentExam")
-    setIdForExam(getIdFromStorage || "")
-    if (storageData) {
-      setToken(storageData.token);
-      setUserFullName(storageData.firstName + " " + storageData.lastName);
-      setUserId(storageData.id);
-      setIsLogin(true);
-    }
-    const getAllExams = async ()=> {
-      const allExams = await getExams(storageData.id,storageData.role);
-      setExams(allExams);
-    }
-    getAllExams();
-
-  }, []);
-
-
   let routes;
 
   if (!storageData.token)
@@ -73,6 +49,7 @@ function App() {
              <Route path="*" element={<Navigate to="/"/>}/>
          </Route>
         </Routes>
+        
       </BrowserRouter>
     );
   }
@@ -91,7 +68,6 @@ function App() {
            <Route path="/addQuestion" element={<AddQuestion/>}/>
            <Route path="*" element={<Navigate to="/"/>}/>
         </Route>
-
         </Routes>
       </BrowserRouter>
     )
@@ -104,14 +80,19 @@ function App() {
         <Routes>
         <Route element={<PrivateRoutesStudents/>}>
         <Route element={<PrivateRoutesStartExam/>}>
+        {/* <Route element={<PrivateRoutesUserConnected/>}> */}
            <Route path="/" element={<Home />} />
            <Route path="/studentHome" element={<Home />} />
-           </Route>
            <Route path="/signIn" element={<SignIn/>}/>
-          <Route path="/startExam" element={<StartExam/>}/>
            <Route path="/seeExam" element={<SeeExam/>}/> 
+           <Route path="/startExam" element={<StartExam/>}/>
            <Route path="*" element={<Navigate to="/"/>}/>
-       </Route>
+        </Route>
+           {/* <Route path="/signIn" element={<SignIn/>}/> */}
+           {/* <Route path="/seeExam" element={<SeeExam/>}/>  */}
+           {/* <Route path="*" element={<Navigate to="/"/>}/> */}
+          {/* </Route> */}
+          </Route>
         </Routes>
       </BrowserRouter>
     )
@@ -120,25 +101,11 @@ function App() {
   
   return (
     <div>
-      <AuthContext.Provider
-        value={{
-          token,
-          setToken,
-          userFullName,
-          setUserFullName,
-          isLogin,
-          setIsLogin,
-          userId,
-          setUserId,
-        }}
-      >
-        <ExamContext.Provider value={{exams,setExams,idForExam,setIdForExam,questions,setQuestions,answers,setAnswers,performedExams,setPerformedExams,numberOfSolvedQuestions,setNumberOfSolvedQuestions}}>
+        <ExamContext.Provider value={{exams,setExams,questions,setQuestions,answers,setAnswers,numberOfSolvedQuestions,setNumberOfSolvedQuestions,isLoading,setIsLoading}}>
         <SearchContext.Provider value={{ itemSearch, setItemSearch }}>
         <main> {routes} </main>
         </SearchContext.Provider>
         </ExamContext.Provider>
-
-      </AuthContext.Provider>
     </div>
   );
 }

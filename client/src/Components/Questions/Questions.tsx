@@ -43,7 +43,7 @@ const Questions = () => {
           </div>
       </div>
     )
-  }
+  } 
   return (
     <div>
       <NavBar/>

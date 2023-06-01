@@ -11,21 +11,17 @@ export type DisplayExamProps = {
 };
 
 const DisplayExam = ({exam}: DisplayExamProps) => {
-  let timer = {
-    hours : parseInt(exam.totalTime.slice(1,3)),
-    minutes : parseInt(exam.totalTime.slice(4,6)) >= 1 ? parseInt(exam.totalTime.slice(4,6)) - 1 : 0,
-    seconds : 59,
-  }
   const [text, setText] = useState<string>("");
-  const storageData = JSON.parse(localStorage.getItem("userData") || "{}");
-  const date = new Date();
-  const { setExams } = useExamContext();
-  const userData = JSON.parse(localStorage.getItem("userData") || "{}");
-  const navigate = useNavigate();
-  const [matchingInTimes, setMatchingInTimes] = useState(false);
+   const [matchingInTimes, setMatchingInTimes] = useState(false);
   const grade = useRef();
   const takeAnExam = useRef(false);
   const colorGrade = useRef("");
+  const storageData = JSON.parse(localStorage.getItem("userData") || "{}");
+  const date = new Date();
+  const { setExams,setIsLoading } = useExamContext();
+  const userData = JSON.parse(localStorage.getItem("userData") || "{}");
+  const navigate = useNavigate();
+ 
   const totalTimeOfExam = {
     hours: parseInt(exam.totalTime.slice(0, 2)),
     minutes: parseInt(exam.totalTime.slice(3, 5)),
@@ -157,11 +153,26 @@ const showText = async () => {
     }
     
   }, []);
+
+  useEffect(() => {
+    const handlePopstate = () => {
+      window.history.pushState(null, "", window.location.href);
+    };
+
+    window.history.pushState(null, "", window.location.href);
+    window.onpopstate = handlePopstate;
+
+    return () => {
+      window.onpopstate = null;
+    };
+  }, []);
+  
     const sendingExamForDelete = async (idForExam: string) => {
     const res = await deleteExam(idForExam,userData.id);
     if (res) {
       const newExams = await getExams(storageData.id,storageData.role);
       setExams(newExams);
+      setIsLoading(true);
       alert(res);
     }
   };
@@ -180,9 +191,8 @@ const showText = async () => {
           <td>
             <button
               onClick={() => {
-                // setIdForExam(exam._id);
                 localStorage.setItem("currentExam", exam._id);
-                navigate("/questions",{replace:true});
+                navigate("/questions");
               }}
             >
               <VisibilityIcon />
@@ -191,7 +201,6 @@ const showText = async () => {
           <td>
             <button
               onClick={() => {
-                // setIdForExam(exam._id);
                 localStorage.setItem("currentExam", exam._id);
                 navigate("/addQuestion");
               }}

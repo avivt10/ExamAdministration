@@ -1,9 +1,12 @@
 import "./NavBar.css";
 import { Link } from "react-router-dom";
 import { SearchBar } from "../SearchBar/SearchBar";
+import { useExamContext } from "../../context/exam-context";
 
 const NavBar = () => {
   const storageData = JSON.parse(localStorage.getItem("userData") || "{}");
+  let { setExams } = useExamContext();
+  let keysToDelete = ['currentExam','userData'];
   if (storageData.role === "lecturer") {
     return (
       <div>
@@ -13,7 +16,10 @@ const NavBar = () => {
               <Link
                 to="/signIn"
                 onClick={() => {
-                    window.localStorage.removeItem("userData");
+                  keysToDelete.forEach((function(key){
+                    localStorage.removeItem(key);
+                  }))
+                  setExams([])
                 }}
               >
                 LogOut
@@ -26,7 +32,7 @@ const NavBar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/lecturerHome">
+              <Link to="/">
                 home
               </Link>
             </li>
@@ -47,17 +53,18 @@ const NavBar = () => {
           <li>
             <Link
               to="/signIn"
-              onClick={() => {
-                setTimeout(() => {
-                  window.localStorage.removeItem("userData");
-                }, 3000);
+              onClick={() => {  
+                  keysToDelete.forEach((function(key){
+                    localStorage.removeItem(key);
+                  }))
+                  setExams([])
               }}
             >
               LogOut
             </Link>
           </li>
           <li>
-              <Link to="/studentHome">
+              <Link to="/">
                 home
               </Link>
             </li>

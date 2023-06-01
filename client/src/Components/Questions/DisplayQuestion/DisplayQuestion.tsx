@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { getQuestions } from '../../../Services/user.service'
 import { deleteQuestion } from '../../../Services/user.service'
 import { useExamContext } from '../../../Shared/context/exam-context'
@@ -28,6 +29,8 @@ const DisplayQuestion = ({question,index} : DisplayQuestionProps) => {
         console.log(err)
       }
     }
+
+
     if(storageData.role === "student")
     {
       return (

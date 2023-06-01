@@ -2,16 +2,16 @@ import React,{ useState} from "react";
 import NavBar from "../../Shared/Components/NavBar/NavBar";
 import "./AddExam.css"
 import { addExam } from '../../Services/user.service';
+import { useExamContext } from "../../Shared/context/exam-context";
 
 const AddExam = () => {
   const [examName,setExamName] = useState();
   let [examDate,setExamDate] = useState("")
-  const [lecturerName,setLecturerName] = useState();
   const[beginningTime,setBeginningTime] = useState();
   const[totalTime,setTotalTime] = useState();
   const[questionsRandom,setQuestionsRandom] = useState(false);
   const userData = JSON.parse(localStorage.getItem("userData") || "{}");
-
+  const {setIsLoading} = useExamContext();
   const addExamToServer = async() => {
     const data = {
       examName:examName,
@@ -28,6 +28,7 @@ const AddExam = () => {
       if(res)
       {
         alert(res.message)
+        setIsLoading(true)
       }
     }
     catch(error)
@@ -45,33 +46,35 @@ const AddExam = () => {
   return (
     <div>
       <NavBar />
-      <h1 style={{textAlign:"center"}}>
+      <div className="title-style">
       Exam details
-      </h1>
-      <div className="add-test-container">
-        <div style={{display:"flex"}}>
+      </div>
+      
+      <div className="add-exam-container">
         <h4> name Exam</h4>
-        <input className="input-add-test" onChange={(e : any)=> setExamName(e.target.value)} placeholder="Enter an answer" />
-        </div>
-        <div style={{display:"flex"}}>
+        <input type="text" className="input-add-test" onChange={(e : any)=> setExamName(e.target.value)} placeholder="Enter an answer" />
         <h4> Examination date </h4>
-        <input type="date" className="input-add-test" onChange={(e : any)=> setExamDate(e.target.value)}  placeholder="Enter an answer" />
-        </div>
-        <div style={{display:"flex"}}>
+        <input type="date" className="input-date" onChange={(e : any)=> setExamDate(e.target.value)}  placeholder="Enter an answer" />
         <h4> שעת בחינה </h4>
-        <input type="time" onChange={(e : any) => setBeginningTime(e.target.value)} className="input-add-test" placeholder="Enter an answer" />
-        </div>
-        <div style={{display:"flex"}}>
+        <input type="time" className="input-time"  onChange={(e : any) => setBeginningTime(e.target.value)} placeholder="Enter an answer" />
         <h4> Total time </h4>
-        <input type="time" className="input-add-test" onChange={(e : any)=> setTotalTime(e.target.value)} placeholder="Enter an answer" />
-        </div>
-        <div style={{display:"flex"}}>
+        <input type="time" className="input-total-time" onChange={(e : any)=> setTotalTime(e.target.value)} placeholder="Enter an answer" />
         <h4> Random arrangement </h4>
-        <input type="radio" onClick={()=> setQuestionsRandom(true)} name="isRandom"/>
-        <li style={{marginTop:"13px",fontWeight:"bold"}}> true </li>
-        <input type="radio" onClick={()=> setQuestionsRandom(false)} name="isRandom"/>
-        <li style={{marginTop:"13px",fontWeight:"bold"}}> false </li>
+        
+        <div style={{background:"white",borderRadius:"4px"}}>
+        <label className="input-question-random">
+              <input className="rad-input" type="radio" onClick={()=> setQuestionsRandom(true)} name="isRandom"/>
+              <div className="rad-design"></div>
+              <div className="rad-text"> yes </div>
+        </label>
+        <label className="input-question-random">
+             <input className="rad-input" type="radio" onClick={()=> setQuestionsRandom(false)} name="isRandom"/>
+             <div className="rad-design"></div>
+             <div className="rad-text"> no </div>
+        </label>
         </div>
+        
+  
         <button className="btn-add-exam" onClick={checkInputValid}> Confirmation and adding an exam </button>
 
 

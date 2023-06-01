@@ -6,6 +6,7 @@ import { getFullExam } from "../../Services/user.service";
 import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
 import ClearTwoToneIcon from "@mui/icons-material/ClearTwoTone";
 import "./SeeExam.css";
+import { useNavigate } from "react-router-dom";
 
 const SeeExam = () => {
   const idForExam = localStorage.getItem("currentExam");
@@ -13,6 +14,16 @@ const SeeExam = () => {
   const idForStudent = storageData.id;
   const [examDetails, setExamDetails] = useState<any>([]);
   const [allQuestions, setAllQuestions] = useState<any>([]);
+  // const examMode = localStorage.getItem("examMode");
+  // const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   if (examMode === "true")
+  //   { 
+  //     navigate("startExam");
+  //   }
+  // }, [])
+  
 
   useEffect(() => {
     const getExam = async () => {

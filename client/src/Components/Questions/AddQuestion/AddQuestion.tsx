@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { createQuestion } from "../../../Services/user.service";
 import NavBar from "../../../Shared/Components/NavBar/NavBar";
-import { useExamContext } from "../../../Shared/context/exam-context";
 import "./AddQuestion.css";
 
 const AddQuestion = () => {
-  const { idForExam } = useExamContext();
   const [question, setQuestion] = useState("");
   const [option1, setOption1] = useState("");
   const [option2, setOption2] = useState("");
@@ -15,6 +13,7 @@ const AddQuestion = () => {
   const [correctAnswer,setCorrectAnswer] = useState(""); 
   const [displayQuestion, setDisplayQuestion] = useState("");
   const userData = JSON.parse(localStorage.getItem("userData") || "{}");
+  const idForExam = localStorage.getItem("currentExam");
 
   const newQuestion = async () => {
     const data = {

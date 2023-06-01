@@ -22,12 +22,12 @@ const StartExam = () => {
   const intervalRef = useRef<any>();
   const showDialog = useRef(true);
   const navigate = useNavigate();
-     const getTimer = JSON.parse(localStorage.getItem("timer") || "{}");
-     const [hours,setHours] = useState(getTimer.hours);
-     const [minutes,setMinutes] = useState(getTimer.minutes);
-     const [seconds,setSeconds] = useState(getTimer.seconds);
-     const examMode = localStorage.setItem("examMode","true");
-       useEffect(() => {
+  const getTimer = JSON.parse(localStorage.getItem("timer") || "{}");
+  const [hours, setHours] = useState(getTimer.hours);
+  const [minutes, setMinutes] = useState(getTimer.minutes);
+  const [seconds, setSeconds] = useState(5);
+  // const examMode = localStorage.setItem("examMode", "true");
+  useEffect(() => {
     const getExamFromServer = async () => {
       try {
         const res = await getExam(idForExam, userData.id);
@@ -45,33 +45,40 @@ const StartExam = () => {
   useEffect(() => {
     intervalRef.current = setInterval(() => {
       setSeconds(seconds - 1);
-      if(seconds === 0)
-      {
-        if(minutes === 0)
-        {
-          setHours(hours - 1)
-          setMinutes(59)
-          setSeconds(59)
-          window.localStorage.setItem("timer",JSON.stringify({hours:hours,minutes:minutes,seconds:seconds}))
+      if (seconds === 0) {
+        if (minutes === 0) {
+          setHours(hours - 1);
+          setMinutes(59);
+          setSeconds(59);
+          window.localStorage.setItem(
+            "timer",
+            JSON.stringify({ hours: hours, minutes: minutes, seconds: seconds })
+          );
+        } else {
+          setMinutes(minutes - 1);
+          setSeconds(59);
+          window.localStorage.setItem(
+            "timer",
+            JSON.stringify({ hours: hours, minutes: minutes, seconds: seconds })
+          );
         }
-        else
-        {
-          setMinutes(minutes - 1)
-          setSeconds(59)
-          window.localStorage.setItem("timer",JSON.stringify({hours:hours,minutes:minutes,seconds:seconds}))
-        }
-      }
-      else
-      {
-        window.localStorage.setItem("timer",JSON.stringify({hours:hours,minutes:minutes,seconds:seconds}))
+      } else {
         setSeconds(seconds - 1);
+        window.localStorage.setItem(
+          "timer",
+          JSON.stringify({ hours: hours, minutes: minutes, seconds: seconds })
+        );
       }
     }, 1000);
     return () => clearInterval(intervalRef.current);
   }, [seconds]);
 
   useEffect(() => {
-    if (hours === 0 && minutes === 0 && seconds === 0) {
+    if (
+      getTimer.hours === 0 &&
+      getTimer.minutes === 0 &&
+      getTimer.seconds === 0
+    ) {
       clearInterval(intervalRef.current);
     }
   }, [seconds]);
@@ -86,7 +93,7 @@ const StartExam = () => {
         allQuestions
       );
       if (res) {
-        localStorage.setItem("examMode","false");
+        localStorage.setItem("examMode", "false");
         alert("exam sent successfully");
         navigate("/home/student");
       }
@@ -132,16 +139,16 @@ const StartExam = () => {
   return (
     <div>
       <div>
-        {
-          hours === 0 && minutes === 0 && seconds === 0 ?
+        {getTimer.hours === 0 &&
+        getTimer.minutes === 0 &&
+        getTimer.seconds === 0 ? (
           <ExamDialog
-          open={isShowExamDialog}
-          numberOfSolvedQuestions={numberOfSolvedQuestions}
-          numberQuestions={allQuestions.length}
-          allQuestions={allQuestions}
-        />
-          : null
-         }
+            open={isShowExamDialog}
+            numberOfSolvedQuestions={numberOfSolvedQuestions}
+            numberQuestions={allQuestions.length}
+            allQuestions={allQuestions}
+          />
+        ) : null}
       </div>
       <div>
         <h5 style={{ fontSize: "20px" }}>
@@ -163,12 +170,12 @@ const StartExam = () => {
         );
       })}
       <div className="information-of-exam">
-         <h1 style={{ color: "red", textAlign: "center", fontSize: "20px" }}>
+        <h1 style={{ color: "red", textAlign: "center", fontSize: "20px" }}>
           Time to finish {getTimer.hours < 10 ? " 0" + getTimer.hours : null}
-          {getTimer.hours >= 10 ? + getTimer.hours : null}:
+          {getTimer.hours >= 10 ? +getTimer.hours : null}:
           {getTimer.minutes < 10 ? `0` + getTimer.minutes : getTimer.minutes}:
-          {getTimer.seconds < 10 ? `0${getTimer.seconds}` :getTimer.seconds}
-        </h1> 
+          {getTimer.seconds < 10 ? `0${getTimer.seconds}` : getTimer.seconds}
+        </h1>
         <p style={{ textAlign: "center", fontSize: "15px" }}>
           number Of Solved Questions : {numberOfSolvedQuestions}
         </p>

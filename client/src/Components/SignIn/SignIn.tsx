@@ -2,20 +2,24 @@ import React, { useEffect, useState } from "react";
 import "./SignIn.css";
 import { signIn } from '../../Services/user.service';
 import { useNavigate } from "react-router-dom";
-import { useAuthContext } from '../../Shared/context/auth-context';
 import { BallTriangle } from 'react-loader-spinner'
 
 const SignIn = () => { 
-  const [_userFullName,set_UserFullName] = useState("");
+  const [userFullName,setUserFullName] = useState("");
   const storageData = JSON.parse(localStorage.getItem("userData") || "{}");
   const [password,setPassword] = useState("");
-  const {setUserFullName,setUserId,setIsLogin} = useAuthContext()
   const [loading,setLoading] = useState(false);
-  const {token} = useAuthContext()  
   const navigate = useNavigate();
-  console.log("here")
 
+  useEffect(() => {
+    if(storageData)
+    {
+      navigate("/")
+    }
+  }, [])
   
+
+
   useEffect(() => {
     const handlePopstate = () => {
       window.history.pushState(null, "", window.location.href);
@@ -31,7 +35,7 @@ const SignIn = () => {
 
 
   useEffect(() => {
-    if(token && storageData.role === "lecturer")
+    if(storageData.token && storageData.role === "lecturer")
     {
       navigate("/lecturerHome")
     }   
@@ -39,14 +43,11 @@ const SignIn = () => {
   
   const LoginUser = async()=> {
   try{
-    const res = await signIn(_userFullName,password)
+    const res = await signIn(userFullName,password)
     if(res)
     {
-      setUserFullName(res.fullName)
-      setIsLogin(true)
       window.localStorage.setItem("userData",JSON.stringify({ token : res.token,
         fullName : res.fullName,id:res.id,isLogin:true,role:res.role}))
-      setUserId(res.id)
       alert(res.message)
       setLoading(false)
       if(res.role === "lecturer")
@@ -67,7 +68,7 @@ const SignIn = () => {
 }
 
   const checkValues = () => {
-     const validAll = _userFullName && password;
+     const validAll = userFullName && password;
      validAll ? LoginUser() : alert("missing parameters")
      setLoading(false)
   }
@@ -92,7 +93,7 @@ const SignIn = () => {
                 required
                 autoComplete="off"
                 placeholder="enter your user name"
-                onChange={(e) => set_UserFullName(e.target.value)}
+                onChange={(e) => setUserFullName(e.target.value)}
               />
               <label> user-name </label>
             </div>
