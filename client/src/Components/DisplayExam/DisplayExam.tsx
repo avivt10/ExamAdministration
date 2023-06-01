@@ -11,8 +11,23 @@ export type DisplayExamProps = {
 };
 
 const DisplayExam = ({exam}: DisplayExamProps) => {
+<<<<<<< HEAD
   const [text, setText] = useState<string>("");
    const [matchingInTimes, setMatchingInTimes] = useState(false);
+=======
+  let timer = {
+    hours : parseInt(exam.totalTime.slice(1,3)),
+    minutes : parseInt(exam.totalTime.slice(4,6)) >= 1 ? parseInt(exam.totalTime.slice(4,6)) - 1 : 0,
+    seconds : 59,
+  }
+  const [text, setText] = useState<string>("");
+  const storageData = JSON.parse(localStorage.getItem("userData") || "{}");
+  const date = new Date();
+  const { setExams } = useExamContext();
+  const userData = JSON.parse(localStorage.getItem("userData") || "{}");
+  const navigate = useNavigate();
+  const [matchingInTimes, setMatchingInTimes] = useState(false);
+>>>>>>> a5dea2d405257d05e9770d30cc43a6cd793f5f7b
   const grade = useRef();
   const takeAnExam = useRef(false);
   const colorGrade = useRef("");
@@ -153,6 +168,7 @@ const showText = async () => {
     }
     
   }, []);
+<<<<<<< HEAD
 
   useEffect(() => {
     const handlePopstate = () => {
@@ -167,6 +183,8 @@ const showText = async () => {
     };
   }, []);
   
+=======
+>>>>>>> a5dea2d405257d05e9770d30cc43a6cd793f5f7b
     const sendingExamForDelete = async (idForExam: string) => {
     const res = await deleteExam(idForExam,userData.id);
     if (res) {
@@ -191,8 +209,12 @@ const showText = async () => {
           <td>
             <button
               onClick={() => {
+<<<<<<< HEAD
+=======
+                // setIdForExam(exam._id);
+>>>>>>> a5dea2d405257d05e9770d30cc43a6cd793f5f7b
                 localStorage.setItem("currentExam", exam._id);
-                navigate("/questions");
+                navigate("/questions",{replace:true});
               }}
             >
               <VisibilityIcon />
@@ -201,6 +223,10 @@ const showText = async () => {
           <td>
             <button
               onClick={() => {
+<<<<<<< HEAD
+=======
+                // setIdForExam(exam._id);
+>>>>>>> a5dea2d405257d05e9770d30cc43a6cd793f5f7b
                 localStorage.setItem("currentExam", exam._id);
                 navigate("/addQuestion");
               }}

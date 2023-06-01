@@ -13,7 +13,10 @@ const AddQuestion = () => {
   const [correctAnswer,setCorrectAnswer] = useState(""); 
   const [displayQuestion, setDisplayQuestion] = useState("");
   const userData = JSON.parse(localStorage.getItem("userData") || "{}");
+<<<<<<< HEAD
   const idForExam = localStorage.getItem("currentExam");
+=======
+>>>>>>> a5dea2d405257d05e9770d30cc43a6cd793f5f7b
 
   const newQuestion = async () => {
     const data = {

@@ -10,6 +10,22 @@ const SignIn = () => {
   const [password,setPassword] = useState("");
   const [loading,setLoading] = useState(false);
   const navigate = useNavigate();
+  console.log("here")
+
+  
+  useEffect(() => {
+    const handlePopstate = () => {
+      window.history.pushState(null, "", window.location.href);
+    };
+
+    window.history.pushState(null, "", window.location.href);
+    window.onpopstate = handlePopstate;
+
+    return () => {
+      window.onpopstate = null;
+    };
+  }, []);
+
 
   useEffect(() => {
     if(storageData)
@@ -46,6 +62,11 @@ const SignIn = () => {
     const res = await signIn(userFullName,password)
     if(res)
     {
+<<<<<<< HEAD
+=======
+      setUserFullName(res.fullName)
+      setIsLogin(true)
+>>>>>>> a5dea2d405257d05e9770d30cc43a6cd793f5f7b
       window.localStorage.setItem("userData",JSON.stringify({ token : res.token,
         fullName : res.fullName,id:res.id,isLogin:true,role:res.role}))
       alert(res.message)

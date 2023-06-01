@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 import { useEffect } from 'react'
+=======
+>>>>>>> a5dea2d405257d05e9770d30cc43a6cd793f5f7b
 import { getQuestions } from '../../../Services/user.service'
 import { deleteQuestion } from '../../../Services/user.service'
 import { useExamContext } from '../../../Shared/context/exam-context'
