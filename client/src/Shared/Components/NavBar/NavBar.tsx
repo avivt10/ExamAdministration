@@ -5,75 +5,66 @@ import { useExamContext } from "../../context/exam-context";
 
 const NavBar = () => {
   const storageData = JSON.parse(localStorage.getItem("userData") || "{}");
-  let { setExams } = useExamContext();
+  let { setExams,setIsLoading } = useExamContext();
   let keysToDelete = ['currentExam','userData'];
+
+  const logout = () => {
+    setIsLoading(true);
+    let timeout = setTimeout(() => {
+      localStorage.removeItem("userData")
+      keysToDelete.forEach((function(key){
+        localStorage.removeItem(key);
+      }))
+      setExams([])
+      setIsLoading(false);
+    }, 3000);
+    return () => clearTimeout(timeout);
+  }
+
   if (storageData.role === "lecturer") {
     return (
-      <div>
-        <nav className="nav-bar-container">
-          <ul className="nav-menu-lecturer">
-            <li>
-              <Link
-                to="/signIn"
-                onClick={() => {
-                  keysToDelete.forEach((function(key){
-                    localStorage.removeItem(key);
-                  }))
-                  setExams([])
-                }}
-              >
-                LogOut
-              </Link>
+      <div className="nav-bar-container">
+        <ul className="ul-nav-bar">     
+        <li className="li-nav-bar">
+        <Link to="/"
+              onClick={logout}
+            >
+              LogOut
+            </Link>
             </li>
-            <div style={{display:"flex",marginLeft:"629px"}}>
-            <li>
+            <li className="li-nav-bar">
               <Link to="/addExam">
                 Add Exam
               </Link>
             </li>
-            <li>
+            <li className="li-nav-bar">
               <Link to="/">
                 home
               </Link>
             </li>
-            </div>
           </ul>
-          <div className="search-container">
-          <SearchBar PlaceHolder="Search for exams..." />
-        </div>
-        </nav>
-       
+          <li className="li-nav-bar">
+          <SearchBar PlaceHolder="Search for exams..."/>
+        </li>       
       </div>
     );
   }
   return (
-    <div>
-      <nav className="nav-bar-container">
-        <ul className="nav-menu-student">     
-          <li>
-            <Link
-              to="/signIn"
-              onClick={() => {  
-                  keysToDelete.forEach((function(key){
-                    localStorage.removeItem(key);
-                  }))
-                  setExams([])
-              }}
+    <div  className="nav-bar-container">
+        <ul className="ul-nav-bar">     
+          <li className="li-nav-bar">
+            <Link to="/"
+              onClick={logout}
             >
               LogOut
             </Link>
           </li>
-          <li>
+          <li className="li-nav-bar">
               <Link to="/">
                 home
               </Link>
             </li>
         </ul>
-        <div className="search-container">
-          <SearchBar PlaceHolder="Search for exams..." />
-        </div>
-        
-      </nav>
     </div>
   );
 };

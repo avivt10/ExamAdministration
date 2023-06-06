@@ -1,42 +1,55 @@
-.nav-bar-container{
-    display: flex;
-    justify-content: space-between;
-    height: 100%;
-    background-color: aqua;
-}
-
 li{
     list-style-type: none; 
     padding: 0.5rem;
 }
-
-a{
-    text-decoration: none;
-    color: black;
-}
-
-
-.nav-menu-lecturer{
-display: flex;
-padding: 0px;
-margin: 0px;
-}
-
-.nav-menu-student{
+.nav-bar-container{
     display: flex;
-    padding: 0px;
-    margin: 0px;
+    background-color: #9E9E9E;
+    box-shadow: 1px 10px 7px #373636;
 }
 
-.search-container{
-    margin: auto 1rem auto 0px;
-    padding: 8px;
+.ul-nav-bar{
+    font-family: "Chivo Mono",monospace;
+    display: flex;
+    gap:72px;
 }
 
-.btn-search {
-    padding: 5px;
-    border: none;
-    border-radius: 9px;
-    background: #2196f3;
-    color: white;
+.ul-nav-bar .li-nav-bar{
+    list-style: none;
 }
+
+.ul-nav-bar .li-nav-bar a {
+    font-size: 26px;
+    font-weight: 700;
+    text-decoration: none;
+    text-transform: uppercase;
+    color:white;
+    padding:10px;
+    transition: 0.5s ease;   
+}
+
+.ul-nav-bar:hover .li-nav-bar a {
+    color:#30edf4;
+}
+
+.ul-nav-bar:hover .li-nav-bar a:not(:hover){
+    color:white;
+    opacity: 0.3;
+    filter: blur(1px);
+}
+
+.input-search{
+    margin-top: 16px;
+    margin-left: 55px;
+    height: 30px;
+    border-radius: 8px;
+    border-width: inherit;
+}
+
+.btn-search{
+    margin-left: 6px;
+    width: 39px;
+    height: 30px;
+    margin-top: 16px;
+}
+ 

@@ -15,10 +15,7 @@ import { SearchContext } from "./Shared/context/search-context";
 import Home from "./Components/Home/Home";
 import SeeExam from './Components/SeeExam/SeeExam';
 import PrivateRoutesStartExam from "./utils/PrivateRoutesStartExam";
-<<<<<<< HEAD
 import PrivateRoutesUserConnected from "./utils/PrivateRoutesUserConnected";
-=======
->>>>>>> a5dea2d405257d05e9770d30cc43a6cd793f5f7b
 
 function App() {
   const [exams,setExams] = useState<ExamsType>([]);
@@ -28,28 +25,19 @@ function App() {
   const [itemSearch, setItemSearch] = useState<string>("");
   const [isLoading,setIsLoading] = useState(false);
   const storageData = JSON.parse(localStorage.getItem("userData") || "{}");
-<<<<<<< HEAD
-=======
-
   useEffect(() => {
-    const getIdFromStorage = localStorage.getItem("currentExam")
-    setIdForExam(getIdFromStorage || "")
     if (storageData) {
-      setToken(storageData.token);
-      setUserFullName(storageData.firstName + " " + storageData.lastName);
-      setUserId(storageData.id);
-      setIsLogin(true);
+      setIsLoading(true);
     }
     const getAllExams = async ()=> {
       const allExams = await getExams(storageData.id,storageData.role);
       setExams(allExams);
     }
     getAllExams();
-
+    setIsLoading(false);
   }, []);
 
 
->>>>>>> a5dea2d405257d05e9770d30cc43a6cd793f5f7b
   let routes;
 
   if (!storageData.token)
@@ -105,18 +93,12 @@ function App() {
         <Routes>
         <Route element={<PrivateRoutesStudents/>}>
         <Route element={<PrivateRoutesStartExam/>}>
-<<<<<<< HEAD
         {/* <Route element={<PrivateRoutesUserConnected/>}> */}
-=======
->>>>>>> a5dea2d405257d05e9770d30cc43a6cd793f5f7b
            <Route path="/" element={<Home />} />
            <Route path="/studentHome" element={<Home />} />
            </Route>
            <Route path="/signIn" element={<SignIn/>}/>
-<<<<<<< HEAD
-=======
           <Route path="/startExam" element={<StartExam/>}/>
->>>>>>> a5dea2d405257d05e9770d30cc43a6cd793f5f7b
            <Route path="/seeExam" element={<SeeExam/>}/> 
            <Route path="/startExam" element={<StartExam/>}/>
            <Route path="*" element={<Navigate to="/"/>}/>
@@ -125,7 +107,6 @@ function App() {
            {/* <Route path="/seeExam" element={<SeeExam/>}/>  */}
            {/* <Route path="*" element={<Navigate to="/"/>}/> */}
           {/* </Route> */}
-          </Route>
         </Routes>
       </BrowserRouter>
     )

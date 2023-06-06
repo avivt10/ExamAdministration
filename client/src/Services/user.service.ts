@@ -1,12 +1,10 @@
 import axios from "axios";
 import config from "../config.json"
-import { ExamType, ExamsType } from "../Shared/types/ExamType";
+import { ExamsType } from "../Shared/types/ExamType";
 
 export const signIn = (userName:string,password:string) : Promise<any> => {
     return axios.post(`${config.apiUrl}/api/users/signIn`,{userName,password}).then((res) => {
-        return res.data}).catch((e) => {
-            alert("Login failed")
-    })
+        return res.data})
 }
 export const getExams = (idForUser:string,role:string) : Promise<ExamsType> => {
     return axios.get(`${config.apiUrl}/api/users/getExams`,{params:{id:idForUser,role:role}}).then((res) => {

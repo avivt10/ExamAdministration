@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 import { useEffect } from 'react'
-=======
->>>>>>> a5dea2d405257d05e9770d30cc43a6cd793f5f7b
 import { getQuestions } from '../../../Services/user.service'
 import { deleteQuestion } from '../../../Services/user.service'
 import { useExamContext } from '../../../Shared/context/exam-context'
@@ -16,7 +13,6 @@ const DisplayQuestion = ({question,index} : DisplayQuestionProps) => {
   const {setQuestions} = useExamContext();
   const idForExam = localStorage.getItem("currentExam")
   const storageData = JSON.parse(localStorage.getItem("userData") || "{}")
-
     const sendQuestionForDelete = async(idQuestion:string)=> {
       try{
          const res = await deleteQuestion(idForExam,idQuestion,storageData.id);
@@ -37,7 +33,7 @@ const DisplayQuestion = ({question,index} : DisplayQuestionProps) => {
     if(storageData.role === "student")
     {
       return (
-        <div>
+        <div style={{marginBottom: "30px"}}>
           <div style={{display:"flex",marginLeft:"20px"}}>
           <p className="correct-answers-text"> Correct Answers</p>
           <div className="correct-answers-box"/>
@@ -60,7 +56,7 @@ const DisplayQuestion = ({question,index} : DisplayQuestionProps) => {
                   :
                   <div>
                     <h4> {index})</h4>
-                    <h3>  {question.question}</h3>
+                    <h3> {question.question}</h3>
                   </div>
       
     
@@ -89,8 +85,7 @@ const DisplayQuestion = ({question,index} : DisplayQuestionProps) => {
          
               :
               <div>
-                <h4> {index})</h4>
-                <h3>  {question.question}</h3>
+                <h3> question {index}:  {question.question}</h3>
               </div>
   
 

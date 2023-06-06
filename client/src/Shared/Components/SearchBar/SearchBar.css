@@ -1,0 +1,12 @@
+.btn-search{
+    background: bottom;
+    border-style: solid;
+    border-color: white;
+    border-radius: 7px;
+    margin-top: 17px;
+}
+
+.icon-search-style{
+   color:white;
+   cursor: pointer;
+}

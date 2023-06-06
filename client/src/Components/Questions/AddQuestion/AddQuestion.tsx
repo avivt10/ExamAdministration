@@ -13,10 +13,7 @@ const AddQuestion = () => {
   const [correctAnswer,setCorrectAnswer] = useState(""); 
   const [displayQuestion, setDisplayQuestion] = useState("");
   const userData = JSON.parse(localStorage.getItem("userData") || "{}");
-<<<<<<< HEAD
   const idForExam = localStorage.getItem("currentExam");
-=======
->>>>>>> a5dea2d405257d05e9770d30cc43a6cd793f5f7b
 
   const newQuestion = async () => {
     const data = {
@@ -50,6 +47,8 @@ const AddQuestion = () => {
     return (
       <div>
         <NavBar />
+        <div style={{display:"flex",justifyContent:"center",marginTop:"80px"}}>
+        {<> Select of type question :  </>}
         <input
           type="radio"
           value="Text"
@@ -64,19 +63,22 @@ const AddQuestion = () => {
           name="select"
         />{" "}
         Image
+        </div>
       </div>
     );
   }
   return (
-    <div>
+    <div style={{marginBottom:"30px"}}>
       <NavBar />
+      <div style={{display:"flex",justifyContent:"center",marginTop:"80px"}}>
+      {<> Select of type question :  </>}
       <input
         type="radio"
         value="Text"
         onClick={() => setDisplayQuestion("Text")}
         name="select-type-question"
       />{" "}
-      Text
+    Text
       <input
         type="radio"
         value="Image"
@@ -84,10 +86,11 @@ const AddQuestion = () => {
         name="select-type-question"
       />{" "}
       Image
+      </div>
       <div className="box-question-container">
         {displayQuestion === "Text" ? (
           <div>
-            <p> Question Text </p>
+            <p> Add Text </p>
             <input
               className="input-questions"
               type="text"

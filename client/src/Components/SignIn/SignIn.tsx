@@ -3,16 +3,15 @@ import "./SignIn.css";
 import { signIn } from '../../Services/user.service';
 import { useNavigate } from "react-router-dom";
 import { BallTriangle } from 'react-loader-spinner'
+import { useExamContext } from "../../Shared/context/exam-context";
 
 const SignIn = () => { 
   const [userFullName,setUserFullName] = useState("");
   const storageData = JSON.parse(localStorage.getItem("userData") || "{}");
   const [password,setPassword] = useState("");
-  const [loading,setLoading] = useState(false);
+  let {isLoading,setIsLoading } = useExamContext();
   const navigate = useNavigate();
-  console.log("here")
 
-  
   useEffect(() => {
     const handlePopstate = () => {
       window.history.pushState(null, "", window.location.href);
@@ -58,40 +57,42 @@ const SignIn = () => {
   }, [])
   
   const LoginUser = async()=> {
-  try{
-    const res = await signIn(userFullName,password)
-    if(res)
-    {
-<<<<<<< HEAD
-=======
-      setUserFullName(res.fullName)
-      setIsLogin(true)
->>>>>>> a5dea2d405257d05e9770d30cc43a6cd793f5f7b
-      window.localStorage.setItem("userData",JSON.stringify({ token : res.token,
-        fullName : res.fullName,id:res.id,isLogin:true,role:res.role}))
-      alert(res.message)
-      setLoading(false)
-      if(res.role === "lecturer")
+    setIsLoading(true);
+    try{
+      const res = await signIn(userFullName,password)
+      if(res)
       {
-        navigate("/lecturerHome")
+        let timeout = setTimeout(() => {
+          window.localStorage.setItem("userData",JSON.stringify({ token : res.token,
+            fullName : res.fullName,id:res.id,isLogin:true,role:res.role}))
+          alert(res.message)
+          setIsLoading(false)
+          if(res.role === "lecturer")
+        {
+          navigate("/lecturerHome")
+        }
+        else
+        {
+          navigate("/studentHome")
+        }
+        }, 3000);
+        return () => clearTimeout(timeout);
       }
-      else
-      {
-        navigate("/studentHome")
-      }
-
     }
-  }
-  catch(error)
-  {
-    alert(error)
-  }
+    catch(error)
+    {
+      let timeout = setTimeout(() => {
+        setIsLoading(false)
+        alert("Login failed! try again")
+      },3000);
+      return () => clearTimeout(timeout)
+    }
+
 }
 
   const checkValues = () => {
      const validAll = userFullName && password;
      validAll ? LoginUser() : alert("missing parameters")
-     setLoading(false)
   }
 
   return (
@@ -104,7 +105,7 @@ const SignIn = () => {
       <div className="login-container">
         <div className="card-container">
 
-          <p style={{ textAlign: "center", marginTop: "0",fontSize:"25px",color:"white" }}> login form </p>
+          <p style={{ textAlign: "center", marginTop: "0",fontSize:"25px",color:"white",marginRight:"22px" }}> login form </p>
 
           <div className="inputs-container">
             <div className="input-style">
@@ -129,16 +130,15 @@ const SignIn = () => {
               />
               <label> password </label>
             </div>
-            <button className="btn-home" onClick={()=> {
-              setTimeout(() => {
-                setLoading(true);
+            <button className="btn-login" onClick={()=> {
                 checkValues()
-              }, 2000);
-            }}>login</button>
+            }}>login</button> 
           </div>
-            {
-            loading ? <BallTriangle/> : null
-            }
+          {
+          isLoading ?     <div className="BallTriangle-style">
+          <BallTriangle height="300px" color="black"/>
+        </div>: null
+        }
         </div>
       </div>
     </div>

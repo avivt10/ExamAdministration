@@ -5,29 +5,15 @@ import { deleteExam, getExams, studentTookTest } from "./../../Services/user.ser
 import { useExamContext } from "./../../Shared/context/exam-context";
 import { useNavigate } from "react-router-dom";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
+import "./DisplayExam.css"
 
 export type DisplayExamProps = {
   exam: ExamType;
 };
 
 const DisplayExam = ({exam}: DisplayExamProps) => {
-<<<<<<< HEAD
   const [text, setText] = useState<string>("");
    const [matchingInTimes, setMatchingInTimes] = useState(false);
-=======
-  let timer = {
-    hours : parseInt(exam.totalTime.slice(1,3)),
-    minutes : parseInt(exam.totalTime.slice(4,6)) >= 1 ? parseInt(exam.totalTime.slice(4,6)) - 1 : 0,
-    seconds : 59,
-  }
-  const [text, setText] = useState<string>("");
-  const storageData = JSON.parse(localStorage.getItem("userData") || "{}");
-  const date = new Date();
-  const { setExams } = useExamContext();
-  const userData = JSON.parse(localStorage.getItem("userData") || "{}");
-  const navigate = useNavigate();
-  const [matchingInTimes, setMatchingInTimes] = useState(false);
->>>>>>> a5dea2d405257d05e9770d30cc43a6cd793f5f7b
   const grade = useRef();
   const takeAnExam = useRef(false);
   const colorGrade = useRef("");
@@ -168,7 +154,6 @@ const showText = async () => {
     }
     
   }, []);
-<<<<<<< HEAD
 
   useEffect(() => {
     const handlePopstate = () => {
@@ -183,8 +168,6 @@ const showText = async () => {
     };
   }, []);
   
-=======
->>>>>>> a5dea2d405257d05e9770d30cc43a6cd793f5f7b
     const sendingExamForDelete = async (idForExam: string) => {
     const res = await deleteExam(idForExam,userData.id);
     if (res) {
@@ -207,12 +190,8 @@ const showText = async () => {
           </td>
           <td>{exam.lecturerName}</td>
           <td>
-            <button
+            <button className="view-questions"
               onClick={() => {
-<<<<<<< HEAD
-=======
-                // setIdForExam(exam._id);
->>>>>>> a5dea2d405257d05e9770d30cc43a6cd793f5f7b
                 localStorage.setItem("currentExam", exam._id);
                 navigate("/questions",{replace:true});
               }}
@@ -221,12 +200,8 @@ const showText = async () => {
             </button>
           </td>
           <td>
-            <button
+            <button className="add-question"
               onClick={() => {
-<<<<<<< HEAD
-=======
-                // setIdForExam(exam._id);
->>>>>>> a5dea2d405257d05e9770d30cc43a6cd793f5f7b
                 localStorage.setItem("currentExam", exam._id);
                 navigate("/addQuestion");
               }}
@@ -235,7 +210,7 @@ const showText = async () => {
             </button>
           </td>
           <td>
-            <button onClick={() => sendingExamForDelete(exam._id)}>
+            <button className="delete-exam" onClick={() => sendingExamForDelete(exam._id)}>
               Delete
             </button>
           </td>
@@ -267,10 +242,16 @@ const showText = async () => {
           ) : null}
           {!takeAnExam.current && !matchingInTimes ? <h1> {text}</h1> : null}
           {colorGrade.current === "green" && takeAnExam.current ? (
-            <h1 style={{ color: "green" }}> {grade.current}</h1>
+            <div style={{display:"flex",justifyContent:"center"}}>
+            <h1> grade: </h1>
+            <h1  style={{fontWeight:"bold", color: "green" }}> {grade.current}</h1>
+            </div>
           ) : null}
           {colorGrade.current === "red" && takeAnExam.current ? (
-            <h1 style={{ color: "red" }}> {grade.current}</h1>
+                 <div style={{display:"flex",justifyContent:"center",fontWeight:"300"}}>
+                 <h1 style={{fontWeight:"300"}}> grade:  </h1>
+                 <h1 style={{ color: "red" }}> {grade.current}</h1>
+                 </div>
           ) : null}
               {
             takeAnExam && grade.current ? <button className="see-exam" onClick={() => {
