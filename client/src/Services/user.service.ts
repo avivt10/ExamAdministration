@@ -11,7 +11,7 @@ export const getExams = (idForUser:string,role:string) : Promise<ExamsType> => {
         return res.data})
 }
 
-export const addExam = (data:any) : Promise<any> => {
+export const addExam = (data:Object) : Promise<any> => {
         return axios.post(`${config.apiUrl}/api/users/addExams`,data).then((res) => {
             return res.data}).catch((e) => {
                 alert("Add failed")
@@ -25,7 +25,7 @@ export const addExam = (data:any) : Promise<any> => {
                 alert("delete failed!")
             })
     }
-export const getFullExam = (idForStudent:any,idForExam:any) : Promise<any> => {
+export const getFullExam = (idForStudent:string,idForExam:string) : Promise<any> => {
     return axios.get(`${config.apiUrl}/api/users/getFullExam`,{params:{idForStudent:idForStudent,idForExam:idForExam}}).then((res) => {
         return res.data}).catch((e) => {
             console.log(e)
@@ -33,7 +33,7 @@ export const getFullExam = (idForStudent:any,idForExam:any) : Promise<any> => {
 }
 
 
-export const createQuestion = (data:any): Promise<ExamsType> => {
+export const createQuestion = (data:Object): Promise<ExamsType> => {
     return axios.post(`${config.apiUrl}/api/users/createQuestion`,{data}).then((res) => {
         return res.data.message}).catch((e)=> {
             alert(e)
@@ -41,12 +41,12 @@ export const createQuestion = (data:any): Promise<ExamsType> => {
 }
 
 
-export const deleteQuestion = (idForExam:any,idQuestion:string,idForUser:any) : Promise<any> => {
+export const deleteQuestion = (idForExam:string,idQuestion:string,idForUser:string) : Promise<any> => {
     return axios.delete(`${config.apiUrl}/api/users/deleteQuestion`,{params:{idForExam:idForExam,idQuestion:idQuestion,idForUser:idForUser}}).then((res) => {
         return res.data})
 }
 
-export const getQuestions = (idForExam:any,idForUser:any) : Promise<any> => {
+export const getQuestions = (idForExam:string,idForUser:string) : Promise<any> => {
     return axios.get(`${config.apiUrl}/api/users/getQuestions`,{params:{idForExam:idForExam,idForUser:idForUser}}).then((res) => {
         return res.data})
 }
@@ -57,13 +57,13 @@ export const studentTookTest = (idForStudent:string,idForExam:string):Promise<an
     })
 }
 
-export const getExam = (idForExam:any,idForUser:any) : Promise<any> => {
+export const getExam = (idForExam:string,idForUser:string) : Promise<any> => {
     return axios.get(`${config.apiUrl}/api/users/getExam`,{params:{idForExam:idForExam,idForUser:idForUser}}).then((res) => {
         return res.data})
 }
 
 
-export const sendAnswers = (answers:any,idForExam:any,idForUser:string,fullName:any,allQuestions:any) : Promise<any> => {
+export const sendAnswers = (answers:Object,idForExam:string,idForUser:string,fullName:string,allQuestions:Object) : Promise<any> => {
     return axios.post(`${config.apiUrl}/api/users/sendAnswers`,{answers,idForExam,idForUser,fullName,allQuestions}).then((res)=> {
         return res.data;
     })
