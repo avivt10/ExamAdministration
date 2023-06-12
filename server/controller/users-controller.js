@@ -50,7 +50,6 @@ const signUp = async (req, res, next) => {
   }
   else
   { 
-    console.log(listOfExams);
    createdUser = new User({
     firstName,
     lastName,
@@ -327,13 +326,6 @@ const createQuestion = async (req, res, next) => {
     }
   }
   try{
-    existUser.listOfExams.forEach(ele => {
-      console.log(ele._id , data.idForExam)
-      if (String(ele._id) === data.idForExam)
-      {
-          console.log(ele.questions)        
-      }
-    })
     await existUser.save();
     return res.status(200).json({
       message: "Added Question!",
@@ -425,9 +417,6 @@ const getExam = async (req,res,next) => {
   }
   if(existUser)
   {
-    //update in the current user that this specific exam has been started...
-
-
     for (let i = 0; i < existUser.length; i++) {
      if(existUser[i].role === "lecturer")
      {
@@ -516,41 +505,7 @@ const sendAnswers = async(req,res,next)=> {
       catch(err){
         console.log(err)
       }
-
   }
-//   if(existExam)
-//   {
-//   if(existExam.questionsRandom)
-//   { 
-//       try{
-//           grade = getScore(allQuestions,answers,listOfErrors)
-//           const newExaminee = {userId,userName,idForExam,grade,listOfErrors}
-//           existExam.examinees.push(newExaminee);
-//           await existExam.save();
-//       }
-//       catch(err)
-//       {
-//           console.log(err)
-//       }
-//   }
-//   else
-//   {
-//       try{
-//           grade = getScore(existExam.questions,answers,listOfErrors)
-//           const newExaminee = {userId,userName,idForExam,grade,listOfErrors}
-//           existExam.examinees.push(newExaminee);
-//           await existExam.save();
-//       }
-//       catch(err)
-//       {
-//           console.log(err)
-//       }
-//   }
-//   res.status(200).json({
-//       message:listOfErrors,
-//       grade:grade
-//   })
-//  }
 }
 
 const studentTookTest =  async(req,res,next)=> {
