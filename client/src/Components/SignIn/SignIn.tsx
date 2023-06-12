@@ -105,7 +105,7 @@ const SignIn = () => {
       <div className="login-container">
         <div className="card-container">
 
-          <p style={{ textAlign: "center", marginTop: "0",fontSize:"25px",color:"white",marginRight:"22px" }}> login form </p>
+          <p style={{ textAlign: "center", marginTop: "0",fontSize:"25px",color:"white"}}> login form </p>
 
           <div className="inputs-container">
             <div className="input-style">
@@ -117,7 +117,7 @@ const SignIn = () => {
                 placeholder="enter your user name"
                 onChange={(e) => setUserFullName(e.target.value)}
               />
-              <label> user-name </label>
+              <label className="user-name-style"> user-name </label>
             </div>
             <div className="input-style">
               <input
@@ -128,7 +128,7 @@ const SignIn = () => {
                 placeholder="enter your password"
                 onChange={(e)=> setPassword(e.target.value)}
               />
-              <label> password </label>
+              <label className="password-style"> password </label>
             </div>
             <button className="btn-login" onClick={()=> {
                 checkValues()
@@ -146,4 +146,3 @@ const SignIn = () => {
 };
 
 export default SignIn;
-

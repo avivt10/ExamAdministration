@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { getQuestions } from '../../../Services/user.service'
 import { deleteQuestion } from '../../../Services/user.service'
 import { useExamContext } from '../../../Shared/context/exam-context'
@@ -15,10 +14,10 @@ const DisplayQuestion = ({question,index} : DisplayQuestionProps) => {
   const storageData = JSON.parse(localStorage.getItem("userData") || "{}")
     const sendQuestionForDelete = async(idQuestion:string)=> {
       try{
-         const res = await deleteQuestion(idForExam,idQuestion,storageData.id);
+         const res = await deleteQuestion(String(idForExam),idQuestion,storageData.id);
          if(res)
          {
-          const newQuestions = await getQuestions(idForExam,storageData.id);
+          const newQuestions = await getQuestions(String(idForExam),storageData.id);
           setQuestions(newQuestions.data)
           alert(res.message)
          }

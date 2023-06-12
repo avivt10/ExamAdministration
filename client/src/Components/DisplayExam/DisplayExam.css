@@ -121,6 +121,9 @@
   touch-action: manipulation;
 }
 
+.start-exam-button{
+  cursor: pointer;
+}
 .see-exam:hover {
   box-shadow: rgba(80, 63, 205, 0.5) 0 1px 30px;
   transition-duration: .1s;

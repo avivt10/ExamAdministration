@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react'
 import "./FinishExam.css"
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import { useNavigate } from 'react-router-dom';
@@ -17,7 +16,7 @@ const FinishExam = ({numberOfSolvedQuestions,numberQuestions,allQuestions} : Fin
   const navigate = useNavigate();
     const sendAnswersToServer = async()=>{
       try{
-          const res = await sendAnswers(answers,idForExam,userData.id,userData.fullName,allQuestions)
+          const res = await sendAnswers(answers,String(idForExam),userData.id,userData.fullName,allQuestions)
           if(res)
           {
             localStorage.setItem("examMode","false");

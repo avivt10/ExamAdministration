@@ -11,11 +11,42 @@ p{
     font-weight: bold;
 }
 
-.input-questions{
-    width: 100%;
-    padding: 20px;
+label{
+  all: initial;
+}
+.label-style{
+  font-family: sans-serif;
+  font-weight: bold;
 }
 
+.options-container{
+  display: flex;
+  flex-direction: column;
+  margin-left: 25px;
+  width: auto;
+}
+.input-questions{
+  width: 90%;
+  padding: 20px;
+}
+
+.add-text-container,
+.add-image-container,
+.option-1-container,
+.option-2-container,
+.option-3-container,
+.option-4-container{
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+}
+
+.input-answers-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
 input[type="radio"] {
     margin-left: 10px;
     margin-right: 5px;
@@ -23,11 +54,16 @@ input[type="radio"] {
   }
 
   .submit-add-question{
-    margin-top: 50px;
-    width: 10%;
+    margin-top: 25px;
+    width: auto;
+    
   }
 
-  
+  .button-submit-container{
+    display: flex;
+    justify-content: center;
+  }
+
 .submit-add-question{
     background: #FF4742;
     border: 1px solid #FF4742;
@@ -61,6 +97,6 @@ input[type="radio"] {
   }
   
   .submit-add-question:active {
-    opacity: .5;
+    opacity: 0.5;
   }
   

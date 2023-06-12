@@ -4,6 +4,8 @@ li{
 }
 .nav-bar-container{
     display: flex;
+    align-items: center;
+    justify-content: space-between;
     background-color: #9E9E9E;
     box-shadow: 1px 10px 7px #373636;
 }
@@ -11,11 +13,22 @@ li{
 .ul-nav-bar{
     font-family: "Chivo Mono",monospace;
     display: flex;
-    gap:72px;
 }
 
 .ul-nav-bar .li-nav-bar{
     list-style: none;
+    display: flex;
+    align-items: center;
+    min-width: fit-content;
+}
+
+.li-nav-bar {
+margin-right: 15px;
+}
+
+.search-wrapper {
+    display: flex;
+    align-items: center;
 }
 
 .ul-nav-bar .li-nav-bar a {
@@ -39,17 +52,17 @@ li{
 }
 
 .input-search{
-    margin-top: 16px;
     margin-left: 55px;
     height: 30px;
     border-radius: 8px;
     border-width: inherit;
+    padding-left: 5px;
+    font-size: 14px;
 }
 
 .btn-search{
     margin-left: 6px;
     width: 39px;
     height: 30px;
-    margin-top: 16px;
 }
  

@@ -12,7 +12,7 @@ export const SearchBar = ({ PlaceHolder}: SearchBarProps) => {
   const [searchWord,setSearchWord] = useState("");
   
   return (
-    <div style={{display:"flex"}}>
+    <div className="search-wrapper" style={{display:"flex"}}>
       <input className="input-search" placeholder={PlaceHolder} onChange={(e) => setSearchWord(e.target.value)} />
       <button className="btn-search" onClick={() => 
         setItemSearch(searchWord)}>

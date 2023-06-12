@@ -70,16 +70,16 @@ const Home = () => {
     return (
       <div>
         <NavBar />
-        <div style={{ marginTop: "50px" }}>
-          <table>
+        <div>
+          <table className="table-lecturer-container">
             <thead>
               <tr>
-                <th> Exam Name</th>
-                <th> Date</th>
-                <th> Lecturer Name</th>
-                <th> View questions</th>
-                <th> Add Question</th>
-                <th> Delete</th>
+                <th className="exam-name-title-lecturer-page"> Exam Name</th>
+                <th className="exam-date-title-lecturer-page"> Date</th>
+                <th className="exam-lecturer-name-title-lecturer-page"> Lecturer Name</th>
+                <th className="exam-view-questions-title-lecturer-page"> View questions</th>
+                <th className="exam-add-question-title-lecturer-page"> Add Question</th>
+                <th className="exam-delete-exam-title-lecturer-page"> Delete</th>
               </tr>
             </thead>
             {filteredExams.map((exam) => (
@@ -103,14 +103,14 @@ const Home = () => {
     return (
       <div>
         <NavBar />
-        <div style={{ marginTop: "50px" }}>
-          <table>
+        <div>
+          <table className="table-student-container">
             <thead>
               <tr>
-                <th> Exam Name</th>
-                <th> Date</th>
-                <th> Lecturer Name</th>
-                <th> Start Exam</th>
+                <th className="exam-name-title-student-page"> Exam Name</th>
+                <th className="exam-date-title-student-page"> Date</th>
+                <th className="exam-lecturer-name-title-student-page"> Lecturer Name</th>
+                <th className="exam-date-start_exam-title-student-page"> Start Exam</th>
               </tr>
             </thead>
             {filteredExams.map((exam) => (

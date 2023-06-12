@@ -1,4 +1,4 @@
-.box-container{
+.box-container-start-exam{
     display: flex;
     flex-direction: column;
     background-color: #d5f2ff;
@@ -6,7 +6,9 @@
     margin:auto;
     margin-top: 20px;
     border-radius: 25px;
-    width: 50%;
+    width: auto;
+    max-width: 700px;
+    min-width: 300px;
 }
 
 .question-container{
@@ -20,9 +22,10 @@
 }
 
 .option-style{
-    width: 60%;
+    width: 90%;
     font-weight: 900;
     color: black;
+    word-wrap: break-word;
 }
 
 .img-style-display-question{
@@ -33,7 +36,7 @@
 
 .button-delete-question{
     margin-top: 50px;
-    width: 10%;
+    width: auto;
   }
 
 .button-delete-question{

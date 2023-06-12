@@ -221,18 +221,20 @@ const showText = async () => {
   return (
     <thead>
       <tr>
-        <td> {exam.examName} </td>
-        <td>
-          {" "}
-          {exam.date} {exam.beginningTime}{" "}
+        <td className="exam-name">{exam.examName} </td>
+        <td className="exam-date">
+          <div className="date-view">{exam.date}</div>
+          <div className="hour-view">{exam.beginningTime}</div>
         </td>
-        <td> {exam.lecturerName} </td>
+        <td className="exam-lecturer-name"> {exam.lecturerName} </td>
         <td>
           {matchingInTimes && !takeAnExam.current ? (
             <button
+              className="start-exam-button"
               onClick={() => {
                 navigate("/startExam");
                 localStorage.setItem("currentExam", exam._id);
+                localStorage.setItem("examMode","true")
                 window.localStorage.setItem("timer",JSON.stringify({hours:totalTimeOfExam.hours,minutes:totalTimeOfExam.minutes,seconds:0})
                 )}
               }
@@ -240,21 +242,21 @@ const showText = async () => {
               <PlayCircleOutlineIcon />
             </button>
           ) : null}
-          {!takeAnExam.current && !matchingInTimes ? <h1> {text}</h1> : null}
+          {!takeAnExam.current && !matchingInTimes ? <p> {text}</p> : null}
           {colorGrade.current === "green" && takeAnExam.current ? (
-            <div style={{display:"flex",justifyContent:"center"}}>
-            <h1> grade: </h1>
-            <h1  style={{fontWeight:"bold", color: "green" }}> {grade.current}</h1>
+            <div className="grade-container">
+            <h1 className="grade-text-style"> grade: </h1>
+            <h1 className="grade-number-green-style"> {grade.current}</h1>
             </div>
           ) : null}
           {colorGrade.current === "red" && takeAnExam.current ? (
-                 <div style={{display:"flex",justifyContent:"center",fontWeight:"300"}}>
-                 <h1 style={{fontWeight:"300"}}> grade:  </h1>
-                 <h1 style={{ color: "red" }}> {grade.current}</h1>
+                 <div className="grade-container">
+                 <h1 className="grade-text-style"> grade: </h1>
+                 <h1 className="grade-number-red-style"> {grade.current}</h1>
                  </div>
           ) : null}
               {
-            takeAnExam && grade.current ? <button className="see-exam" onClick={() => {
+            takeAnExam && grade.current ? <button className="see-exam-button" onClick={() => {
               localStorage.setItem("currentExam",exam._id)
               navigate("/seeExam")
             }}> see exam </button> : null

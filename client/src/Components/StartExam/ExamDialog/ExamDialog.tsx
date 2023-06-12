@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react'
 import FinishExam from '../FinishExam/FinishExam';
 import "./ExamDialog.css"
 
@@ -10,8 +9,6 @@ export type ExamDialogProps = {
 }
 
 const ExamDialog = ({open,numberOfSolvedQuestions,numberQuestions,allQuestions}:ExamDialogProps) => {
-
-  
   if (!open)
   {
     return null;

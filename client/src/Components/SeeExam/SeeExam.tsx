@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { getTheExamineePage } from "../../Services/exam.service";
-import { QuestionsType } from "../../Shared/types/QuestionType";
-import DisplayQuestion from "../Questions/DisplayQuestion/DisplayQuestion";
 import { getFullExam } from "../../Services/user.service";
 import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
 import ClearTwoToneIcon from "@mui/icons-material/ClearTwoTone";
 import "./SeeExam.css";
-import { useNavigate } from "react-router-dom";
 
 const SeeExam = () => {
   const idForExam = localStorage.getItem("currentExam");
@@ -18,7 +14,7 @@ const SeeExam = () => {
   useEffect(() => {
     const getExam = async () => {
       try {
-        const res = await getFullExam(idForStudent, idForExam);
+        const res = await getFullExam(idForStudent, String(idForExam));
         setAllQuestions(res.questions);
         setExamDetails(res);
       } catch (err) {
@@ -28,24 +24,27 @@ const SeeExam = () => {
     getExam();
   }, []);
   return (
-    <div>
-      <div style={{ display: "flex", marginLeft: "20px" }}>
-        <p className="correct-answers-text"> Correct Answers</p>
-        <div className="correct-answers-box" />
+    <div className="see-exam-container">
+      <div className="indication-wrapper">
+        <div style={{ display: "flex", marginLeft: "20px" }}>
+          <p className="correct-answers-text"> Correct Answers</p>
+          <div className="correct-answers-box" />
+        </div>
+
+        <div style={{ display: "flex", marginLeft: "20px" }}>
+          <p className="wrong-answers-text"> Wrong Answers</p>
+          <div className="wrong-answers-box" />
+        </div>
       </div>
 
-      <div style={{ display: "flex", marginLeft: "20px" }}>
-        <p className="wrong-answers-text"> Wrong Answers</p>
-        <div className="wrong-answers-box" />
-      </div>
       <div className="exam-details">
-      <h1 style={{padding:"15px"}}> {examDetails.examName} </h1>
-      <h1 style={{padding:"15px"}}> {examDetails.date} </h1>
+        <h1 className="exam-name-see-exam-page"> {examDetails.examName} </h1>
+        <h1 className="exam-date-see-exam-page"> {examDetails.date} </h1>
       </div>
 
-      {allQuestions.map((question: any, index: any) => {
+      {allQuestions.map((question: any, index: number) => {
         return (
-          <div className="box-container">
+          <div className="box-container" key={index}>
             <div className="question-container">
               <div className="question-style">
                 {question.question.slice(0, 4) === "http" ? (
@@ -58,7 +57,9 @@ const SeeExam = () => {
                   </div>
                 ) : (
                   <div>
-                    <h3>{index + 1}) {question.question}</h3>
+                    <h3>
+                      {index + 1}) {question.question}
+                    </h3>
                   </div>
                 )}
               </div>
@@ -120,9 +121,6 @@ const SeeExam = () => {
                 parseInt(question.indexOfSelectedAnswer) !== 4 ? (
                   <li className="option-style"> 4) {question.option4} </li>
                 ) : null}
-                {/* {
-                   question.selectedAnswerString !== question.correctAnswer ? <li className="option-style-wrong"> </li>
-                } */}
               </ul>
             </div>
             <div className="answer-icon-container">
@@ -146,10 +144,12 @@ const SeeExam = () => {
               {question.selectedAnswerString === "no selected answer" &&
               parseInt(question.correctAnswer) !==
                 parseInt(question.selectedAnswerString) ? (
-                <div style={{display:"flex"}}>
-                  <ClearTwoToneIcon style={{ color: "red",marginTop: "20px"}} />
-                  <h6 style={{fontWeight:"700px"}}> no selected answer </h6>
-                </div> 
+                <div style={{ display: "flex" }}>
+                  <ClearTwoToneIcon
+                    style={{ color: "red", marginTop: "20px" }}
+                  />
+                  <h6 style={{ fontWeight: "700px" }}> no selected answer </h6>
+                </div>
               ) : null}
             </div>
           </div>

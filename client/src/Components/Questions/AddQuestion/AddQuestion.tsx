@@ -87,42 +87,58 @@ const AddQuestion = () => {
       />{" "}
       Image
       </div>
-      <div className="box-question-container">
+      <>
         {displayQuestion === "Text" ? (
-          <div>
-            <p> Add Text </p>
+          <>
+          <div className="options-container">
+            <div className="add-text-container">
+            <label className="label-style"> Add Text </label>
             <input
               className="input-questions"
               type="text"
+              placeholder="Enter an answer..."
               onChange={(e: any) => setQuestion(e.target.value)}
             />
-            <p> option 1 </p>
+            </div>
+            <div className="option-1-container">
+            <label className="label-style"> option 1 </label>
             <input
               className="input-questions"
               type="text"
+              placeholder="Enter an answer..."
               onChange={(e: any) => setOption1(e.target.value)}
             />
-            <p> option 2 </p>
+            </div>
+            <div className="option-2-container">
+            <label className="label-style"> option 2 </label>
             <input
               className="input-questions"
               type="text"
+              placeholder="Enter an answer..."
               onChange={(e: any) => setOption2(e.target.value)}
             />
-            <p> option 3 </p>
+            </div>
+            <div className="option-3-container">
+            <label className="label-style"> option 3 </label>
             <input
               className="input-questions"
               type="text"
+              placeholder="Enter an answer..."
               onChange={(e: any) => setOption3(e.target.value)}
             />
-            <p> option 4 </p>
+            </div>
+            <div className="option-4-container">
+            <label className="label-style"> option 4 </label>
             <input
               className="input-questions"
               type="text"
+              placeholder="Enter an answer..."
               onChange={(e: any) => setOption4(e.target.value)}
             />
-
-            <div>
-              <p> answers </p>
+            </div>
+            </div>
+            <div className="input-answers-container">
+              <label className="label-style"> answers </label>
               <input
                 type="radio"
                 value="1"
@@ -172,46 +188,64 @@ const AddQuestion = () => {
               />{" "}
               4
             </div>
-
+            <div className="button-submit-container">
             <button className="submit-add-question" onClick={checkQuestion}>
               submit
             </button>
-          </div>
+            </div>
+          </>
         ) : (
-          <div>
-            <p> Add Image </p>
+          <>
+          <div className="options-container">
+            <div className="add-image-container">
+            <label className="label-style"> Add Image </label>
             <input
               className="input-questions"
               type="text"
+              placeholder="Enter an answer..."
               onChange={(e: any) => setQuestion(e.target.value)}
             />
-            <p> option 1 </p>
+            </div>
+            <div className="option-1-container">
+            <label className="label-style"> option 1 </label>
             <input
               className="input-questions"
               type="text"
+              placeholder="Enter an answer..."
               onChange={(e: any) => setOption1(e.target.value)}
             />
-            <p> option 2 </p>
+            </div>
+            <div className="option-2-container">
+            <label className="label-style"> option 2 </label>
             <input
               className="input-questions"
               type="text"
+              placeholder="Enter an answer..."
               onChange={(e: any) => setOption2(e.target.value)}
             />
-            <p> option 3 </p>
+            </div>
+            <div className="option-3-container">
+            <label className="label-style"> option 3 </label>
             <input
               className="input-questions"
               type="text"
+              placeholder="Enter an answer..."
               onChange={(e: any) => setOption3(e.target.value)}
             />
-            <p> option 4 </p>
+            </div>
+            <div className="option-4-container">
+            <label className="label-style"> option 4 </label>
             <input
               className="input-questions"
               type="text"
+              placeholder="Enter an answer..."
               onChange={(e: any) => setOption4(e.target.value)}
             />
-
-            <div>
-              <p> answers </p>
+            </div>
+           
+              </div>
+            <div className="input-answers-container">
+              <label className="label-style"> answers </label>
               <input
                 type="radio"
                 value="1"
@@ -241,13 +275,15 @@ const AddQuestion = () => {
               />{" "}
               4
             </div>
-
+            <div className="button-submit-container">
             <button className="submit-add-question" onClick={checkQuestion}>
               submit
             </button>
-          </div>
+            </div>
+           
+          </>
         )}
-      </div>
+      </>
     </div>
   );
 };

@@ -1,22 +1,21 @@
 td,th {
     text-align: center;
     padding: 8px;
+    min-height: 100px;
 }
 thead {
     background-color: #f3f3f3;
     border-radius: 8px 8px 0px 0px;
   }
-  table {
-    width: 70%;
-    margin: auto;
-    margin-bottom: 60px;
-}
 
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+.table-student-container{
+  width: 70%;
+  margin: auto;
+  padding-top: 90px;
+}
+.table-lecturer-container{ 
+ margin:auto;
+ padding-top: 200px;
 }
 
 .centered-element {
@@ -36,4 +35,87 @@ thead {
   justify-content: center;
   align-items: center;
   z-index: 9999;
+}
+
+.exam-name,.exam-lecturer-name{
+  font-size: calc(10px + 0.5vw);
+}
+           
+.exam-date {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 24px 0 0 0;
+}
+
+.exam-date-title-student-page {
+  padding: 8px 40px;
+}
+
+.date-view {
+  font-size: calc(8px + 0.9vw);
+}
+
+.hour-view {
+  font-size: calc(8px + 0.5vw);
+  margin-bottom: 5px;
+}
+
+.grade-text-style{
+  font-size: calc(12px + 1vw);
+}
+
+.grade-number-green-style{
+  color: green;
+  font-size: calc(18px + 0.5vw);
+}
+
+.grade-number-red-style{
+  color: red;
+  font-size: calc(18px + 0.5vw);
+}
+
+.grade-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.see-exam-button {
+  background-image: linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%);
+  border-radius: 8px;
+  border-style: none;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-family: "Inter UI","SF Pro Display",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif;
+  font-weight: 500;
+  text-align: center;
+  text-shadow: rgba(0, 0, 0, 0.25) 0 3px 8px;
+  transition: all .5s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  padding: 8px 12px;
+}
+
+.exam-name-title-student-page,
+.exam-lecturer-name-title-student-page,
+.exam-date-start_exam-title-student-page,
+.exam-date-title-student-page {
+  font-size: calc(6px + 1.3vw);
+  font-style: oblique;
+}
+
+.exam-name-title-lecturer-page,
+.exam-date-title-lecturer-page,
+.exam-lecturer-name-title-lecturer-page,
+.exam-view-questions-title-lecturer-page,
+.exam-add-question-title-lecturer-page,
+.exam-delete-exam-title-lecturer-page
+{
+  font-size: calc(6px + 1.3vw);
 }

@@ -20,7 +20,7 @@ const Questions = () => {
   useEffect(()=> {
     const getQuestionFromServer = async()=> {
       try{
-        const res = await getQuestions(idForExam,storageData.id);
+        const res = await getQuestions(String(idForExam),storageData.id);
         if(res)
         {
             setTimeout(()=> {

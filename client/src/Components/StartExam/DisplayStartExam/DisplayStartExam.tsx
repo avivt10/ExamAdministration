@@ -41,7 +41,7 @@ const DisplayStartExam = ({question,answers,indexQuestion }: DisplayStartExamPro
       }
       }  
   return (
-    <div className="box-container"> 
+    <div className="box-container-start-exam"> 
       <div className="question-container">
         <div className="question-style">
           {question.question.slice(0, 4) === "http" ? (
@@ -54,25 +54,25 @@ const DisplayStartExam = ({question,answers,indexQuestion }: DisplayStartExamPro
               />
             </div>
           ) : (
-            <h3> {indexQuestion}) {question.question}</h3>
+            <h3 className="display-question-style"> {indexQuestion}) {question.question}</h3>
           )}
         </div>
         <ul>
           <div style={{ display: "flex" }}>
           <input type="radio" onClick={()=> selectedAnswer(indexQuestion,1,question.option1)} name={question._id}/>
-            <li className="option-style"> {question.option1}</li>
+            <p className="option-style"> {question.option1}</p>
           </div>
           <div style={{ display: "flex" }}>
           <input type="radio" onClick={()=> selectedAnswer(indexQuestion,2,question.option2)} name={question._id}/>
-          <li className="option-style"> {question.option2}</li>
+          <p className="option-style"> {question.option2}</p>
           </div>
           <div style={{ display: "flex" }}>
           <input type="radio" onClick={()=> selectedAnswer(indexQuestion,3,question.option3)} name={question._id}/>
-          <li className="option-style"> {question.option3}</li>
+          <p className="option-style"> {question.option3}</p>
           </div>
           <div style={{ display: "flex" }}>
           <input type="radio" onClick={()=> selectedAnswer(indexQuestion,4,question.option4)} name={question._id}/>
-          <li className="option-style"> {question.option4}</li>
+          <p className="option-style"> {question.option4}</p>
           </div>
         </ul>
       </div>

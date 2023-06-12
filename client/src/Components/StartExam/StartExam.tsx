@@ -10,7 +10,7 @@ import { QuestionsType } from "../../Shared/types/QuestionType";
 
 const StartExam = () => {
   const userData = JSON.parse(localStorage.getItem("userData") || "{}");
-  const [isShowExamDialog, setIsShowExamDialog] = useState(true);
+  const [isShowExamDialog] = useState(true);
   const {
     answers,
     setAnswers,
@@ -163,7 +163,7 @@ const StartExam = () => {
   };
 
   return (
-    <div>
+    <>
       <div>
         {getTimer.hours === 0 &&
         getTimer.minutes === 0 &&
@@ -175,22 +175,10 @@ const StartExam = () => {
             allQuestions={allQuestions}
           />
         ) : null}
-
-        {/* {
-          hours === 0 && minutes === 0 && seconds === 0 ?
-          <ExamDialog
-          open={isShowExamDialog}
-          numberOfSolvedQuestions={numberOfSolvedQuestions}
-          numberQuestions={allQuestions.length}
-          allQuestions={allQuestions}
-        />
-          : null
-         } */}
       </div>
       <div>
-        <h5 style={{ fontSize: "20px" }}>
-          {" "}
-          Number of questions in total : {allQuestions.length}{" "}
+        <h5 className="number-of-question-in-total-style">
+          Number of questions in total : {allQuestions.length}
         </h5>
       </div>
       {allQuestions.map((question, indexQuestion) => {
@@ -207,13 +195,13 @@ const StartExam = () => {
         );
       })}
       <div className="information-of-exam">
-        <h1 style={{ color: "red", textAlign: "center", fontSize: "20px" }}>
+        <h1 className="timer-style">
           Time to finish {getTimer.hours < 10 ? " 0" + getTimer.hours : null}
           {getTimer.hours >= 10 ? +getTimer.hours : null}:
           {getTimer.minutes < 10 ? `0` + getTimer.minutes : getTimer.minutes}:
           {getTimer.seconds < 10 ? `0${getTimer.seconds}` : getTimer.seconds}
         </h1>
-        <p style={{ textAlign: "center", fontSize: "15px" }}>
+        <p className="number-of-solved-questions-style">
           number Of Solved Questions : {numberOfSolvedQuestions}
         </p>
         <p style={{ textAlign: "center", fontSize: "15px" }}>
@@ -224,7 +212,7 @@ const StartExam = () => {
       <button className="btn-finish-exam" onClick={checkAnswers}>
         finished exam
       </button>
-    </div>
+    </>
   );
 };
 
