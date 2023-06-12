@@ -10,12 +10,11 @@ import Questions from "./Components/Questions/Questions";
 import AddQuestion from './Components/Questions/AddQuestion/AddQuestion';
 import PrivateRoutesLecturer from "./utils/PrivateRoutesLecturer";
 import PrivateRoutesStudents from './utils/PrivateRoutesStudents';
+import PrivateRoutesStartExam from "./utils/PrivateRoutesStartExam";
 import StartExam from "./Components/StartExam/StartExam";
 import { SearchContext } from "./Shared/context/search-context";
 import Home from "./Components/Home/Home";
 import SeeExam from './Components/SeeExam/SeeExam';
-import PrivateRoutesStartExam from "./utils/PrivateRoutesStartExam";
-import PrivateRoutesUserConnected from "./utils/PrivateRoutesUserConnected";
 
 function App() {
   const [exams,setExams] = useState<ExamsType>([]);
@@ -93,7 +92,6 @@ function App() {
         <Routes>
         <Route element={<PrivateRoutesStudents/>}>
         <Route element={<PrivateRoutesStartExam/>}>
-        {/* <Route element={<PrivateRoutesUserConnected/>}> */}
            <Route path="/" element={<Home />} />
            <Route path="/studentHome" element={<Home />} />
            </Route>
@@ -103,10 +101,6 @@ function App() {
            <Route path="/startExam" element={<StartExam/>}/>
            <Route path="*" element={<Navigate to="/"/>}/>
         </Route>
-           {/* <Route path="/signIn" element={<SignIn/>}/> */}
-           {/* <Route path="/seeExam" element={<SeeExam/>}/>  */}
-           {/* <Route path="*" element={<Navigate to="/"/>}/> */}
-          {/* </Route> */}
         </Routes>
       </BrowserRouter>
     )

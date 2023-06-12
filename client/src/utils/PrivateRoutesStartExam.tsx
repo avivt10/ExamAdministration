@@ -2,11 +2,7 @@ import {Navigate,Outlet} from "react-router-dom";
 
 const PrivateRoutesStartExam = () => {
   const examMode = localStorage.getItem("examMode");
-  if(examMode === "true")
-  {
-    return <Navigate to="/startExam"/>
-  }
-  return <Outlet/>
+  return examMode === "false" ? <Outlet/> : <Navigate to="/startExam"/>
 }
 
 export default PrivateRoutesStartExam
